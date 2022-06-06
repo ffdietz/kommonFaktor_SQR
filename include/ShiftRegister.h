@@ -1,33 +1,31 @@
 #include <Arduino.h>
-//  Name    : shiftOutCode, Hello World
-//  Author  : Carlyn Maw,Tom Igoe, David A. Mellis
 
-int latchPin  = 2; //Pin connected to ST_CP of 74HC595
-int clockPin  = 3;  //Pin connected to SH_CP of 74HC595
-int dataPin   = 4;   //Pin connected to DS of 74HC595
+#define SHR_LATCH 5  //to 74HC595 ST_CP [PIN 12]
+#define SHR_CLOCK 6  //to 74HC595 SH_CP [PIN 11]
+#define SHR_DATA  7  //to 74HC595 DS [PIN 14]
 
-void shiftRegister_init() {
-  pinMode(latchPin, OUTPUT);
-  pinMode(clockPin, OUTPUT);
-  pinMode(dataPin, OUTPUT);
+void shiftRegister_init()
+{
+//SETTING PINS AS OUTPUT
+  DDRD |= (1 << SHR_LATCH);
+  DDRD |= (1 << SHR_CLOCK);
+  DDRD |= (1 << SHR_DATA);
 }
-void shiftRegister_test(boolean state) {
-  for (int numberToDisplay = 0; numberToDisplay < 256; numberToDisplay++) {
-    // take the latchPin low so 
-    // the LEDs don't change while you're sending in bits:
-    digitalWrite(latchPin, LOW);
-    // shift out the bits:
-    if(!state){
-      shiftOut(dataPin, clockPin, MSBFIRST, 255);
-      shiftOut(dataPin, clockPin, MSBFIRST, 255);
-    }
-    else {
-      shiftOut(dataPin, clockPin, MSBFIRST, numberToDisplay);  
-      shiftOut(dataPin, clockPin, LSBFIRST, numberToDisplay);  
-    }
-    //take the latch pin high so the LEDs will light up:
-    digitalWrite(latchPin, HIGH);
-    // pause before next value:
-    // delay(100);
+
+
+void shiftRegister_out(uint8_t  data)
+{
+  shiftOut(SHR_DATA, SHR_CLOCK, MSBFIRST, 1 << data);  
+  shiftOut(SHR_DATA, SHR_CLOCK, LSBFIRST, 1 << data);  
+  PORTD &= ~(1 << SHR_LATCH);   //LATCH LOW
+  PORTD |= (1 << SHR_LATCH );   //LATCH HIGH
+}
+
+void shiftRegister_test()
+{
+  for (uint8_t bit_shift = 0 ; bit_shift < 8 ; bit_shift++)
+  {
+    shiftRegister_out(bit_shift);
+    delay(50);
   }
 }

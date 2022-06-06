@@ -11,6 +11,10 @@ void setup() {
 
 
 void loop() {
-  shiftRegister_test(sequencer);
+  shiftRegister_test();
   display_update();
 }
+
+// PRINT EN PANTALLA
+// EL BIT DEL SHIFT REGISTER
+// ACTIVARLO SIN DELAY
