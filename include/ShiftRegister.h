@@ -28,4 +28,5 @@ void shiftRegister_test()
     shiftRegister_out(bit_shift);
     delay(50);
   }
-}
+
+
