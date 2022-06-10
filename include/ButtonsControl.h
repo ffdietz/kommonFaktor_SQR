@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <SPI.h> 
 
-#include <avdweb_Switch.h>
 
 #define SHR_LATCH 10  //to 74HC595 ST_CP [PIN 12]
 #define SHR_CLOCK 13  //to 74HC595 SH_CP [PIN 11]
@@ -52,12 +51,12 @@ void button_init()
   SPI.setDataMode(SPI_MODE0);
   SPI.setClockDivider(SPI_CLOCK_DIV128);
   SPI.begin();
+
   SPI.transfer(255);
   SPI.transfer(0);
   digitalWrite(10, HIGH);
   digitalWrite(10, LOW);
-  Serial.begin(115200);
-  attachInterrupt(0, pin_read, RISING); 
+  // attachInterrupt(0, pin_read, RISING); 
 }
 
 void button_update()
@@ -68,3 +67,6 @@ void button_update()
 // DISEÑAR LA RUTINA DEL SHIFTREGISTER SIN SPI
 // NO NECESITA TANTA VELOCIDAD
 // PROBAR SIN INTERRUPTOR AL PIN DE LECTURA
+
+// CONSIDERAR USO DEL SN74HC165
+// https://dronebotworkshop.com/shift-registers/
