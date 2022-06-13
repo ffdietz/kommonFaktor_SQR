@@ -3,21 +3,24 @@
 #include <ShiftRegister.h>
 // #include <Display.h>
 // #include <Clock.h>
-
+#include <avdweb_Switch.h>
+Switch pushButton = Switch(4);
 
 void setup() 
 { 
   Serial.begin(115200);
-  // shiftRegister_begin();
-  // display_init();
-  // button_init();
-  // clock_init();
-  shiftRegister_read_begin();
-
+  Serial.println("connected");
+  
+  shiftRegister_begin();
 }
 
 void loop() {
-  // shiftRegister_test(200);
+  ShiftRegister_update();
+  pushButton.poll();
+  if(pushButton.pushed()) Serial.println( Shiftregister_position() );
+
+  // delay(500);
+  // shiftRegister_test(20);
 }
 
 
