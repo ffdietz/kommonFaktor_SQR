@@ -9,4 +9,17 @@
 
 #define PIN_READ 4
 
+/* 
+Display 1'8'' pinout based in PDQ_ST7735 configuration 
+[DISPLAY PIN] [ATMEGA328]
+VCC           5V OR 3.3V
+GND           GND
+CS            10      // Could be any GPIO pin
+RST           RESET
+DC (A0)       9       // Could be any GPIO pin
+SDA           11
+SCK           13
+LED           5V max.
+*/
+
 #endif
