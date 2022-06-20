@@ -22,4 +22,8 @@ SCK           13
 LED           5V max.
 */
 
+#define VRx A1
+#define VRy A0
+#define SW 4
+
 #endif
