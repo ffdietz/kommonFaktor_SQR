@@ -9,13 +9,20 @@
 #include "controller.h"
 #include "pinout.h"
 #include "gameConfig.h"
+#include "DebouncedEncoder.h"
+
+int encMinValue = -1000;
+int encMaxValue = 1000;
 
 Controller::Controller()
 {
-    pinMode(VRx, INPUT);        // x joystick
-    pinMode(VRy, INPUT);        // y joystick
-    pinMode(SW, INPUT_PULLUP);  // Button pin
-    currentState = digitalRead(SW); // Init button state
+    pinMode(ENCODER_A, INPUT);        // x joystick
+    pinMode(ENCODER_B, INPUT);        // y joystick
+    pinMode(ENCODER_SET, INPUT_PULLUP);  // Button pin
+    pinMode(PLAY_BUTTON, INPUT_PULLUP);  // Button pin
+
+    currentState = digitalRead(ENCODER_SET); // Init button state
+    currentState = digitalRead(PLAY_BUTTON); // Init button state
 }
 
 int Controller::getDirection()

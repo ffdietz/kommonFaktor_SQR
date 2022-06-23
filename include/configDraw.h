@@ -15,4 +15,9 @@
 #define Y_BOUND 31 // num tiles on y-axis 
 #define X_BOUND 28 // num tiles on x-axis
 
+#define ROTATE_0    0
+#define ROTATE_90   1
+#define ROTATE_180  2
+#define ROTATE_270  3
+
 #endif

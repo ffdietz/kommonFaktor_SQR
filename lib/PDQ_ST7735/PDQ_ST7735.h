@@ -498,6 +498,16 @@ void PDQ_ST7735::commandList(const uint8_t *addr)
       
 void PDQ_ST7735::begin()
 {
+  // RST pin could be connected to microcontroller RESET pin, 
+  // otherwise is possible define it in PDQ_ST7735_config.h file
+  // #if defined(ST7735_RST_PIN)	// reset like Adafruit does
+  //   FastPin<ST7735_RST_PIN>::setOutput();
+  //   FastPin<ST7735_RST_PIN>::hi();
+  //   FastPin<ST7735_RST_PIN>::lo();
+  //   delay(1);
+  //   FastPin<ST7735_RST_PIN>::hi();
+  // #endif
+
 	// set CS and RS pin directions to output
 	FastPin<ST7735_CS_PIN>::setOutput();
 	FastPin<ST7735_DC_PIN>::setOutput();
@@ -782,7 +792,6 @@ void PDQ_ST7735::drawFastVLine(int x, int y, int h, uint16_t color)
 
 	spi_end();
 }
-
 
 void PDQ_ST7735::drawFastHLine(int x, int y, int w, uint16_t color)
 {

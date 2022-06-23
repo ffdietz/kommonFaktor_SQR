@@ -50,6 +50,7 @@ class Controller
 
     // current joystick pitch in degrees
     float angle;
+
 };
 
 #endif

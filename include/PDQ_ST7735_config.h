@@ -40,11 +40,13 @@ enum
 //
 //  * = Typically only 3.3V safe logic-line (unless board has level converter [ala Adafruit]). Be careful with 5V!
 
-#define	ST7735_CS_PIN		10			// <= /CS pin (chip-select, LOW to get attention of ST7735, HIGH and it ignores SPI bus)
-#define	ST7735_DC_PIN		9			  // <= DC pin (1=data or 0=command indicator line) also called RS
+// #define ST7735_RST_PIN  8
+#define	ST7735_CS_PIN		9			// <= /CS pin (chip-select, LOW to get attention of ST7735, HIGH and it ignores SPI bus)
+#define	ST7735_DC_PIN		10			  // <= DC pin (1=data or 0=command indicator line) also called RS
 // 644/1284 #define	ST7735_CS_PIN		4			// <= /CS pin (chip-select, LOW to get attention of ST7735, HIGH and it ignores SPI bus)
 // 644/1284	#define	ST7735_DC_PIN		3			// <= DC pin (1=data or 0=command indicator line) also called RS
 // (other pins used are dictated by AVR HW SPI used as shown above)
 
 // other PDQ library options
 #define	ST7735_SAVE_SPI_SETTINGS	0			// <= 0/1 with 1 to save AVR SPI control and status registers (required when other SPI devices are in use with other settings)
+

@@ -8,6 +8,7 @@
 #include "PDQ_ST7735_config.h"
 #include "PDQ_ST7735.h"
 
+#include "global.h"
 #include "coordinates.h"
 #include "configDraw.h"
 
@@ -21,7 +22,7 @@
 struct Display {
   static const uint8_t width = 160;
   static const uint8_t height = 128;
-  static const uint8_t padding = 5;
+  static const uint8_t padding = 3;
   static const uint8_t bgColor = ST7735_BLACK;
   
   static void drawBackground(PDQ_ST7735 * tft){
@@ -32,8 +33,9 @@ struct Display {
 struct InfoBarData {
   static const int16_t bgColor = ST7735_BLACK;
   static const int16_t fontColor = ST7735_WHITE;
-  static const char * scoreLabel;
-  static const char * livesLabel;
+  static const char * titleLabel;
+  static const char * stepsLabel;
+  static const char * speedLabel;
   static const char * pauseLabel;
 
   // top left corner of screen
@@ -97,12 +99,13 @@ class LivesBar {
     }
 };
 
-/* static */ const char * InfoBarData::scoreLabel = "SCORE";
-/* static */ const char * InfoBarData::livesLabel = "LIVES";
+/* static */ const char * InfoBarData::titleLabel = "STEP SEQUENCER";
+/* static */ const char * InfoBarData::stepsLabel = "STEPS";
+/* static */ const char * InfoBarData::speedLabel = "BPM";
 /* static */ const char * InfoBarData::pauseLabel = "PAUSED";
 
 /* static */ const Coordinates InfoBarData::topBarLabelPos = { Display::padding, Display::padding };
-/* static */ const Coordinates InfoBarData::topBarValuePos = { InfoBarData::topBarLabelPos.x + Display::width/3, InfoBarData::topBarLabelPos.y};
+/* static */ const Coordinates InfoBarData::topBarValuePos = { Display::width - 20, InfoBarData::topBarLabelPos.y};
 /* static */ const Coordinates InfoBarData::topBarPausePos = { InfoBarData::topBarLabelPos.x + 3*Display::width/5, InfoBarData::topBarLabelPos.y};
 
 /* static */ const Coordinates InfoBarData::bottomBarLabelPos =  { Display::padding, Display::height - Display::padding - 2*FONT_W };
@@ -113,14 +116,14 @@ struct DrawMap {
   static const int8_t mapHeight = DISPLAY_COL; // map height in tiles
 
   static const int8_t tileSize   = FONT_W; // size in pixels
-  static const int8_t dotSize    = FONT_W/4; // 1/4 of tile size
+  static const int8_t dotSize    = FONT_W; // 1/4 of tile size
   static const int8_t pelletSize = FONT_W/2; // 1/2 tile size
 
-  static const int8_t dotOffset = 3; // where in the tile the dot is drawn
+  static const int8_t dotOffset = 2; // where in the tile the dot is drawn
   static const int8_t pelletXOffset = 2; 
   static const int8_t pelletYOffset = 2; 
                                         
-  static const int16_t bgColor    = ST7735_BLUE; // color of walls
+  static const int16_t bgColor    = ST7735_BLACK; // color of walls
   static const int16_t pathColor  = ST7735_BLACK; // color of paths, etc.
   static const int16_t dotColor   = ST7735_WHITE; // color of dot pickups
   static const int16_t pelletColor= ST7735_WHITE;
@@ -130,7 +133,7 @@ struct DrawMap {
   static const int16_t mapStartY = Display::padding + DrawMap::tileSize*3;
 
   // draw map foreground to tft screen
-  static void drawMap(PDQ_ST7735 * tft);
+  static void clearScreen(PDQ_ST7735 * tft);
 
   // draw path or non-playable area (same color)
   static void drawPath(PDQ_ST7735 * tft, uint16_t x, uint16_t y);
@@ -165,18 +168,10 @@ struct DrawMap {
     pelletSize, pelletSize, pelletColor);
 }
 
-/* static  */void DrawMap::drawMap(PDQ_ST7735 * tft) {
+/* static  */void DrawMap::clearScreen(PDQ_ST7735 * tft) {
   // fill background
-  tft->fillRect(mapStartX, mapStartY, mapWidth*tileSize, mapHeight*tileSize, 
+  tft->fillRect(0, 0, Display::width, Display::height, 
     bgColor);
-  
-  // for (int8_t r = 0; r < mapHeight; ++r) {
-  //   // left half
-  //   for (int8_t c = 0; c < mapWidth; ++c) {
-  //     drawTile(tft,r,c);
-  //   }
-  // }
-
 };
 
 
