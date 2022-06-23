@@ -1,4 +1,5 @@
 #include "shared.h"
+#include "global.h"
 
 PDQ_ST7735 tft;   // Creates LCD object 
 
@@ -22,16 +23,26 @@ void updateLives() {
 //   else tft.print("GAME OVER");
 // }
 
-void drawScoreBar() {
-  // ScoreBar::drawLabel(&tft, InfoBarData::topBarLabelPos, InfoBarData::titleLabel);
-  // ScoreBar::drawScore(&tft, InfoBarData::topBarValuePos, sequence.getSteps());
+void printTitleBar() {
+  TitleBar::printLabel(&tft, InfoBarData::row0TitlePos, InfoBarData::titleLabel);
 }
 
-// draw remaining lives bar (label and value) on-screen
-void drawLivesBar() {
-  // LivesBar::drawLabel(&tft, InfoBarData::bottomBarLabelPos, InfoBarData::stepsLabel);
-  // LivesBar::drawLives(&tft, InfoBarData::bottomBarValuePos, 3);
+void printStepsBar() {
+  StepsBar::printLabel(&tft, InfoBarData::row1LabelPos, InfoBarData::stepsLabel);
+  StepsBar::printValue(&tft, InfoBarData::row1ValuePos, sequence.getSteps());
+
 }
+
+void drawScoreBar() {
+  ScoreBar::drawLabel(&tft, InfoBarData::row0TitlePos, InfoBarData::titleLabel);
+  // ScoreBar::drawScore(&tft, InfoBarData::row0ValuePos, " ");
+}
+
+// // draw remaining lives bar (label and value) on-screen
+// void drawLivesBar() {
+//   // LivesBar::drawLabel(&tft, InfoBarData::bottomBarLabelPos, InfoBarData::stepsLabel);
+//   // LivesBar::drawLives(&tft, InfoBarData::bottomBarValuePos, 3);
+// }
 
 void update() {
   // updatePacMan();
@@ -83,12 +94,18 @@ void draw() {
 }
 
 void restart(){
-  tft.setRotation(ROTATE_270);
+  tft.setRotation(ROTATE_90);
+  // tft.setFont(&FONT_FAMILY);
+  // tft.setTextSize(FONT_SIZE);
   DrawMap::clearScreen(&tft);
-  // DrawMap::drawDot(&tft, 20, 30);
   
   // drawScoreBar();
   // drawLivesBar();
+  printTitleBar();
+  printStepsBar();
+  // printPause();
+  //printSpeed();
+  //printStepsLayout();
 }
 
 void checkPause() {
@@ -99,35 +116,21 @@ void checkPause() {
 // main loop for game runtime
 bool running() {
   // game is paused
-  // checkPause();
-  // if (sequence.isPaused()) {
-  //   // print PAUSED status message on-screen
-  //   ScoreBar::drawPause(&tft, InfoBarData::topBarPausePos, 
-  //     InfoBarData::pauseLabel);
+  checkPause();
+  if (sequence.isPaused()) {
+    // print PAUSED status message on-screen
+    TitleBar::drawPause(&tft, InfoBarData::row0PausePos, InfoBarData::pauseLabel);
     
-  //   // wait for joystick click to resume game
-  //   while (!control.buttonTriggered()) {}
+    // wait for joystick click to resume game
+    while (!control.buttonTriggered()) {}
   
-  //   // redraw top bar
-  //   drawScoreBar();
-  //   // sequence.resumeGame();
-  // }
+    // redraw top bar
+    printTitleBar();
+    sequence.resumeSequence();
+  }
   
-  // update();
-  // draw();
-
-  // // // check for game over
-  // // if (game.isGameOver()) {
-  // //   // print winning or losing message
-  // //   if (game.getScore() == Game::maxScore)
-  // //     drawGameOver(true);
-  // //   else  
-  // //     drawGameOver(false);
-    
-  // //   // click joystick to play again
-  // //   while (!con.buttonTriggered()) {} 
-  // //   restart();
-  // // }
+  update();
+  draw();
 
   delay(FRAME_DELAY); // maintain upper bound to frame rate
   return true;
@@ -138,7 +141,8 @@ void setup()
   Serial.begin(115200);
   tft.begin();
   DrawMap::clearScreen(&tft);
-  // restart();
+
+  restart();
 }
 
 void loop()

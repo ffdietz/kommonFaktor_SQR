@@ -7,22 +7,18 @@
 #include "PDQ_GFX.h"
 #include "PDQ_ST7735_config.h"
 #include "PDQ_ST7735.h"
+#include "Fonts/FreeSans9pt7b.h"
 
 #include "global.h"
 #include "coordinates.h"
 #include "configDraw.h"
 
-//Clock
-//ShiftRegister
-////ShiftRegisterShifter
-////ShiftRegisterShowSequence
-//SetSequenceButton
-
 //Properties of tft display
 struct Display {
-  static const uint8_t width = 160;
-  static const uint8_t height = 128;
-  static const uint8_t padding = 3;
+  static const uint8_t width = DISPLAY_WIDTH;
+  static const uint8_t height = DISPLAY_HEIGHT;
+  static const uint8_t paddingX = PADDING;
+  static const uint8_t paddingY = PADDING_Y;
   static const uint8_t bgColor = ST7735_BLACK;
   
   static void drawBackground(PDQ_ST7735 * tft){
@@ -39,16 +35,71 @@ struct InfoBarData {
   static const char * pauseLabel;
 
   // top left corner of screen
-  static const Coordinates topBarLabelPos;
-  static const Coordinates topBarValuePos;
-  static const Coordinates topBarPausePos;
+  static const Coordinates row0TitlePos;
+  static const Coordinates row0PausePos;
+
+    // top left corner of screen
+  static const Coordinates row1LabelPos;
+  static const Coordinates row1ValuePos;
+
+      // top left corner of screen
+  static const Coordinates row2BarLabelPos;
+  static const Coordinates row2BarValuePos;
   
+        // top left corner of screen
+  static const Coordinates row3BarLabelPos;
+  static const Coordinates row3BarValuePos;
+
   // bottom left corner of screen
   static const Coordinates bottomBarLabelPos;
   static const Coordinates bottomBarValuePos;
 };
 
 //Classes
+class TitleBar {
+  public:
+    // draw top bar label
+    static void printLabel(PDQ_ST7735 * tft, Coordinates pos, const char * label) {
+      // overwrite previous value
+      tft->fillRect(pos.x, pos.y, Display::width, FONT_HEIGHT, ST7735_BLACK);
+      // set cursor position
+      tft->setCursor(pos.x, pos.y);
+      // draw label
+      tft->println(label);
+    }
+
+    // draw status message in top bar
+    static void drawPause(PDQ_ST7735 * tft, Coordinates pos, const char * text) {
+
+      tft->setCursor(pos.x, pos.y);
+      tft->print(text);
+    }
+
+    // draw status message in top bar
+    static void printPause(PDQ_ST7735 * tft, Coordinates pos, const char * text) {
+        tft->setCursor(pos.x, pos.y);
+        tft->print(text);
+    }
+};
+
+class StepsBar {
+  public:
+    // draw top bar label
+    static void printLabel(PDQ_ST7735 * tft, Coordinates pos, const char * label) {
+      // set cursor position
+      tft->setCursor(pos.x, pos.y);
+      // draw label
+      tft->println(label);
+    }
+
+    static void printValue(PDQ_ST7735 * tft, Coordinates pos, int16_t score) {
+      // set cursor position and print score
+      tft->setCursor(pos.x, pos.y);
+      tft->print(score);
+    }
+
+};
+
 class ScoreBar {
   public:
     // draw top bar label
@@ -63,7 +114,7 @@ class ScoreBar {
     // draw current game score
     static void drawScore(PDQ_ST7735 * tft, Coordinates pos, int16_t score) {
       // overwrite previous value
-      tft->fillRect(pos.x, pos.y, Display::width, FONT_H, ST7735_BLACK);
+      tft->fillRect(pos.x, pos.y, Display::width, FONT_HEIGHT, ST7735_BLACK);
 
       // set cursor position and print score
       tft->setCursor(pos.x, pos.y);
@@ -91,7 +142,7 @@ class LivesBar {
     // draw current game score
     static void drawLives(PDQ_ST7735 * tft, Coordinates pos, int16_t score) {
       // overwrite previous value
-      tft->fillRect(pos.x, pos.y, Display::width, FONT_H, ST7735_BLACK);
+      tft->fillRect(pos.x, pos.y, Display::width, FONT_SIZE, ST7735_BLACK);
 
       // set cursor position and print score
       tft->setCursor(pos.x, pos.y);
@@ -99,25 +150,27 @@ class LivesBar {
     }
 };
 
-/* static */ const char * InfoBarData::titleLabel = "STEP SEQUENCER";
-/* static */ const char * InfoBarData::stepsLabel = "STEPS";
-/* static */ const char * InfoBarData::speedLabel = "BPM";
+/* static */ const char * InfoBarData::titleLabel = "SEQUENCER";
+/* static */ const char * InfoBarData::stepsLabel = "STEP";
 /* static */ const char * InfoBarData::pauseLabel = "PAUSED";
+/* static */ const char * InfoBarData::speedLabel = "BPM";
 
-/* static */ const Coordinates InfoBarData::topBarLabelPos = { Display::padding, Display::padding };
-/* static */ const Coordinates InfoBarData::topBarValuePos = { Display::width - 20, InfoBarData::topBarLabelPos.y};
-/* static */ const Coordinates InfoBarData::topBarPausePos = { InfoBarData::topBarLabelPos.x + 3*Display::width/5, InfoBarData::topBarLabelPos.y};
+/* static */ const Coordinates InfoBarData::row0TitlePos = { Display::paddingX , Display::paddingY + FONT_HEIGHT };
+/* static */ const Coordinates InfoBarData::row0PausePos = { Display::width - (6 * FONT_WIDTH) ,  Display::paddingY + FONT_HEIGHT };
 
-/* static */ const Coordinates InfoBarData::bottomBarLabelPos =  { Display::padding, Display::height - Display::padding - 2*FONT_W };
+/* static */ const Coordinates InfoBarData::row1LabelPos = { Display::paddingX , InfoBarData::row0TitlePos.y * 2};
+/* static */ const Coordinates InfoBarData::row1ValuePos = { Display::paddingX + (4 * FONT_WIDTH), InfoBarData::row0TitlePos.y * 2};
+
+/* static */ const Coordinates InfoBarData::bottomBarLabelPos =  { Display::paddingX, Display::height - Display::paddingY - 2*FONT_SIZE };
 /* static */ const Coordinates InfoBarData::bottomBarValuePos =  { InfoBarData::bottomBarLabelPos.x + Display::width/3, InfoBarData::bottomBarLabelPos.y};
 
 struct DrawMap {
-  static const int8_t mapWidth = DISPLAY_ROW; // map width in tiles
-  static const int8_t mapHeight = DISPLAY_COL; // map height in tiles
+  // static const int8_t mapWidth = DISPLAY_ROW; // map width in tiles
+  // static const int8_t mapHeight = DISPLAY_COL; // map height in tiles
 
-  static const int8_t tileSize   = FONT_W; // size in pixels
-  static const int8_t dotSize    = FONT_W; // 1/4 of tile size
-  static const int8_t pelletSize = FONT_W/2; // 1/2 tile size
+  static const int8_t tileSize   = FONT_SIZE; // size in pixels
+  static const int8_t dotSize    = FONT_SIZE; // 1/4 of tile size
+  static const int8_t pelletSize = FONT_SIZE/2; // 1/2 tile size
 
   static const int8_t dotOffset = 2; // where in the tile the dot is drawn
   static const int8_t pelletXOffset = 2; 
@@ -129,8 +182,8 @@ struct DrawMap {
   static const int16_t pelletColor= ST7735_WHITE;
 
   // top left corner of the map (in pixels)
-  static const int16_t mapStartX = Display::padding;
-  static const int16_t mapStartY = Display::padding + DrawMap::tileSize*3;
+  static const int16_t mapStartX = Display::paddingX;
+  static const int16_t mapStartY = Display::paddingY + DrawMap::tileSize*3;
 
   // draw map foreground to tft screen
   static void clearScreen(PDQ_ST7735 * tft);
@@ -170,8 +223,7 @@ struct DrawMap {
 
 /* static  */void DrawMap::clearScreen(PDQ_ST7735 * tft) {
   // fill background
-  tft->fillRect(0, 0, Display::width, Display::height, 
-    bgColor);
+  tft->fillRect(0, 0, Display::width, Display::height, bgColor);
 };
 
 

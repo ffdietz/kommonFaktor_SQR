@@ -11,9 +11,6 @@
 #include "gameConfig.h"
 #include "DebouncedEncoder.h"
 
-int encMinValue = -1000;
-int encMaxValue = 1000;
-
 Controller::Controller()
 {
     pinMode(ENCODER_A, INPUT);        // x joystick
@@ -21,7 +18,7 @@ Controller::Controller()
     pinMode(ENCODER_SET, INPUT_PULLUP);  // Button pin
     pinMode(PLAY_BUTTON, INPUT_PULLUP);  // Button pin
 
-    currentState = digitalRead(ENCODER_SET); // Init button state
+    // currentState = digitalRead(ENCODER_SET); // Init button state
     currentState = digitalRead(PLAY_BUTTON); // Init button state
 }
 
@@ -65,7 +62,7 @@ bool Controller::buttonTriggered()
 {
     /* Will update the button readings */
     lastState = currentState;
-    currentState = digitalRead(SW);
+    currentState = digitalRead(PLAY_BUTTON);
     /* Return if the button just got pressed down */
     return (currentState == LOW && lastState == HIGH);
 }

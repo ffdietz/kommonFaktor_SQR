@@ -3,12 +3,14 @@
 
 #define DISPLAY_WIDTH   160
 #define DISPLAY_HEIGHT  128
-#define FONT_FAMILY     //ucg_font_8x13_mr  //ucg_font_9x15_mr//ucg_font_7x13_mr//ucg_font_8x13_mr//ucg_font_8x13_mr//
-#define FONT_W 9
-#define FONT_H 18
-#define DISPLAY_ROW 7
-#define DISPLAY_COL 17
-#define PADDING 4
+#define FONT_FAMILY     FreeSans9pt7b
+#define FONT_SIZE 1
+#define FONT_WIDTH  7*FONT_SIZE
+#define FONT_HEIGHT 8*FONT_SIZE
+// #define DISPLAY_ROW 7
+// #define DISPLAY_COL 17
+#define PADDING 1
+#define PADDING_Y FONT_HEIGHT + PADDING
 
 #define FRAME_DELAY 20
 
