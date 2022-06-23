@@ -3,14 +3,12 @@
 
 #define DISPLAY_WIDTH   160
 #define DISPLAY_HEIGHT  128
-#define FONT_FAMILY     FreeSans9pt7b
-#define FONT_SIZE 1
-#define FONT_WIDTH  7*FONT_SIZE
-#define FONT_HEIGHT 8*FONT_SIZE
-// #define DISPLAY_ROW 7
-// #define DISPLAY_COL 17
-#define PADDING 1
-#define PADDING_Y FONT_HEIGHT + PADDING
+
+#define FONT_FAMILY   FreeSans9pt7b
+#define FONT_SCALE    1
+#define FONT_WIDTH    7
+#define FONT_HEIGHT   8
+#define PADDING       4
 
 #define FRAME_DELAY 20
 

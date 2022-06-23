@@ -11,18 +11,6 @@ void updateLives() {
   // LivesBar::drawLives(&tft, InfoBarData::bottomBarValuePos, sequence.isPaused());
 }
 
-// void drawGameOver(bool winner) {
-//   tft.fillRect(InfoBarData::bottomBarLabelPos.x, 
-//     InfoBarData::bottomBarLabelPos.y, Display::width, FONT_H, 
-//     ST7735_BLACK);
-
-//   tft.setCursor(InfoBarData::bottomBarLabelPos.x, 
-//     InfoBarData::bottomBarLabelPos.y);
-  
-//   if (winner) tft.print("YOU WIN!");
-//   else tft.print("GAME OVER");
-// }
-
 void printTitleBar() {
   TitleBar::printLabel(&tft, InfoBarData::row0TitlePos, InfoBarData::titleLabel);
 }
@@ -33,7 +21,7 @@ void printStepsBar() {
 
 }
 
-void printSpeed(){
+void printSpeedBar(){
   SpeedBar::printLabel(&tft, InfoBarData::row2LabelPos, InfoBarData::speedLabel);
   SpeedBar::printValue(&tft, InfoBarData::row2ValuePos, sequence.getSpeed());
 }
@@ -88,14 +76,14 @@ void draw() {
 }
 
 void restart(){
-  tft.setRotation(ROTATE_90);
+  tft.setRotation(ROTATE_270);
   // tft.setFont(&FONT_FAMILY);
-  // tft.setTextSize(FONT_SIZE);
+  // tft.setTextSize(FONT_SCALE);
   DrawMap::clearScreen(&tft);
 
   printTitleBar();
-  printStepsBar(); // printPause();
-  printSpeed();
+  printStepsBar();  // printPause();
+  printSpeedBar();
   //printStepsLayout();
 }
 
@@ -111,11 +99,11 @@ bool running() {
   if (sequence.isPaused()) {
     // print PAUSED status message on-screen
     TitleBar::drawPause(&tft, InfoBarData::row0PausePos, InfoBarData::pauseLabel);
-    
-    // wait for joystick click to resume game
+
+    // wait for play button to play sequence
     while (!control.buttonTriggered()) {}
   
-    // redraw top bar
+    // print title row
     printTitleBar();
     sequence.resumeSequence();
   }
