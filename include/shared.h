@@ -43,8 +43,8 @@ struct InfoBarData {
   static const Coordinates row1ValuePos;
 
       // top left corner of screen
-  static const Coordinates row2BarLabelPos;
-  static const Coordinates row2BarValuePos;
+  static const Coordinates row2LabelPos;
+  static const Coordinates row2ValuePos;
   
         // top left corner of screen
   static const Coordinates row3BarLabelPos;
@@ -100,6 +100,30 @@ class StepsBar {
 
 };
 
+class SpeedBar {
+  public:
+    // draw top bar label
+    static void printLabel(PDQ_ST7735 * tft, Coordinates pos, 
+      const char * label) {
+      // set cursor position
+      tft->setCursor(pos.x, pos.y);
+      // draw label
+      tft->println(label);
+    }
+
+    // draw current game score
+    static void printValue(PDQ_ST7735 * tft, Coordinates pos, int16_t score) {
+      // overwrite previous value
+      tft->fillRect(pos.x, pos.y, Display::width, FONT_HEIGHT, ST7735_BLACK);
+
+      // set cursor position and print score
+      tft->setCursor(pos.x, pos.y);
+      tft->print(score);
+    }
+
+};
+
+
 class ScoreBar {
   public:
     // draw top bar label
@@ -153,13 +177,16 @@ class LivesBar {
 /* static */ const char * InfoBarData::titleLabel = "SEQUENCER";
 /* static */ const char * InfoBarData::stepsLabel = "STEP";
 /* static */ const char * InfoBarData::pauseLabel = "PAUSED";
-/* static */ const char * InfoBarData::speedLabel = "BPM";
+/* static */ const char * InfoBarData::speedLabel = "BPM: ";
 
 /* static */ const Coordinates InfoBarData::row0TitlePos = { Display::paddingX , Display::paddingY + FONT_HEIGHT };
 /* static */ const Coordinates InfoBarData::row0PausePos = { Display::width - (6 * FONT_WIDTH) ,  Display::paddingY + FONT_HEIGHT };
 
 /* static */ const Coordinates InfoBarData::row1LabelPos = { Display::paddingX , InfoBarData::row0TitlePos.y * 2};
 /* static */ const Coordinates InfoBarData::row1ValuePos = { Display::paddingX + (4 * FONT_WIDTH), InfoBarData::row0TitlePos.y * 2};
+
+/* static */ const Coordinates InfoBarData::row2LabelPos = { Display::paddingX , InfoBarData::row0TitlePos.y * 3};
+/* static */ const Coordinates InfoBarData::row2ValuePos = { Display::paddingX + (4 * FONT_WIDTH), InfoBarData::row0TitlePos.y * 3};
 
 /* static */ const Coordinates InfoBarData::bottomBarLabelPos =  { Display::paddingX, Display::height - Display::paddingY - 2*FONT_SIZE };
 /* static */ const Coordinates InfoBarData::bottomBarValuePos =  { InfoBarData::bottomBarLabelPos.x + Display::width/3, InfoBarData::bottomBarLabelPos.y};

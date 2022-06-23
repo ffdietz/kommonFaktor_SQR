@@ -33,16 +33,10 @@ void printStepsBar() {
 
 }
 
-void drawScoreBar() {
-  ScoreBar::drawLabel(&tft, InfoBarData::row0TitlePos, InfoBarData::titleLabel);
-  // ScoreBar::drawScore(&tft, InfoBarData::row0ValuePos, " ");
+void printSpeed(){
+  SpeedBar::printLabel(&tft, InfoBarData::row2LabelPos, InfoBarData::speedLabel);
+  SpeedBar::printValue(&tft, InfoBarData::row2ValuePos, sequence.getSpeed());
 }
-
-// // draw remaining lives bar (label and value) on-screen
-// void drawLivesBar() {
-//   // LivesBar::drawLabel(&tft, InfoBarData::bottomBarLabelPos, InfoBarData::stepsLabel);
-//   // LivesBar::drawLives(&tft, InfoBarData::bottomBarValuePos, 3);
-// }
 
 void update() {
   // updatePacMan();
@@ -98,13 +92,10 @@ void restart(){
   // tft.setFont(&FONT_FAMILY);
   // tft.setTextSize(FONT_SIZE);
   DrawMap::clearScreen(&tft);
-  
-  // drawScoreBar();
-  // drawLivesBar();
+
   printTitleBar();
-  printStepsBar();
-  // printPause();
-  //printSpeed();
+  printStepsBar(); // printPause();
+  printSpeed();
   //printStepsLayout();
 }
 
