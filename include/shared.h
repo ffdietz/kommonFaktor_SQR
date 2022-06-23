@@ -175,17 +175,17 @@ class LivesBar {
 
 /* static */ const char * InfoBarData::titleLabel = "SEQUENCER";
 /* static */ const char * InfoBarData::pauseLabel = "PAUSED";
-/* static */ const char * InfoBarData::stepsLabel = "STEP";
-/* static */ const char * InfoBarData::speedLabel = "BPM: ";
+/* static */ const char * InfoBarData::stepsLabel = "STEP:";
+/* static */ const char * InfoBarData::speedLabel = "BPM:";
 
 /* static */ const Coordinates InfoBarData::row0TitlePos = { Display::padding , Display::padding };
 /* static */ const Coordinates InfoBarData::row0PausePos = { Display::width - Display::padding - 6*FONT_WIDTH ,  InfoBarData::row0TitlePos.y };
 
 /* static */ const Coordinates InfoBarData::row1LabelPos = { InfoBarData::row0TitlePos.x , InfoBarData::row0TitlePos.y + Display::rowHeight };
-/* static */ const Coordinates InfoBarData::row1ValuePos = { InfoBarData::row0TitlePos.x + Display::padding + 5*FONT_WIDTH, InfoBarData::row1LabelPos.y };
+/* static */ const Coordinates InfoBarData::row1ValuePos = { InfoBarData::row0TitlePos.x + 5*FONT_WIDTH, InfoBarData::row1LabelPos.y };
 
 /* static */ const Coordinates InfoBarData::row2LabelPos = { InfoBarData::row0TitlePos.x , InfoBarData::row0TitlePos.y + Display::rowHeight * 2 };
-/* static */ const Coordinates InfoBarData::row2ValuePos = { InfoBarData::row0TitlePos.x + (4 * FONT_WIDTH),  InfoBarData::row2LabelPos.y};
+/* static */ const Coordinates InfoBarData::row2ValuePos = { InfoBarData::row0TitlePos.x + 4*FONT_WIDTH,  InfoBarData::row2LabelPos.y};
 
 // /* static */ const Coordinates InfoBarData::bottomBarLabelPos =  { Display::padding, Display::height - Display::paddingY - 2*FONT_SIZE };
 // /* static */ const Coordinates InfoBarData::bottomBarValuePos =  { InfoBarData::bottomBarLabelPos.x + Display::width/3, InfoBarData::bottomBarLabelPos.y};

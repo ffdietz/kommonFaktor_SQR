@@ -26,6 +26,14 @@ void printSpeedBar(){
   SpeedBar::printValue(&tft, InfoBarData::row2ValuePos, sequence.getSpeed());
 }
 
+void printStepsLayout(){
+  //SHOW CURRENT STEP 
+  //CHANGING IN BPM
+  //ABLE TO PAUSED
+  //DRAW STEPS POINTS
+
+}
+
 void update() {
   // updatePacMan();
   // updateGhosts();
@@ -76,15 +84,15 @@ void draw() {
 }
 
 void restart(){
-  tft.setRotation(ROTATE_270);
+  tft.setRotation(ROTATE_90);
   // tft.setFont(&FONT_FAMILY);
-  // tft.setTextSize(FONT_SCALE);
+  tft.setTextSize(FONT_SCALE);
   DrawMap::clearScreen(&tft);
 
   printTitleBar();
   printStepsBar();  // printPause();
   printSpeedBar();
-  //printStepsLayout();
+  printStepsLayout();
 }
 
 void checkPause() {
@@ -120,7 +128,6 @@ void setup()
   Serial.begin(115200);
   tft.begin();
   DrawMap::clearScreen(&tft);
-
   restart();
 }
 
