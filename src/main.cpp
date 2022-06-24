@@ -3,12 +3,14 @@
 
 PDQ_ST7735 tft;   // Creates LCD object 
 
-void updateScore() {
-  // ScoreBar::drawScore(&tft, InfoBarData::topBarValuePos, sequence.getSteps());
+
+// void updateScore() {
+void updateCurrentStep() {
+  StepBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
 }
 
-void updateLives() {
-  // LivesBar::drawLives(&tft, InfoBarData::bottomBarValuePos, sequence.isPaused());
+void updateActiveSteps() {
+  // LivesBar::drawLives(&tft, InfoBarData::bottomBarValuePos, sequence.getSteps());
 }
 
 void printTitleBar() {
@@ -26,7 +28,9 @@ void printSpeedBar(){
   SpeedBar::printValue(&tft, InfoBarData::row2ValuePos, sequence.getSpeed());
 }
 
-void printStepsLayout(){
+void printStepBar(){
+  StepBar::printLabel(&tft, InfoBarData::row3LabelPos, InfoBarData::stepLabel);
+  StepBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
   //SHOW CURRENT STEP 
   //CHANGING IN BPM
   //ABLE TO PAUSED
@@ -34,10 +38,16 @@ void printStepsLayout(){
 
 }
 
-void update() {
-  // updatePacMan();
-  // updateGhosts();
+void updateSequence(){  
+  if (sequence.clock()){
+     sequence.changeStep();
+     updateCurrentStep();
+  }
+}
 
+void update() {
+  updateSequence();
+  // updateGhosts();
   // // compare ghost states to pac-man
   // checkGhost(orange);
   // checkGhost(blue);
@@ -71,16 +81,9 @@ void update() {
 void draw() {
   // drawPacMan();
   // drawGhosts();
-
-  // if (game.scoreChanged) {
-  //   updateScore();
-  //   game.scoreChanged = false;
-  // }
-
-  // if (game.livesChanged) {
-  //   updateLives();
-  //   game.livesChanged = false;
-  // }
+  // if (sequence.stepChanged())
+   updateCurrentStep();
+  
 }
 
 void restart(){
@@ -92,7 +95,7 @@ void restart(){
   printTitleBar();
   printStepsBar();  // printPause();
   printSpeedBar();
-  printStepsLayout();
+  printStepBar();
 }
 
 void checkPause() {

@@ -13,12 +13,20 @@ class Sequence {
     void setSpeed(float variation);
     float getSpeed();
     uint8_t getSteps();
+    bool clock();
+    void changeStep();
+    uint8_t getCurrentStep();
+    bool stepChanged();
 
   private:
     uint8_t steps;
     uint8_t currentStep = 0;
-    float speed = 120.0; // in BPM
+    uint8_t lastStep = 0;
+    float speed = 140.0; // in BPM
+    uint8_t speedInMillis = 0;
     bool paused = false;
+    long currentTime = 0;
+    long lastChange = 0;
 };
 
 #endif
