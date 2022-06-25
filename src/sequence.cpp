@@ -2,7 +2,7 @@
 
 Sequence::Sequence(uint8_t steps){
   this->steps = steps - 1;
-  speedInMillis = int(60000 / speed);
+  speedInMillis = int( 60000 / speed );
   currentTime = millis();
 }
 
@@ -30,7 +30,7 @@ uint8_t Sequence::getSteps(){
   return steps + 1;
 }
 
-bool Sequence::clock(){
+bool Sequence::clockTimer(){
   currentTime = millis();
   if(currentTime - lastChange >= speedInMillis ){
     lastChange = currentTime;

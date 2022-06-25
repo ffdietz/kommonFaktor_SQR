@@ -39,10 +39,7 @@ void printStepPositionBar(){
 }
 
 void updateSequence(){  
-  if (sequence.clock()){
-     sequence.changeStep();
-     updateCurrentStep();
-  }
+  if (sequence.clockTimer()) sequence.changeStep();
 }
 
 void update() {
@@ -81,8 +78,7 @@ void update() {
 void draw() {
   // drawPacMan();
   // drawGhosts();
-  // if (sequence.stepChanged())
-   updateCurrentStep();
+  if (sequence.stepChanged()) updateCurrentStep();
   
 }
 

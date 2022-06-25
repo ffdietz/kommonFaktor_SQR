@@ -202,13 +202,13 @@ class LivesBar {
 /* static */ const Coordinates InfoBarData::row0PausePos = { Display::width - Display::padding - 6*FONT_WIDTH ,  InfoBarData::row0TitlePos.y };
 
 /* static */ const Coordinates InfoBarData::row1LabelPos = { InfoBarData::row0TitlePos.x , InfoBarData::row0TitlePos.y + Display::rowHeight };
-/* static */ const Coordinates InfoBarData::row1ValuePos = { InfoBarData::row0TitlePos.x + 5*FONT_WIDTH, InfoBarData::row1LabelPos.y };
+/* static */ const Coordinates InfoBarData::row1ValuePos = { InfoBarData::row0TitlePos.x + 6*FONT_WIDTH, InfoBarData::row1LabelPos.y };
 
 /* static */ const Coordinates InfoBarData::row2LabelPos = { InfoBarData::row0TitlePos.x , InfoBarData::row0TitlePos.y + Display::rowHeight * 2 };
-/* static */ const Coordinates InfoBarData::row2ValuePos = { InfoBarData::row0TitlePos.x + 4*FONT_WIDTH,  InfoBarData::row2LabelPos.y};
+/* static */ const Coordinates InfoBarData::row2ValuePos = { InfoBarData::row0TitlePos.x + 6*FONT_WIDTH,  InfoBarData::row2LabelPos.y};
 
 /* static */ const Coordinates InfoBarData::row3LabelPos = { InfoBarData::row0TitlePos.x , InfoBarData::row0TitlePos.y + Display::rowHeight * 3 };
-/* static */ const Coordinates InfoBarData::row3ValuePos = { InfoBarData::row0TitlePos.x + 5*FONT_WIDTH,  InfoBarData::row3LabelPos.y};
+/* static */ const Coordinates InfoBarData::row3ValuePos = { InfoBarData::row0TitlePos.x + 6*FONT_WIDTH,  InfoBarData::row3LabelPos.y};
 
 struct DrawMap {
   static const int8_t tileSize   = FONT_SCALE; // size in pixels
@@ -218,7 +218,7 @@ struct DrawMap {
   static const int8_t dotOffset = 2; // where in the tile the dot is drawn
   static const int8_t pelletXOffset = 2; 
   static const int8_t pelletYOffset = 2; 
-                                        
+
   static const int16_t bgColor    = ST7735_BLACK; // color of walls
   static const int16_t pathColor  = ST7735_BLACK; // color of paths, etc.
   static const int16_t dotColor   = ST7735_WHITE; // color of dot pickups
@@ -248,7 +248,6 @@ struct DrawMap {
   // draw dot on top of rectangle
   tft->fillRect(x + dotOffset, y + dotOffset, 
     dotSize, dotSize, dotColor);
-
 }
 
 /* static  */void DrawMap::drawPowerPellet(PDQ_ST7735 * tft, uint16_t x, uint16_t y) {

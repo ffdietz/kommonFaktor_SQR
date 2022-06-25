@@ -7,20 +7,26 @@ class Sequence {
   public:
     Sequence(uint8_t steps = 8);
     ~Sequence(){};
+    
+    //Speed methods
+    void      setSpeed(float variation);
+    bool      clockTimer();
+    float     getSpeed();
+
+    //Steps methods
+    uint8_t   getSteps();
+    void      changeStep();
+    bool      stepChanged();
+    uint8_t   getCurrentStep();
+
+    //Pause methods
     bool isPaused();
     void pauseSequence();
     void resumeSequence();
-    void setSpeed(float variation);
-    float getSpeed();
-    uint8_t getSteps();
-    bool clock();
-    void changeStep();
-    bool stepChanged();
-    uint8_t getCurrentStep();
 
   private:
     uint8_t steps;
-    float speed = 35.0;  // in BPM
+    float speed = 140.0;  // in BPM
     uint16_t speedInMillis = 0;
     uint8_t lastStep = 0;
     uint8_t currentStep = 0;
