@@ -2,8 +2,8 @@
 
 Sequence::Sequence(uint8_t steps){
   this->steps = steps - 1;
+  speedInMillis = int(60000 / speed);
   currentTime = millis();
-  speedInMillis = (int) 60000 / speed;
 }
 
 bool Sequence::isPaused(){
@@ -40,11 +40,11 @@ bool Sequence::clock(){
 }
 
 uint8_t Sequence::getCurrentStep(){
-  return currentStep + 1;
+  return currentStep;
 }
 
 void Sequence::changeStep(){
-  if(currentStep >= steps) currentStep = 0;
+  if(currentStep > steps) currentStep = 0;
   lastStep = currentStep;
   currentStep++;
 }
