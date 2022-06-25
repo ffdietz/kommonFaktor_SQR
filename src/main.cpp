@@ -6,7 +6,7 @@ PDQ_ST7735 tft;   // Creates LCD object
 
 // void updateScore() {
 void updateCurrentStep() {
-  StepBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
+  StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
 }
 
 void updateActiveSteps() {
@@ -28,10 +28,10 @@ void printSpeedBar(){
   SpeedBar::printValue(&tft, InfoBarData::row2ValuePos, sequence.getSpeed());
 }
 
-void printStepBar(){
-  StepBar::printLabel(&tft, InfoBarData::row3LabelPos, InfoBarData::stepLabel);
-  StepBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
-  //SHOW CURRENT STEP 
+void printStepPositionBar(){
+  StepPositionBar::printLabel(&tft, InfoBarData::row3LabelPos, InfoBarData::stepPosLabel);
+  StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
+  /* SHOW CURRENT STEP */
   //CHANGING IN BPM
   //ABLE TO PAUSED
   //DRAW STEPS POINTS
@@ -95,7 +95,7 @@ void restart(){
   printTitleBar();
   printStepsBar();  // printPause();
   printSpeedBar();
-  printStepBar();
+  printStepPositionBar();
 }
 
 void checkPause() {

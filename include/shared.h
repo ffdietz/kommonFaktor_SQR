@@ -34,7 +34,7 @@ struct InfoBarData {
   static const char * stepsLabel;
   static const char * speedLabel;
   static const char * pauseLabel;
-  static const char * stepLabel;
+  static const char * stepPosLabel;
 
   // top left corner of screen
   static const Coordinates row0TitlePos;
@@ -120,7 +120,7 @@ class SpeedBar {
 
 };
 
-class StepBar {
+class StepPositionBar {
   public:
     // draw speed label
     static void printLabel(PDQ_ST7735 * tft, Coordinates pos, 
@@ -196,7 +196,7 @@ class LivesBar {
 /* static */ const char * InfoBarData::pauseLabel = "PAUSED";
 /* static */ const char * InfoBarData::stepsLabel = "STEPS:";
 /* static */ const char * InfoBarData::speedLabel = "BPM:";
-/* static */ const char * InfoBarData::stepLabel = "STEP: ";
+/* static */ const char * InfoBarData::stepPosLabel = "STEP: ";
 
 /* static */ const Coordinates InfoBarData::row0TitlePos = { Display::padding , Display::padding };
 /* static */ const Coordinates InfoBarData::row0PausePos = { Display::width - Display::padding - 6*FONT_WIDTH ,  InfoBarData::row0TitlePos.y };
@@ -208,7 +208,7 @@ class LivesBar {
 /* static */ const Coordinates InfoBarData::row2ValuePos = { InfoBarData::row0TitlePos.x + 4*FONT_WIDTH,  InfoBarData::row2LabelPos.y};
 
 /* static */ const Coordinates InfoBarData::row3LabelPos = { InfoBarData::row0TitlePos.x , InfoBarData::row0TitlePos.y + Display::rowHeight * 3 };
-/* static */ const Coordinates InfoBarData::row3ValuePos = { InfoBarData::row0TitlePos.x + 4*FONT_WIDTH,  InfoBarData::row3LabelPos.y};
+/* static */ const Coordinates InfoBarData::row3ValuePos = { InfoBarData::row0TitlePos.x + 5*FONT_WIDTH,  InfoBarData::row3LabelPos.y};
 
 struct DrawMap {
   static const int8_t tileSize   = FONT_SCALE; // size in pixels
