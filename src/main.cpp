@@ -5,12 +5,8 @@ PDQ_ST7735 tft;   // Creates LCD object
 
 
 // void updateScore() {
-void updateCurrentStep() {
+void printCurrentStep() {
   StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
-}
-
-void updateActiveSteps() {
-  // LivesBar::drawLives(&tft, InfoBarData::bottomBarValuePos, sequence.getSteps());
 }
 
 void printTitleBar() {
@@ -31,20 +27,29 @@ void printSpeedBar(){
 void printStepPositionBar(){
   StepPositionBar::printLabel(&tft, InfoBarData::row3LabelPos, InfoBarData::stepPosLabel);
   StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
-  /* SHOW CURRENT STEP */
   //CHANGING IN BPM
-  //ABLE TO PAUSED
+
   //DRAW STEPS POINTS
 
 }
 
-void updateSequence(){  
+void updateCurrentStep(){
+  
+}
+
+void updateActiveSteps() {
+  // LivesBar::drawLives(&tft, InfoBarData::bottomBarValuePos, sequence.getSteps());
+}
+
+void updateSequence(){
   if (sequence.clockTimer()) sequence.changeStep();
 }
 
 void update() {
   updateSequence();
-  // updateGhosts();
+  updateActiveSteps();
+  updateCurrentStep();
+
   // // compare ghost states to pac-man
   // checkGhost(orange);
   // checkGhost(blue);
@@ -78,20 +83,26 @@ void update() {
 void draw() {
   // drawPacMan();
   // drawGhosts();
-  if (sequence.stepChanged()) updateCurrentStep();
-  
+  if (sequence.stepChanged()){
+    printCurrentStep();
+
+    DrawLayout::drawLayout(&tft);
+  }
 }
 
 void restart(){
-  tft.setRotation(ROTATE_90);
+  tft.setRotation(ROTATE_270);  // tft.setRotation(ROTATE_90);
   // tft.setFont(&FONT_FAMILY);
   tft.setTextSize(FONT_SCALE);
-  DrawMap::clearScreen(&tft);
+  DrawLayout::clearScreen(&tft);
 
   printTitleBar();
   printStepsBar();  // printPause();
   printSpeedBar();
   printStepPositionBar();
+  
+  DrawLayout::drawLayout(&tft);
+
 }
 
 void checkPause() {
@@ -126,7 +137,7 @@ void setup()
 { 
   Serial.begin(115200);
   tft.begin();
-  DrawMap::clearScreen(&tft);
+  DrawLayout::clearScreen(&tft);
   restart();
 }
 

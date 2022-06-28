@@ -4,6 +4,7 @@ Sequence::Sequence(uint8_t steps){
   this->steps = steps - 1;
   speedInMillis = int( 60000 / speed );
   currentTime = millis();
+  
 }
 
 bool Sequence::isPaused(){

@@ -4,12 +4,13 @@
 
 #include "controller.h"
 #include "sequence.h"
+#include "stepsLayout.h"
 #include "game.h"
 
 // globals for player controls, game map, and overall game state
 Controller control;
 Sequence sequence(8);
+// StepsLayout stepsDiagram;
 
-// Game game(3);
 
 #endif

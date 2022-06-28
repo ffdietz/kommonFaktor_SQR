@@ -210,58 +210,54 @@ class LivesBar {
 /* static */ const Coordinates InfoBarData::row3LabelPos = { InfoBarData::row0TitlePos.x , InfoBarData::row0TitlePos.y + Display::rowHeight * 3 };
 /* static */ const Coordinates InfoBarData::row3ValuePos = { InfoBarData::row0TitlePos.x + 6*FONT_WIDTH,  InfoBarData::row3LabelPos.y};
 
-struct DrawMap {
-  static const int8_t tileSize   = FONT_SCALE; // size in pixels
-  static const int8_t dotSize    = FONT_SCALE/4; // 1/4 of tile size
-  static const int8_t pelletSize = FONT_SCALE/2; // 1/2 tile size
+struct DrawLayout {
 
-  static const int8_t dotOffset = 2; // where in the tile the dot is drawn
-  static const int8_t pelletXOffset = 2; 
-  static const int8_t pelletYOffset = 2; 
+  static const int8_t mapWidth = X_BOUND; // map width in tiles
+  static const int8_t mapHeight = Y_BOUND; // map height in tiles
+  static const int8_t dotRadious = 5; 
+  static const int8_t dotOffset = dotRadious*2 + 5; // where in the tile the dot is drawn
 
-  static const int16_t bgColor    = ST7735_BLACK; // color of walls
-  static const int16_t pathColor  = ST7735_BLACK; // color of paths, etc.
-  static const int16_t dotColor   = ST7735_WHITE; // color of dot pickups
-  static const int16_t pelletColor= ST7735_WHITE;
+  static const int16_t bgColor  = ST7735_BLACK; // color of walls
+  static const int16_t dotColor = ST7735_RED; // color of dot pickups
+
+  static const int16_t mapStartX = Display::padding;
+  static const int16_t mapStartY = Display::padding + Display::rowHeight * 5;
 
   // draw map foreground to tft screen
   static void clearScreen(PDQ_ST7735 * tft);
 
-  // draw path or non-playable area (same color)
-  static void drawPath(PDQ_ST7735 * tft, uint16_t x, uint16_t y);
-  
+  static void drawLayout(PDQ_ST7735 * tft);
+
   // draw dot (small pickup) on tft screen
   static void drawDot(PDQ_ST7735 * tft, uint16_t x, uint16_t y);
   
   // draw power pellet (large pickup) on tft screen
   static void drawPowerPellet(PDQ_ST7735 * tft, uint16_t x, uint16_t y);
-
-  // draw white "door" on ghost box
-  static void drawGhostDoor(PDQ_ST7735 * tft, uint16_t x, uint16_t y);
 };
 
-
 //Define functions of structure Drawmap
-/* static */ void DrawMap::drawDot(PDQ_ST7735 * tft, uint16_t x, uint16_t y) {
+/* static */ void DrawLayout::drawDot(PDQ_ST7735 * tft, uint16_t x, uint16_t y) {
   // fill tile first
 
   // draw dot on top of rectangle
-  tft->fillRect(x + dotOffset, y + dotOffset, 
-    dotSize, dotSize, dotColor);
+      tft->fillRect(x, y, dotRadious*2, dotRadious*2, dotColor);
+  // tft->fillCircle(x + dotOffset, y + dotOffset, dotSize, dotColor);
+  // tft->drawCircle(x, y , dotRadious*2, dotColor);
 }
 
-/* static  */void DrawMap::drawPowerPellet(PDQ_ST7735 * tft, uint16_t x, uint16_t y) {
-  // fill tile first
+/* static  */void DrawLayout::drawLayout(PDQ_ST7735 * tft) {
+  // fill background
+  tft->fillRect(mapStartX, mapStartY, mapWidth, mapHeight, 
+    bgColor);
+  
+    for (int8_t r = 0; r < 8; ++r) {
+      drawDot(tft, mapStartX * 2 + r + dotOffset * r + 1 , mapStartY);
+    }
+};
 
-  // draw power pellet on top of rectangle
-  tft->fillRect(x + pelletXOffset, y + pelletYOffset, 
-    pelletSize, pelletSize, pelletColor);
-}
-
-/* static  */void DrawMap::clearScreen(PDQ_ST7735 * tft) {
+/* static  */void DrawLayout::clearScreen(PDQ_ST7735 * tft) {
   // fill background
   tft->fillRect(0, 0, Display::width, Display::height, bgColor);
 };
-
 
 #endif
