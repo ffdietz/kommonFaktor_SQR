@@ -4,11 +4,6 @@
 PDQ_ST7735 tft;   // Creates LCD object 
 
 
-// void updateScore() {
-void printCurrentStep() {
-  StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
-}
-
 void printTitleBar() {
   TitleBar::printLabel(&tft, InfoBarData::row0TitlePos, InfoBarData::titleLabel);
 }
@@ -16,7 +11,6 @@ void printTitleBar() {
 void printStepsBar() {
   StepsBar::printLabel(&tft, InfoBarData::row1LabelPos, InfoBarData::stepsLabel);
   StepsBar::printValue(&tft, InfoBarData::row1ValuePos, sequence.getSteps());
-
 }
 
 void printSpeedBar(){
@@ -27,14 +21,14 @@ void printSpeedBar(){
 void printStepPositionBar(){
   StepPositionBar::printLabel(&tft, InfoBarData::row3LabelPos, InfoBarData::stepPosLabel);
   StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
-  //CHANGING IN BPM
+}
 
-  //DRAW STEPS POINTS
-
+// void updateScore() {
+void printCurrentStep() {
+  StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
 }
 
 void updateCurrentStep(){
-  
 }
 
 void updateActiveSteps() {
@@ -85,14 +79,14 @@ void draw() {
   // drawGhosts();
   if (sequence.stepChanged()){
     printCurrentStep();
-
-    DrawLayout::drawLayout(&tft);
+    DrawLayout::drawLayout(&tft, sequence.getCurrentStep());
   }
 }
 
 void restart(){
-  tft.setRotation(ROTATE_270);  // tft.setRotation(ROTATE_90);
   // tft.setFont(&FONT_FAMILY);
+  // tft.setRotation(ROTATE_90);
+  tft.setRotation(ROTATE_270);  
   tft.setTextSize(FONT_SCALE);
   DrawLayout::clearScreen(&tft);
 
@@ -100,9 +94,8 @@ void restart(){
   printStepsBar();  // printPause();
   printSpeedBar();
   printStepPositionBar();
+  DrawLayout::drawLayout(&tft, sequence.getCurrentStep());
   
-  DrawLayout::drawLayout(&tft);
-
 }
 
 void checkPause() {

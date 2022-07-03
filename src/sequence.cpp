@@ -40,7 +40,7 @@ bool Sequence::clockTimer(){
   return false;
 }
 
-uint8_t Sequence::getCurrentStep(){
+uint16_t Sequence::getCurrentStep(){
   return currentStep;
 }
 

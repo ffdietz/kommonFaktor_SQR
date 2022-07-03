@@ -173,8 +173,7 @@ class ScoreBar {
 class LivesBar {
   public:
     // draw bottom bar label
-    static void drawLabel(PDQ_ST7735 * tft, Coordinates pos, 
-      const char * label) {
+    static void drawLabel(PDQ_ST7735 * tft, Coordinates pos, const char * label) {
       // set cursor position
       tft->setCursor(pos.x, pos.y);
       // draw label
@@ -211,47 +210,58 @@ class LivesBar {
 /* static */ const Coordinates InfoBarData::row3ValuePos = { InfoBarData::row0TitlePos.x + 6*FONT_WIDTH,  InfoBarData::row3LabelPos.y};
 
 struct DrawLayout {
+  static const uint8_t mapWidth = DISPLAY_WIDTH; // map width in tiles
+  static const uint8_t mapHeight = DISPLAY_HEIGHT; // map height in tiles
 
-  static const int8_t mapWidth = X_BOUND; // map width in tiles
-  static const int8_t mapHeight = Y_BOUND; // map height in tiles
-  static const int8_t dotRadious = 5; 
-  static const int8_t dotOffset = dotRadious*2 + 5; // where in the tile the dot is drawn
+  static const uint8_t mapStartX = Display::padding;
+  static const uint8_t mapStartY = Display::padding + Display::rowHeight * 5;
+  // static const int8_t mapStartY = Display::padding;
+
+  static const uint8_t dotsize = 8; 
+  // static const int8_t dotOffset = (mapWidth - 2 * mapStartX - dotRadious * 2 * 8) / 7; // where in the tile the dot is drawn
+  static const uint8_t dotOffset = dotsize * 2; // where in the tile the dot is drawn
 
   static const int16_t bgColor  = ST7735_BLACK; // color of walls
   static const int16_t dotColor = ST7735_RED; // color of dot pickups
 
-  static const int16_t mapStartX = Display::padding;
-  static const int16_t mapStartY = Display::padding + Display::rowHeight * 5;
 
   // draw map foreground to tft screen
   static void clearScreen(PDQ_ST7735 * tft);
 
-  static void drawLayout(PDQ_ST7735 * tft);
+  static void drawLayout(PDQ_ST7735 * tft, uint16_t currentStep);
 
   // draw dot (small pickup) on tft screen
   static void drawDot(PDQ_ST7735 * tft, uint16_t x, uint16_t y);
   
   // draw power pellet (large pickup) on tft screen
-  static void drawPowerPellet(PDQ_ST7735 * tft, uint16_t x, uint16_t y);
+  static void drawActiveDot(PDQ_ST7735 * tft, uint16_t x, uint16_t y);
 };
 
 //Define functions of structure Drawmap
+/* static */ void DrawLayout::drawActiveDot(PDQ_ST7735 * tft, uint16_t x, uint16_t y) {
+  // fill tile first
+
+  // draw dot on top of rectangle
+      // tft->drawRect(x, y, dotRadious*2, dotRadious*2, dotColor);
+      tft->fillRect(x, y, dotsize, dotsize, dotColor);
+}
+
 /* static */ void DrawLayout::drawDot(PDQ_ST7735 * tft, uint16_t x, uint16_t y) {
   // fill tile first
 
   // draw dot on top of rectangle
-      tft->fillRect(x, y, dotRadious*2, dotRadious*2, dotColor);
-  // tft->fillCircle(x + dotOffset, y + dotOffset, dotSize, dotColor);
-  // tft->drawCircle(x, y , dotRadious*2, dotColor);
+      tft->drawRect(x, y, dotsize, dotsize, dotColor);
+      // tft->fillRect(x, y, dotRadious*2, dotRadious*2, dotColor);
 }
 
-/* static  */void DrawLayout::drawLayout(PDQ_ST7735 * tft) {
+/* static  */void DrawLayout::drawLayout(PDQ_ST7735 * tft, uint16_t currentStep) {
   // fill background
-  tft->fillRect(mapStartX, mapStartY, mapWidth, mapHeight, 
-    bgColor);
   
-    for (int8_t r = 0; r < 8; ++r) {
-      drawDot(tft, mapStartX * 2 + r + dotOffset * r + 1 , mapStartY);
+    for (uint16_t r = 0; r < 8; ++r) {
+      tft->fillRect(dotOffset * r  , mapStartY, dotsize, dotsize, ST7735_BLACK);
+
+      if(currentStep - 1 == r) drawActiveDot(tft, dotOffset * r  , mapStartY);
+      else  drawDot(tft, dotOffset * r  , mapStartY);
     }
 };
 
