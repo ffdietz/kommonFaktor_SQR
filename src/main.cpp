@@ -3,6 +3,14 @@
 
 PDQ_ST7735 tft;   // Creates LCD object 
 
+void displaySettings(){
+  //  Initial display settings
+  // tft.setFont(&FONT_FAMILY);
+  // tft.setTextSize(FONT_SCALE);
+  tft.setRotation(ROTATE_90);
+  // tft.setRotation(ROTATE_270);
+  DrawLayout::clearScreen(&tft);
+}
 
 void printTitleBar() {
   TitleBar::printLabel(&tft, InfoBarData::row0TitlePos, InfoBarData::titleLabel);
@@ -28,6 +36,18 @@ void printCurrentStep() {
   StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
 }
 
+void printStaticData(){
+  printTitleBar();
+  printStepsBar();  // printPause();
+  printSpeedBar();
+}
+
+void printDynamicData(){
+  printStepPositionBar();
+  DrawLayout::drawLayout(&tft, sequence.getCurrentStep());
+
+}
+
 void updateCurrentStep(){
 }
 
@@ -39,11 +59,14 @@ void updateSequence(){
   if (sequence.clockTimer()) sequence.changeStep();
 }
 
+
+
 void update() {
   updateSequence();
   updateActiveSteps();
   updateCurrentStep();
 
+  //
   // // compare ghost states to pac-man
   // checkGhost(orange);
   // checkGhost(blue);
@@ -75,32 +98,17 @@ void update() {
 }
 
 void draw() {
-  // drawPacMan();
-  // drawGhosts();
+
   if (sequence.stepChanged()){
     printCurrentStep();
     DrawLayout::drawLayout(&tft, sequence.getCurrentStep());
   }
-}
-
-void restart(){
-  // tft.setFont(&FONT_FAMILY);
-  // tft.setRotation(ROTATE_90);
-  tft.setRotation(ROTATE_270);  
-  tft.setTextSize(FONT_SCALE);
-  DrawLayout::clearScreen(&tft);
-
-  printTitleBar();
-  printStepsBar();  // printPause();
-  printSpeedBar();
-  printStepPositionBar();
-  DrawLayout::drawLayout(&tft, sequence.getCurrentStep());
   
 }
 
+
 void checkPause() {
-  if (control.buttonTriggered())
-    sequence.pauseSequence();
+  if (control.buttonTriggered())  sequence.pauseSequence();
 }
 
 // main loop for game runtime
@@ -122,15 +130,24 @@ bool running() {
   update();
   draw();
 
+  printStaticData();
+  printDynamicData();
+
   delay(FRAME_DELAY); // maintain upper bound to frame rate
   return true;
+}
+
+void restart(){
+  displaySettings();
+
+  printStaticData();
+  printDynamicData();
 }
 
 void setup() 
 { 
   Serial.begin(115200);
   tft.begin();
-  DrawLayout::clearScreen(&tft);
   restart();
 }
 

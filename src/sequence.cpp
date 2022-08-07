@@ -1,62 +1,75 @@
 #include "sequence.h"
 
-Sequence::Sequence(uint8_t steps){
+//Constructor
+Sequence::Sequence(uint8_t steps)
+{
   this->steps = steps - 1;
-  speedInMillis = int( 60000 / speed );
-  currentTime = millis();
-  
+  speedInMillis = int( 60000 / speed );  
 }
 
-bool Sequence::isPaused(){
+//Set pause state
+bool Sequence::isPaused()
+{
   return paused;
 }
 
-void Sequence::pauseSequence(){
+//Pause sequence
+void Sequence::pauseSequence()
+{
   paused = true;
 }
 
-void Sequence::resumeSequence(){
+//Active sequence
+void Sequence::resumeSequence()
+{
   paused = false;
 }
 
-void Sequence::setSpeed(float variation){
+//Define new sequence speed
+void Sequence::setSpeed(float variation)
+{
   speed += variation;
 }
 
-float Sequence::getSpeed(){
+//Obtain the current speed value (in BPMs)
+float Sequence::getSpeed()
+{
   return speed;
 }
 
-uint8_t Sequence::getSteps(){
+//Obtain number sequence steps
+uint8_t Sequence::getSteps()
+{
   return steps + 1;
 }
 
-bool Sequence::clockTimer(){
-  currentTime = millis();
-  if(currentTime - lastChange >= speedInMillis ){
-    lastChange = currentTime;
+//Trigger clock gate
+bool Sequence::clockTimer()
+{
+  if( millis() - lastChange >= speedInMillis ){
+    lastChange =  millis();
     return true;
   } 
   return false;
 }
 
-uint16_t Sequence::getCurrentStep(){
+//Obtain step position
+uint16_t Sequence::getCurrentStep()
+{
   return currentStep;
 }
 
-void Sequence::changeStep(){
+//Set new step position
+void Sequence::changeStep()
+{
   if(currentStep > steps) currentStep = 0;
   lastStep = currentStep;
   currentStep++;
 }
 
-bool Sequence::stepChanged(){
+//Trigger if current step positon changes
+bool Sequence::stepChanged()
+{
   if(lastStep != currentStep) return true;
   return false;
 }
-
-
-// uint8_t Sequence::stepChange(){
-//   //matematicas del cambio de paso en funcion de variable SPEED
-//   //actualizacion del currentStep
-// }

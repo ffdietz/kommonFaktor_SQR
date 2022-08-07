@@ -217,9 +217,9 @@ struct DrawLayout {
   static const uint8_t mapStartY = Display::padding + Display::rowHeight * 5;
   // static const int8_t mapStartY = Display::padding;
 
-  static const uint8_t dotsize = 8; 
+  static const uint8_t dotSize = 5; 
   // static const int8_t dotOffset = (mapWidth - 2 * mapStartX - dotRadious * 2 * 8) / 7; // where in the tile the dot is drawn
-  static const uint8_t dotOffset = dotsize * 2; // where in the tile the dot is drawn
+  static const uint8_t dotOffset = dotSize * 4; // where in the tile the dot is drawn
 
   static const int16_t bgColor  = ST7735_BLACK; // color of walls
   static const int16_t dotColor = ST7735_RED; // color of dot pickups
@@ -243,14 +243,16 @@ struct DrawLayout {
 
   // draw dot on top of rectangle
       // tft->drawRect(x, y, dotRadious*2, dotRadious*2, dotColor);
-      tft->fillRect(x, y, dotsize, dotsize, dotColor);
+      tft->fillCircle(x, y, dotSize, dotColor);
+      // tft->fillRect(x, y, dotsize, dotsize, dotColor);
 }
 
 /* static */ void DrawLayout::drawDot(PDQ_ST7735 * tft, uint16_t x, uint16_t y) {
   // fill tile first
 
   // draw dot on top of rectangle
-      tft->drawRect(x, y, dotsize, dotsize, dotColor);
+      tft->drawCircle(x, y, dotSize, dotColor);
+      // tft->drawRect(x, y, dotsize, dotsize, dotColor);
       // tft->fillRect(x, y, dotRadious*2, dotRadious*2, dotColor);
 }
 
@@ -258,10 +260,14 @@ struct DrawLayout {
   // fill background
   
     for (uint16_t r = 0; r < 8; ++r) {
-      tft->fillRect(dotOffset * r  , mapStartY, dotsize, dotsize, ST7735_BLACK);
+      tft->fillCircle(dotOffset * r + dotSize , mapStartY, dotSize, ST7735_BLACK);
+      // tft->fillRect(dotOffset * r  , mapStartY, dotsize, dotsize, ST7735_BLACK);
 
-      if(currentStep - 1 == r) drawActiveDot(tft, dotOffset * r  , mapStartY);
-      else  drawDot(tft, dotOffset * r  , mapStartY);
+      // if(currentStep - 1 != r) drawDot(tft, dotOffset * r  + dotSize, mapStartY); 
+      // else  drawActiveDot(tft, dotOffset * r + dotSize , mapStartY);
+      
+      if(currentStep - 1 != r) drawActiveDot(tft, dotOffset * r + dotSize , mapStartY); 
+      else  drawDot(tft, dotOffset * r  + dotSize, mapStartY);
     }
 };
 
@@ -269,5 +275,80 @@ struct DrawLayout {
   // fill background
   tft->fillRect(0, 0, Display::width, Display::height, bgColor);
 };
+
+// class Shape {
+//   public:
+//     // initialize in a given location with size and color
+//     Shape(Coordinates pos, int16_t size, int16_t color) {
+//       this->pos = pos;
+//       this->size = size;
+//       this->color = color;
+//     };
+
+//     // draw shape on touchscreen and fill previous location 
+//     // with display bg color
+//     void drawShape(PDQ_ST7735 * tft) {
+//       // draw shape in current position
+//       tft->fillRect(lastPos.x, lastPos.y, size, size, Display::bgColor);
+//       tft->fillRect(pos.x, pos.y, size, size, color);
+//     };
+
+//     // draw shape with custom color on-screen
+//     void drawShape(PDQ_ST7735 * tft, int16_t col) {
+//       // draw shape in current position
+//       tft->fillRect(lastPos.x, lastPos.y, size, size, Display::bgColor);
+//       tft->fillRect(pos.x, pos.y, size, size, col);
+//     };
+
+//     // save old position and update current position
+//     void setPosition(Coordinates &newPos) {
+//       this->lastPos = this->pos;
+//       this->pos = newPos;
+//     }
+
+//   protected:
+//     Coordinates pos; // in pixels
+//     Coordinates lastPos; // used for redrawing "trail" left behind
+//     // Coordinates velocity; // in pixels
+//     int8_t size; // all Dynamic shapes are squares of length "size"
+//     int16_t color;
+// };
+
+// // tracks shape of player character Pac-Man
+// class PacManShape : public Shape {
+//   public:
+//     PacManShape() : Shape(
+//       // default position is centered below Ghost House
+//       {X_BOUND/2 * SCALE + SCALE/2, 27*SCALE}, 
+//       SCALE-2, 
+//       ILI9341_YELLOW) {};
+// };
+
+// // tracks shape of ghosts
+// class GhostShape : public Shape {
+//   public:
+//     // user must provide initial position and color for a ghost
+//     GhostShape(Coordinates pos, int16_t color) : Shape(pos, SCALE-2,
+//     color) {};
+
+//     // draw panicked ghost
+//     void drawPanickedGhost(PDQ_ILI9341 * tft) {
+//       drawShape(tft, panickedColor);
+//     };
+
+//     // draw ghost with alternating colors to signal transition back to normal
+//     void drawTogglingGhost(PDQ_ILI9341 * tft) {
+//       if (!frightenedToggle) drawShape(tft, panickedColor);
+//       else drawShape(tft, color);
+//     }
+
+//     // toggle to draw panicked ghost
+//     bool frightenedToggle;
+
+//   private:
+//     // used when ghost is in Panicked mode
+//     static const int16_t panickedColor = ILI9341_LIGHTBLUE;
+
+// };
 
 #endif

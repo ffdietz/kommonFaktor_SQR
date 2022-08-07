@@ -26,7 +26,7 @@ class Sequence {
 
   private:
     uint8_t steps;
-    float speed = 120.0;  // in BPM
+    float speed = 140.0;  // in BPM
     uint16_t speedInMillis = 0;
     uint8_t lastStep = 0;
     uint16_t currentStep = 0;
