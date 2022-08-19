@@ -18,22 +18,22 @@ void printTitleBar() {
 
 void printStepsBar() {
   StepsBar::printLabel(&tft, InfoBarData::row1LabelPos, InfoBarData::stepsLabel);
-  StepsBar::printValue(&tft, InfoBarData::row1ValuePos, sequence.getSteps());
+  StepsBar::printValue(&tft, InfoBarData::row1ValuePos, sequencer.getSteps());
 }
 
 void printSpeedBar(){
   SpeedBar::printLabel(&tft, InfoBarData::row2LabelPos, InfoBarData::speedLabel);
-  SpeedBar::printValue(&tft, InfoBarData::row2ValuePos, sequence.getSpeed());
+  SpeedBar::printValue(&tft, InfoBarData::row2ValuePos, sequencer.getSpeed());
 }
 
 void printStepPositionBar(){
   StepPositionBar::printLabel(&tft, InfoBarData::row3LabelPos, InfoBarData::stepPosLabel);
-  StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
+  StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequencer.getCurrentStep());
 }
 
 // void updateScore() {
 void printCurrentStep() {
-  StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequence.getCurrentStep());
+  StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequencer.getCurrentStep());
 }
 
 void printStaticData(){
@@ -44,7 +44,7 @@ void printStaticData(){
 
 void printDynamicData(){
   printStepPositionBar();
-  DrawLayout::drawLayout(&tft, sequence.getCurrentStep());
+  DrawLayout::drawLayout(&tft, sequencer.getCurrentStep());
 
 }
 
@@ -56,7 +56,7 @@ void updateActiveSteps() {
 }
 
 void updateSequence(){
-  if (sequence.clockTimer()) sequence.changeStep();
+  if (sequencer.clockTimer()) sequencer.changeStep();
 }
 
 
@@ -99,23 +99,23 @@ void update() {
 
 void draw() {
 
-  if (sequence.stepChanged()){
+  if (sequencer.stepChanged()){
     printCurrentStep();
-    DrawLayout::drawLayout(&tft, sequence.getCurrentStep());
+    DrawLayout::drawLayout(&tft, sequencer.getCurrentStep());
   }
   
 }
 
 
 void checkPause() {
-  if (control.buttonTriggered())  sequence.pauseSequence();
+  if (control.buttonTriggered())  sequencer.paused();
 }
 
 // main loop for game runtime
 bool running() {
   // game is paused
   checkPause();
-  if (sequence.isPaused()) {
+  if (sequencer.isPaused()) {
     // print PAUSED status message on-screen
     TitleBar::drawPause(&tft, InfoBarData::row0PausePos, InfoBarData::pauseLabel);
 
@@ -124,7 +124,7 @@ bool running() {
   
     // print title row
     printTitleBar();
-    sequence.resumeSequence();
+    sequencer.restart();
   }
   
   update();
