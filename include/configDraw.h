@@ -15,7 +15,7 @@
 #define FONT_HEIGHT   8
 #define PADDING       4
 
-#define FRAME_DELAY 100
+#define FRAME_DELAY 10
 
 #define Y_BOUND 1 // num tiles on y-axis 
 #define X_BOUND 8 // num tiles on x-axis

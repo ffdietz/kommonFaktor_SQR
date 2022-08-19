@@ -27,7 +27,7 @@ int Controller::getDirection()
 
 }
 
-bool Controller::buttonTriggered()
+bool Controller::pausedTriggered()
 {
     /* Will update the button readings */
     lastState = currentState;

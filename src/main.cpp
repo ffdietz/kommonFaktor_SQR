@@ -40,11 +40,6 @@ void printStepPositionBar(){
   // StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequencer.getCurrentStep());
 }
 
-
-void printCurrentStep() {
-  StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequencer.getCurrentStep());
-}
-
 void printStaticData(){
   printTitleBar();
   printStepsBar();
@@ -79,18 +74,12 @@ void update() {
 
 void draw() {
   printStaticData();
-  printDynamicData();
-
-  if (sequencer.stepChanged()){
-    printCurrentStep();
-    DrawLayout::drawLayout(&tft, sequencer.getCurrentStep());
-  }
-  
+  printDynamicData();  
 }
 
 
 void checkPause() {
-  if (control.buttonTriggered())  sequencer.paused();
+  if (control.pausedTriggered())  sequencer.paused();
 }
 
 bool running() {
@@ -99,7 +88,7 @@ bool running() {
   if (sequencer.isPaused()) {
     printPause();   // print PAUSED status message on-screen
 
-    while (!control.buttonTriggered()) {}   // wait for play button to play sequence
+    while (!control.pausedTriggered()) {}   // wait for play button to play sequence
 
     sequencer.restart();
   }

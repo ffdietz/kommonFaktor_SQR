@@ -21,7 +21,7 @@ class Controller
 
     // return true if button pressed.
     // Otherwise, return false.
-    bool buttonTriggered();
+    bool pausedTriggered();
 
   private:
     // previous state of button
