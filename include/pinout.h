@@ -10,7 +10,7 @@
 #define ENCODER_A 2
 #define ENCODER_B 3
 #define ENCODER_SET 4
-#define PLAY_BUTTON 5
+#define PAUSE_BUTTON 5
 
 
 #define VRx A1

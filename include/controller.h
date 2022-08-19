@@ -8,15 +8,6 @@
 #ifndef controller_h
 #define controller_h
 
-// defines directions the player can move pac-man
-enum directions
-{
-    UP,
-    RIGHT,
-    LEFT,
-    DOWN,
-    NEUTRAL
-};
 
 // Game controller is described by an instance of this class
 class Controller
