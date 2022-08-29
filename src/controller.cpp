@@ -6,26 +6,32 @@
 /^---------------------------------------------------------------------------*/
 /*Track state of game controller*/
 #include <Arduino.h>
+
 #include "controller.h"
 #include "pinout.h"
-#include "gameConfig.h"
-#include "DebouncedEncoder.h"
 
+// #include "DebouncedEncoder.h"
+
+ClickEncoder *encoder;
+
+void timerIsr()
+{
+    encoder->service();
+}
 Controller::Controller()
 {
-    pinMode(ENCODER_A, INPUT);        // x joystick
-    pinMode(ENCODER_B, INPUT);        // y joystick
-    pinMode(ENCODER_SET, INPUT_PULLUP);  // Button pin
-    pinMode(PAUSE_BUTTON, INPUT_PULLUP);  // Button pin
+    encoder = new DebouncedEncoder(encPinA, encPinB, encMaxValue, encMinValue, false);
+    Timer1.initialize(1000);
+    Timer1.attachInterrupt(timerIsr);
 
-    // currentState = digitalRead(ENCODER_SET); // Init button state
+    pinMode(PAUSE_BUTTON, INPUT_PULLUP);
     currentState = digitalRead(PAUSE_BUTTON); // Init button state
 }
 
-int Controller::getDirection()
-{
+// int Controller::getDirection()
+// {
 
-}
+// }
 
 bool Controller::pausedTriggered()
 {
@@ -35,3 +41,16 @@ bool Controller::pausedTriggered()
     /* Return if the button just got pressed down */
     return (currentState == LOW && lastState == HIGH);
 }
+
+
+// bool Controller::displayAccelerationStatus(){
+//  return (encoder->getAccelerationEnabled() ? "on " : "off");
+// }
+
+
+int Controller::encoderGetValue()
+{
+    Serial.println(encoder->getPosition());
+    return (encoder->getPosition());
+}
+

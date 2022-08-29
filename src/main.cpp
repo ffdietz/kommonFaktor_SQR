@@ -1,7 +1,7 @@
 #include "shared.h"
 #include "global.h"
 
-PDQ_ST7735 tft;   // Creates LCD object 
+// PDQ_ST7735 tft;   // Creates LCD object 
 
 void displaySettings(){
 
@@ -48,7 +48,7 @@ void printStaticData(){
 
 void printDynamicData(){
   printStepPositionBar();
-  DrawLayout::drawLayout(&tft, sequencer.getCurrentStep());
+  // DrawLayout::drawLayout(&tft, sequencer.getCurrentStep());
 
 }
 
@@ -96,7 +96,6 @@ bool running() {
   update();
   draw();
 
-
   Serial.println("");
   delay(FRAME_DELAY); // maintain upper bound to frame rate
   return true;
@@ -111,12 +110,16 @@ void restart(){
 void setup() 
 { 
   Serial.begin(115200);
-  Serial.println("connected");
-  // tft.begin();
-  restart();
+  Serial.println("setup connected");
+
+  // // tft.begin();
+  // // restart();
+
+  start();
 }
 
 void loop()
 {
-  while( running() );
+ while( run());
+  // while( running() );
 }
