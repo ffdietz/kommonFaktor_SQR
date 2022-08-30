@@ -1,8 +1,13 @@
 #include <Arduino.h>
 #include <LiquidCrystal.h>
+#include <ClickEncoder.h>
+#include <TimerOne.h>
 #include "pinout.h"
 
 LiquidCrystal lcd(LCD_RS, LCD_RW, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
+
+ClickEncoder *encoder;
+ClickEncoder::Button button;
 
 // Input & Button Logic
 const int numOfInputs = 4;
@@ -22,18 +27,73 @@ int currentScreen = 0;
 
 int parameters[numOfScreens];
 
+uint8_t menuCount = 0;
+uint8_t first = 1;
+uint8_t lfirst = 0;
+uint8_t count = 0;
+uint8_t line = 0;
+volatile uint8_t current = 1;
+uint8_t lCurrent = 0;
+uint8_t i = 0;
+uint8_t j = 0;
+boolean again = true;
+uint8_t maxLines = 10; // numOfScreens
+
+uint8_t encoderCheck()
+{
+  switch (encoder->getValue())
+  {
+    case 0:
+      button = encoder->getButton();
+      switch (button)
+      {
+      case ClickEncoder::Clicked:
+      case ClickEncoder::DoubleClicked:
+        again = false;
+        break;
+
+      case ClickEncoder::Held:
+        while (encoder->getButton() != ClickEncoder::Released)
+          ;
+        again = false;
+        break;
+      }
+      break;
+
+    case 1:
+      if (current > 1)
+      {
+        current--;
+        if (current < first)
+          first--;
+      }
+      break;
+
+    case -1:
+      if (current < menuCount - 1)
+      {
+        current++;
+        if (current > maxLines - 1)
+          first = current - maxLines + 2;
+      }
+      break;
+    }
+
+  return current;
+}
+
 String screens[numOfScreens][2] =
 {
-  {"Motor Voltage", " Volts"},
-  {"Motor Current", " Amps"},
-  {"Motor Rated HP", " HP"},
-  {"Overload Temp.", " degC"},
-  {"Accel Time", " Secs"},
-  {"Restart Time", " Mins"},
-  {"Analog Curr.", " mA"},
-  {"Input Temp.", " degC"},
-  {"Run Time", " Hours"},
-  {"Start Times", " times"}
+  {"Motor Voltage",   " Volts"},
+  {"Motor Current",   " Amps"},
+  {"Motor Rated HP",  " HP"},
+  {"Overload Temp.",  " degC"},
+  {"Accel Time",      " Secs"},
+  {"Restart Time",    " Mins"},
+  {"Analog Curr.",    " mA"},
+  {"Input Temp.",     " degC"},
+  {"Run Time",        " Hours"},
+  {"Start Times",     " times"}
 };
 
 void printScreen()
@@ -129,19 +189,35 @@ void resolveInputFlags()
   }
 }
 
+void timerIsr()
+{
+  encoder->service();
+}
+
+
 void menuStart()
 {
-  lcd.begin(20, 4);
-  lcd.clear();
+  encoder = new ClickEncoder(ENCODER_A, ENCODER_B, ENCODER_SET, 2); // 4 pulses per option
+
+  Timer1.initialize(1000);
+  Timer1.attachInterrupt(timerIsr);
 
   for (int i = 0; i < numOfInputs; i++)
   {
     pinMode(inputPins[i], INPUT_PULLUP);
   }
+
+  lcd.begin(LCD_CHARS, LCD_LINES);
+  lcd.clear();
 }
 
 void menuRun()
 {
   setInputFlags();
   resolveInputFlags();
+  lcd.setCursor(0, 0);
+  lcd.print(millis());
+  
+  lcd.setCursor(0, 4);
+  lcd.print(encoderCheck());
 }

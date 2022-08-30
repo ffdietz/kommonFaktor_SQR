@@ -7,9 +7,9 @@
 #define SHR_CLOCK 6  //to 74HC595 SH_CP [PIN 11]
 #define SHR_DATA  7  //to 74HC595 DS    [PIN 14]
 
-#define ENCODER_A A1
-#define ENCODER_B A2
-#define ENCODER_SET 4
+#define ENCODER_A   A1
+#define ENCODER_B   A2
+#define ENCODER_SET A0
 #define PAUSE_BUTTON 5
 
 #define LCD_RS 9

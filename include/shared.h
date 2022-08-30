@@ -13,7 +13,6 @@
 
 void start()
 {
-
   menuStart();
 }
 
