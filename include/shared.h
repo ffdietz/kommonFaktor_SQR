@@ -6,32 +6,20 @@
 #include "global.h"
 #include "coordinates.h"
 #include "configDraw.h"
-#include "pinout.h"
-
 #include "controller.h"
 
-#include <LiquidCrystal.h>
-LiquidCrystal lcd(LCD_RS, LCD_RW, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
-
+#include "menu.h"
 
 
 void start()
 {
-  lcd.begin(LCD_CHARS, LCD_LINES);
-  lcd.clear();
-  lcd.setCursor(0, 0);
 
+  menuStart();
 }
 
-int value;
 bool run()
 {
-  lcd.setCursor(0, 1);
-  lcd.print(control.encoderGetValue());
-
-  lcd.setCursor(0, 2);
-  lcd.print(millis());
-
+  menuRun();
   return true;
 }
 

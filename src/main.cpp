@@ -1,5 +1,5 @@
-#include "shared.h"
 #include "global.h"
+#include "shared.h"
 
 // PDQ_ST7735 tft;   // Creates LCD object 
 
@@ -79,7 +79,7 @@ void draw() {
 
 
 void checkPause() {
-  if (control.pausedTriggered())  sequencer.paused();
+  // if (control.pausedTriggered())  sequencer.paused();
 }
 
 bool running() {
@@ -88,7 +88,7 @@ bool running() {
   if (sequencer.isPaused()) {
     printPause();   // print PAUSED status message on-screen
 
-    while (!control.pausedTriggered()) {}   // wait for play button to play sequence
+    // while (!control.pausedTriggered()) {}   // wait for play button to play sequence
 
     sequencer.restart();
   }
@@ -112,10 +112,11 @@ void setup()
   Serial.begin(115200);
   Serial.println("setup connected");
 
-  // // tft.begin();
-  // // restart();
 
+  // tft.begin();
+  // restart();
   start();
+
 }
 
 void loop()

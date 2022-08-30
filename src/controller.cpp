@@ -10,28 +10,22 @@
 #include "controller.h"
 #include "pinout.h"
 
-// #include "DebouncedEncoder.h"
 
-ClickEncoder *encoder;
 
-void timerIsr()
-{
-    encoder->service();
-}
 Controller::Controller()
 {
-    encoder = new DebouncedEncoder(encPinA, encPinB, encMaxValue, encMinValue, false);
-    Timer1.initialize(1000);
-    Timer1.attachInterrupt(timerIsr);
-
     pinMode(PAUSE_BUTTON, INPUT_PULLUP);
     currentState = digitalRead(PAUSE_BUTTON); // Init button state
+
 }
 
-// int Controller::getDirection()
-// {
+void Controller::update()
+{
+}
 
-// }
+
+void Controller:: begin(){
+}
 
 bool Controller::pausedTriggered()
 {
@@ -40,17 +34,5 @@ bool Controller::pausedTriggered()
     currentState = digitalRead(PAUSE_BUTTON);
     /* Return if the button just got pressed down */
     return (currentState == LOW && lastState == HIGH);
-}
-
-
-// bool Controller::displayAccelerationStatus(){
-//  return (encoder->getAccelerationEnabled() ? "on " : "off");
-// }
-
-
-int Controller::encoderGetValue()
-{
-    Serial.println(encoder->getPosition());
-    return (encoder->getPosition());
 }
 
