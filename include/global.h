@@ -1,15 +1,10 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
-#include <Arduino.h>
 
 #include "controller.h"
-#include "sequence.h"
-#include "game.h"
+#include "sequencer.h"
 
-// globals for player controls, game map, and overall game state
+Sequencer sequencer(8, 140.0);
 Controller control;
-Sequence sequence(8);
-
-// Game game(3);
 
 #endif

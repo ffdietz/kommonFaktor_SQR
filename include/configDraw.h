@@ -17,7 +17,7 @@
 
 #define FRAME_DELAY 10
 
-#define Y_BOUND 31 // num tiles on y-axis 
-#define X_BOUND 28 // num tiles on x-axis
+#define Y_BOUND 1 // num tiles on y-axis 
+#define X_BOUND 8 // num tiles on x-axis
 
 #endif
