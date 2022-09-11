@@ -7,14 +7,17 @@
 #define SHR_CLOCK 6  //to 74HC595 SH_CP [PIN 11]
 #define SHR_DATA  7  //to 74HC595 DS    [PIN 14]
 
-#define ENCODER_A A1
-#define ENCODER_B A2
-#define ENCODER_SET 4
-#define PAUSE_BUTTON 5
+#define ENCODER_A     2
+#define ENCODER_B     3
+#define ENCODER_SET   4
+#define ENCODER_MIN   0
+#define ENCODER_MAX   10
 
-#define LCD_RS 9
+#define PAUSE_BUTTON  5
+
+#define LCD_RS 11
 #define LCD_RW 10
-#define LCD_EN 11
+#define LCD_EN 9
 
 #define LCD_D4 5
 #define LCD_D5 6
@@ -24,6 +27,7 @@
 #define LCD_CHARS 20
 #define LCD_LINES  4
 
+#define FRAME_DELAY 10
 
 /* 
 Display 1'8'' pinout based in PDQ_ST7735 configuration 
