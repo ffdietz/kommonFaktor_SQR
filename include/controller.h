@@ -1,9 +1,6 @@
 #ifndef controller_h
 #define controller_h
 
-#include "ClickEncoder.h"
-#include "TimerOne.h"
-
 class Controller
 {
   private:

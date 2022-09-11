@@ -1,4 +1,4 @@
-#include "sequencer.h"
+ #include "sequencer.h"
 
 //Constructor
 Sequencer::Sequencer(uint8_t steps, float speed){

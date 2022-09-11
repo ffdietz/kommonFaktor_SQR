@@ -1,8 +1,6 @@
 #include "global.h"
 #include "shared.h"
 
-// PDQ_ST7735 tft;   // Creates LCD object 
-
 void displaySettings(){
 
 }
@@ -96,8 +94,8 @@ bool running() {
   update();
   draw();
 
-  Serial.println("");
-  delay(FRAME_DELAY); // maintain upper bound to frame rate
+  // Serial.println("");
+  // delay(FRAME_DELAY); // maintain upper bound to frame rate
   return true;
 }
 
@@ -111,9 +109,6 @@ void setup()
 { 
   Serial.begin(115200);
   Serial.println("setup connected");
-
-
-  // tft.begin();
   // restart();
   start();
 
@@ -121,6 +116,6 @@ void setup()
 
 void loop()
 {
- while( run());
+ while( run() );
   // while( running() );
 }
