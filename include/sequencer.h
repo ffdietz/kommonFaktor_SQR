@@ -15,14 +15,14 @@ class Sequencer {
     bool clockOutState = LOW;
 
     //Speed methods
-    void      setSpeed(float variation);
-    float     getSpeed();
+    void  setSpeed(float variation);
+    float getSpeed();
 
     //Steps methods
-    uint8_t   getSteps();
-    void      changeStep();
-    bool      stepChanged();
-    uint8_t   getCurrentStep();
+    uint8_t getStepsQuantity();
+    void  changeStep();
+    bool  stepChanged();
+    uint8_t getCurrentStep();
 
     //Pause methods
     bool isPaused();

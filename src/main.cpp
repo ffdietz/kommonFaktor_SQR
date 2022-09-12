@@ -13,14 +13,14 @@ void printTitleBar()
 
 void printPause()
 {
-  lcd.setCursor(0, 1);
-  lcd.print("     PAUSE      ");
+  lcd.setCursor(7, 1);
+  lcd.print("  PAUSE  ");
 }
 
 void printStepsBar()
 {
   Serial.print("STEPS:");
-  Serial.print(sequencer.getSteps());
+  Serial.print(sequencer.getStepsQuantity());
   Serial.print(" ");
   // StepsBar::printLabel(&tft, InfoBarData::row1LabelPos, InfoBarData::stepsLabel);
   // StepsBar::printValue(&tft, InfoBarData::row1ValuePos, sequencer.getSteps());
@@ -51,21 +51,6 @@ void printStaticData()
   printSpeedBar();
 }
 
-void printDynamicData()
-{
-  printStepPositionBar();
-  // DrawLayout::drawLayout(&tft, sequencer.getCurrentStep());
-}
-
-void updateCurrentStep()
-{
-}
-
-void updateActiveSteps()
-{
-  // LivesBar::drawLives(&tft, InfoBarData::bottomBarValuePos, sequence.getSteps());
-}
-
 void updateSequence()
 {
   if(sequencer.internalClock()){
@@ -74,17 +59,14 @@ void updateSequence()
   }
 }
 
-void update()
-{
-  updateSequence();
-  // updateActiveSteps();
-  updateCurrentStep();
-}
-
 void draw()
 {
   printStaticData();
-  printDynamicData();
+}
+
+void update()
+{
+  updateSequence();
 }
 
 void checkPause()
@@ -117,16 +99,11 @@ bool running()
 
 void restart()
 {
-  displaySettings();
   printStaticData();
-  printDynamicData();
 }
 
 void setup()
 {
-  // Serial.begin(115200);
-  // Serial.println("setup connected");
-
   menuBegin();
   encoder.begin();
 

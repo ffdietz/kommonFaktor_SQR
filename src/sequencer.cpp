@@ -38,7 +38,7 @@ float Sequencer::getSpeed(){
 }
 
 //Obtain number sequence steps
-uint8_t Sequencer::getSteps(){
+uint8_t Sequencer::getStepsQuantity(){
   return steps + 1;
 }
 
@@ -46,7 +46,7 @@ uint8_t Sequencer::getSteps(){
 bool Sequencer::internalClock(){
   if(millis() - lastChange >= speedInMillis){
     lastChange =  millis();
-    
+
     digitalWrite(13, HIGH);
 
     return true;

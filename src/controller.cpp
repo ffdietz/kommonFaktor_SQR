@@ -11,12 +11,10 @@
 #include "pinout.h"
 
 
-
 Controller::Controller()
 {
     pinMode(PAUSE_BUTTON, INPUT_PULLUP);
     currentState = digitalRead(PAUSE_BUTTON); // Init button state
-
 }
 
 void Controller::update()
