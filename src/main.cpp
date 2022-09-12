@@ -68,9 +68,10 @@ void updateActiveSteps()
 
 void updateSequence()
 {
-  if(sequencer.internalClock())
-    // sequencer.clockOut();
+  if(sequencer.internalClock()){
     sequencer.changeStep();
+    // sequencer.clockOut();
+  }
 }
 
 void update()

@@ -9,8 +9,10 @@ class Sequencer {
     ~Sequencer(){};
 
     //Clock methods
-    bool    internalClock();
-    void    clockOut();
+    bool internalClock();
+    bool externalClock();
+    void clockOut();
+    bool clockOutState = LOW;
 
     //Speed methods
     void      setSpeed(float variation);
@@ -20,7 +22,7 @@ class Sequencer {
     uint8_t   getSteps();
     void      changeStep();
     bool      stepChanged();
-    uint16_t  getCurrentStep();
+    uint8_t   getCurrentStep();
 
     //Pause methods
     bool isPaused();
@@ -31,8 +33,8 @@ class Sequencer {
     float speed = 140.0;  // in BPM
     uint8_t steps;
     uint8_t lastStep = 0;
+    uint8_t currentStep = 0;
     uint16_t speedInMillis = 0;
-    uint16_t currentStep = 0;
     bool pauseSequence = false;
     long currentTime = 0;
     long lastChange = 0;

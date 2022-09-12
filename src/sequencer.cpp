@@ -4,9 +4,9 @@
 Sequencer::Sequencer(uint8_t steps, float speed){
   this->steps = steps - 1;
   this->speed = speed;
-  this->speedInMillis = int( 60000 / speed );
-  this->pauseSequence = false;
+  this->speedInMillis = int( 60000/speed );
   this->lastChange = 0;
+  this->pauseSequence = false;
   
   pinMode(13, OUTPUT);
 
@@ -44,15 +44,20 @@ uint8_t Sequencer::getSteps(){
 
 //Trigger clock gate
 bool Sequencer::internalClock(){
-  if( millis() - lastChange >= speedInMillis ){
+  if(millis() - lastChange >= speedInMillis){
     lastChange =  millis();
+    
+    digitalWrite(13, HIGH);
+
     return true;
-  } 
+  }
+
+  digitalWrite(13, LOW);
   return false;
 }
 
 //Obtain step position
-uint16_t Sequencer::getCurrentStep(){
+uint8_t Sequencer::getCurrentStep(){
   return currentStep;
 }
 
@@ -70,13 +75,6 @@ bool Sequencer::stepChanged(){
 }
 
 void Sequencer::clockOut(){
-  bool state = true;
-  if (millis() - lastChange >= speedInMillis)
-  {
-    state = true;
-  }
-
-  else state = false;
-
-  digitalWrite(13, state);
+  clockOutState = !clockOutState;
+  digitalWrite(13, clockOutState);
 }

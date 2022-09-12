@@ -12,7 +12,7 @@ int parameters[numOfScreens];
 String screens[numOfScreens][2] =
 {
   {"BPM",   " VOLTS"},
-  {"MOTOR CURRENT",   " AMPS"},
+  {"STEPS",   " AMPS"},
   {"MOTOR RATED HP",  " HP"},
   {"OVERLOAD TEMP.",  " DEGC"},
   {"ACCEL TIME",      " SECS"},
