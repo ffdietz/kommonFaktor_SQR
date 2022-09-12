@@ -7,10 +7,13 @@ class Sequencer {
   public:
     Sequencer(uint8_t steps, float speed);
     ~Sequencer(){};
-    
+
+    //Clock methods
+    bool    internalClock();
+    void    clockOut();
+
     //Speed methods
     void      setSpeed(float variation);
-    bool      clockTimer();
     float     getSpeed();
 
     //Steps methods
@@ -27,9 +30,9 @@ class Sequencer {
   private:
     float speed = 140.0;  // in BPM
     uint8_t steps;
+    uint8_t lastStep = 0;
     uint16_t speedInMillis = 0;
     uint16_t currentStep = 0;
-    uint8_t lastStep = 0;
     bool pauseSequence = false;
     long currentTime = 0;
     long lastChange = 0;

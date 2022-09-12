@@ -7,33 +7,27 @@
 #include "controller.h"
 
 #include "menu.h"
-#include "encoderNewEncoder.h"
+// #include "encoder.h"
 
-//variables
-//controllers
-//menu
+//STRUCTURE TO SHOW LABEL AND VALUES AND MODIFY BY ENCODER
+//CONTROL BPM IN BUILT IN LED 13
 
 int lastValue = -1, encoderValue = 0;
 
-void start()
-{
-  menuBegin();
-  encoderBegin();
-  printScreen(encoderValue);
-}
+// void start()
+// {
+// }
 
 
-bool run()
-{
-  // encoderRun();
+// bool run()
+// {
+//   if (encoder.newDataAvailable())
+//   {
+//     encoderValue = encoder.getData();
+//     printScreen(encoderValue);
+//   }
 
-  if (encoder.newDataAvailable())
-  {
-    encoderValue = encoder.getData();
-    printScreen(encoderValue);
-  }
-
-  return true;
-}
+//   return true;
+// }
 
 #endif

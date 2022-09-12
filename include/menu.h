@@ -11,7 +11,7 @@ int parameters[numOfScreens];
 
 String screens[numOfScreens][2] =
 {
-  {"MOTOR VOLTAGE",   " VOLTS"},
+  {"BPM",   " VOLTS"},
   {"MOTOR CURRENT",   " AMPS"},
   {"MOTOR RATED HP",  " HP"},
   {"OVERLOAD TEMP.",  " DEGC"},
@@ -42,8 +42,7 @@ void menuBegin()
 {
   lcd.begin(LCD_CHARS, LCD_LINES);
   lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print(" STEP SEQUENCER ");
+
   delay(500);
 }
 

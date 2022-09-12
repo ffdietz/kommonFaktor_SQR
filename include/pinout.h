@@ -9,11 +9,12 @@
 
 #define ENCODER_A     2
 #define ENCODER_B     3
-#define ENCODER_SET   4
+
 #define ENCODER_MIN   0
 #define ENCODER_MAX   10
 
-#define PAUSE_BUTTON  5
+#define ENCODER_SET   A0
+#define PAUSE_BUTTON  A1
 
 #define LCD_RS 11
 #define LCD_RW 10
