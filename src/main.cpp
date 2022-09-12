@@ -62,6 +62,7 @@ void updateSequence()
 void draw()
 {
   printStaticData();
+  printStepPositionBar();
 }
 
 void update()
