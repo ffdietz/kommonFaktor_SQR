@@ -14,8 +14,8 @@ class Controller
 
     void begin();
     void update();
-    bool triggered();
-    bool enable;
+    bool check();
+    bool activated;
 };
 
 #endif

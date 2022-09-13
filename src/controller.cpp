@@ -17,11 +17,11 @@ Controller::Controller(int pin)
     pinMode(input_pin, INPUT_PULLUP);
     
     // Init button state
-    currentState = digitalRead(input_pin); 
-    enable = false;
+    currentState = digitalRead(input_pin);
+    activated = false;
 }
 
-bool Controller::triggered()
+bool Controller::check()
 {
     /* Will update the button readings */
     lastState = currentState;
@@ -30,7 +30,7 @@ bool Controller::triggered()
     /* Return if the button just got pressed down */
     if(currentState == LOW && lastState == HIGH)
     {
-        enable = !enable;
+        activated = !activated;
         return true;
     }
 

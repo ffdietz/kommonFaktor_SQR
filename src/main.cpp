@@ -17,23 +17,11 @@ void printPause()
   lcd.print("  PAUSE  ");
 }
 
-// void printStepsBar()
-// {
-//   Serial.print("STEPS:");
-//   Serial.print(sequencer.getStepsQuantity());
-//   Serial.print(" ");
-// }
-
 void printSpeedBar()
 {
-  if(pause.enable) printPause(); // print PAUSED status message on-screen
-  
-  else{
-    lcd.setCursor(7,1);
-    lcd.print("BPM:");
-    lcd.print(sequencer.getSpeed());
-  }
-
+  lcd.setCursor(7, 1);
+  lcd.print("BPM:");
+  lcd.print(sequencer.getSpeed());
 }
 
 void printStepPositionBar()
@@ -45,9 +33,7 @@ void printStepPositionBar()
 
 void printStaticData()
 {
-  // printTitleBar();
-  printSpeedBar();
-  // printStepsBar();
+  printTitleBar();
 }
 
 void updateSequence()
@@ -66,13 +52,17 @@ void displayPrint()
 
 void checkEncoderEnable()
 {
-  encoderSet.triggered();
-  if (encoderSet.enable)
+  encoderSet.check();
+
+  if (encoderSet.activated)
   {
     lcd.setCursor(0, 0);
     lcd.print('E');
+    lcd.print(encoder.getData());
   }
-  else{
+
+  else
+  {
     lcd.setCursor(0, 0);
     lcd.print('U');
   }
@@ -80,29 +70,32 @@ void checkEncoderEnable()
 
 void checkPause()
 {
-  pause.triggered();
+  pause.check();
 
-  if(pause.enable)
+  if (pause.activated)
   {
     sequencer.pauseSequence();
+    printPause();
   }
 
   else
+  {
     sequencer.restartSequence();
+    printSpeedBar();
+  }
 }
 
-void update()
+void updateParameters()
 {
   updateSequence();
 }
 
 bool running()
 {
-  // game is paused
   checkPause();
   checkEncoderEnable();
 
-  update();
+  updateParameters();
   displayPrint();
 
   return true;
@@ -110,34 +103,42 @@ bool running()
 
 void restart()
 {
-  printStaticData();
+  lcd.clear();
 }
 
 void setup()
 {
-  Serial.begin(9600);
   lcd.begin(LCD_CHARS, LCD_LINES);
   encoder.begin();
 
-  lcd.clear();
   restart();
 }
 
 void loop()
 {
-  while(running());
+  while (running())
+    ;
 }
 
 // STRUCTURE TO SHOW LABEL AND VALUES AND MODIFY BY ENCODER
 
-//SEQUENCE OPTIONS
-////RANDOM SEQUENCE
-////INVERT SEQUENCE
-////RANGE SEQUENCE
-////CUSTOM SEQUENCE
+// SEQUENCER DASHBOARD
+// // PLAY/STOP
+// // BMPs
+// // CURRENT STEP
+// // ACTIVE STEPS
+// // SEQUENCE OPTION
+// // CLOCK OPTION
 
-//CLOCK OPTIONS
-////INTERNAL CLOCK
-////EXTERNAL CLOCK
-////DIVIDE CLOCK
-////MULTIPLY CLOCK
+// SEQUENCE OPTIONS
+// // LINEAR
+// // RANDOM SEQUENCE
+// // INVERT SEQUENCE
+// // RANGE SEQUENCE
+// // CUSTOM SEQUENCE
+
+// CLOCK OPTIONS
+// // INTERNAL CLOCK
+// // EXTERNAL CLOCK
+// // DIVIDED CLOCK
+// // MULTIPLIED CLOCK
