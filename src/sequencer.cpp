@@ -6,7 +6,7 @@ Sequencer::Sequencer(uint8_t steps, float speed){
   this->speed = speed;
   this->speedInMillis = int( 60000/speed );
   this->lastChange = 0;
-  this->pauseSequence = false;
+  this->paused = false;
   
   pinMode(13, OUTPUT);
 
@@ -14,17 +14,18 @@ Sequencer::Sequencer(uint8_t steps, float speed){
 
 //Set pause state
 bool Sequencer::isPaused(){
-  return pauseSequence;
+  return paused;
 }
 
 //Pause sequence
-void Sequencer::paused(){
-  this->pauseSequence = true;
+void Sequencer::pauseSequence()
+{
+  this->paused = true;
 }
 
 //Active sequence
-void Sequencer::restart(){
-  this->pauseSequence = false;
+void Sequencer::restartSequence(){
+  this->paused = false;
 }
 
 //Define new sequence speed
@@ -44,9 +45,9 @@ uint8_t Sequencer::getStepsQuantity(){
 
 //Trigger clock gate
 bool Sequencer::internalClock(){
-  if(millis() - lastChange >= speedInMillis){
+  if (millis() - lastChange >= speedInMillis)
+  {
     lastChange =  millis();
-
     digitalWrite(13, HIGH);
 
     return true;

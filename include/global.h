@@ -6,9 +6,10 @@
 #include "sequencer.h"
 #include "encoder.h"
 
-Sequencer sequencer(8, 140.0);
+Sequencer sequencer(8, 100.0);
 Encoder encoder{ENCODER_A, ENCODER_B, ENCODER_MIN, ENCODER_MAX, ENCODER_MIN};
-Controller control;
+Controller encoderSet(ENCODER_SET);
+Controller pause(PAUSE_BUTTON);
 //Menu
 
 #endif

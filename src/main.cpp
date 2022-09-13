@@ -17,22 +17,23 @@ void printPause()
   lcd.print("  PAUSE  ");
 }
 
-void printStepsBar()
-{
-  Serial.print("STEPS:");
-  Serial.print(sequencer.getStepsQuantity());
-  Serial.print(" ");
-  // StepsBar::printLabel(&tft, InfoBarData::row1LabelPos, InfoBarData::stepsLabel);
-  // StepsBar::printValue(&tft, InfoBarData::row1ValuePos, sequencer.getSteps());
-}
+// void printStepsBar()
+// {
+//   Serial.print("STEPS:");
+//   Serial.print(sequencer.getStepsQuantity());
+//   Serial.print(" ");
+// }
 
 void printSpeedBar()
 {
-  lcd.setCursor(7,1);
-  lcd.print("BPM:");
-  lcd.print(sequencer.getSpeed());
-  // SpeedBar::printLabel(&tft, InfoBarData::row2LabelPos, InfoBarData::speedLabel);
-  // SpeedBar::printValue(&tft, InfoBarData::row2ValuePos, sequencer.getSpeed());
+  if(pause.enable) printPause(); // print PAUSED status message on-screen
+  
+  else{
+    lcd.setCursor(7,1);
+    lcd.print("BPM:");
+    lcd.print(sequencer.getSpeed());
+  }
+
 }
 
 void printStepPositionBar()
@@ -40,29 +41,54 @@ void printStepPositionBar()
   lcd.setCursor(0, 1);
   lcd.print("STEP:");
   lcd.print(sequencer.getCurrentStep());
-  // StepPositionBar::printLabel(&tft, InfoBarData::row3LabelPos, InfoBarData::stepPosLabel);
-  // StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequencer.getCurrentStep());
 }
 
 void printStaticData()
 {
-  printTitleBar();
-  printStepsBar();
+  // printTitleBar();
   printSpeedBar();
+  // printStepsBar();
 }
 
 void updateSequence()
 {
-  if(sequencer.internalClock()){
+  if (!sequencer.paused && sequencer.internalClock())
+  {
     sequencer.changeStep();
-    // sequencer.clockOut();
   }
 }
 
-void draw()
+void displayPrint()
 {
   printStaticData();
   printStepPositionBar();
+}
+
+void checkEncoderEnable()
+{
+  encoderSet.triggered();
+  if (encoderSet.enable)
+  {
+    lcd.setCursor(0, 0);
+    lcd.print('E');
+  }
+  else{
+    lcd.setCursor(0, 0);
+    lcd.print('U');
+  }
+}
+
+void checkPause()
+{
+  pause.triggered();
+
+  if(pause.enable)
+  {
+    sequencer.pauseSequence();
+  }
+
+  else
+    sequencer.restartSequence();
 }
 
 void update()
@@ -70,31 +96,15 @@ void update()
   updateSequence();
 }
 
-void checkPause()
-{
-  if(control.pausedTriggered())  sequencer.paused();
-}
-
 bool running()
 {
   // game is paused
   checkPause();
-  if (sequencer.isPaused())
-  {
-    // print PAUSED status message on-screen
-    printPause(); 
-    while (!control.pausedTriggered()) {}   // wait for play button to play sequence
-    
-    lcd.setCursor(0, 1);
-    lcd.print("                ");
-    
-    sequencer.restart();
-  }
+  checkEncoderEnable();
 
   update();
-  draw();
+  displayPrint();
 
-  // delay(FRAME_DELAY); // maintain upper bound to frame rate
   return true;
 }
 
@@ -105,9 +115,11 @@ void restart()
 
 void setup()
 {
-  menuBegin();
+  Serial.begin(9600);
+  lcd.begin(LCD_CHARS, LCD_LINES);
   encoder.begin();
 
+  lcd.clear();
   restart();
 }
 
@@ -115,3 +127,17 @@ void loop()
 {
   while(running());
 }
+
+// STRUCTURE TO SHOW LABEL AND VALUES AND MODIFY BY ENCODER
+
+//SEQUENCE OPTIONS
+////RANDOM SEQUENCE
+////INVERT SEQUENCE
+////RANGE SEQUENCE
+////CUSTOM SEQUENCE
+
+//CLOCK OPTIONS
+////INTERNAL CLOCK
+////EXTERNAL CLOCK
+////DIVIDE CLOCK
+////MULTIPLY CLOCK

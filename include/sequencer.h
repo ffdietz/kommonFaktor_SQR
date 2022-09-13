@@ -25,9 +25,10 @@ class Sequencer {
     uint8_t getCurrentStep();
 
     //Pause methods
+    bool paused = false;
     bool isPaused();
-    void paused();
-    void restart();
+    void pauseSequence();
+    void restartSequence();
 
   private:
     float speed = 140.0;  // in BPM
@@ -35,7 +36,6 @@ class Sequencer {
     uint8_t lastStep = 0;
     uint8_t currentStep = 0;
     uint16_t speedInMillis = 0;
-    bool pauseSequence = false;
     long currentTime = 0;
     long lastChange = 0;
 };
