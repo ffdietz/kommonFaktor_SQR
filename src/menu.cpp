@@ -13,8 +13,11 @@ void Menu::begin()
 {
   lcd->begin(LCD_CHARS, LCD_LINES);
   lcd->clear();
-  // lcd->setCursor(0, 0);
-  // lcd->print("   connected    ");
+}
+
+void Menu::clear()
+{
+  lcd->clear();
 }
 
 void Menu::print(const char * data, uint8_t x, uint8_t y)
@@ -23,7 +26,17 @@ void Menu::print(const char * data, uint8_t x, uint8_t y)
   lcd->print(data);
 }
 
-void Menu::clear()
+void Menu::print(const char *data)
 {
-  lcd->clear();
+  lcd->print(data);
+}
+
+void Menu::print(float data)
+{
+  lcd->print(data);
+}
+
+void Menu::print(int data)
+{
+  lcd->print(data);
 }

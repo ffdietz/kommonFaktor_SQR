@@ -9,6 +9,7 @@ class Sequencer {
     ~Sequencer(){};
 
     //Clock methods
+    float speed;  // in BPM
     bool internalClock();
     bool externalClock();
     void clockOut();
@@ -31,7 +32,6 @@ class Sequencer {
     void restartSequence();
 
   private:
-    float speed;  // in BPM
     uint8_t steps;
     uint8_t lastStep = 0;
     uint8_t currentStep = 0;

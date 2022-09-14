@@ -10,25 +10,22 @@ void printTitleBar()
   menu.print(" STEP SEQUENCER ", 0, 0);
 }
 
-// void printPause()
-// {
-//   lcd.setCursor(7, 1);
-//   lcd.print("  PAUSE  ");
-// }
+void printPause()
+{
+  menu.print("  PAUSE  ", 7, 1);
+}
 
-// void printSpeedBar()
-// {
-//   lcd.setCursor(7, 1);
-//   lcd.print("BPM:");
-//   lcd.print(sequencer.getSpeed());
-// }
+void printSpeedBar()
+{
+  menu.print("BPM:", 7, 1);
+  menu.print(sequencer.speed);
+}
 
-// void printStepPositionBar()
-// {
-//   lcd.setCursor(0, 1);
-//   lcd.print("STEP:");
-//   lcd.print(sequencer.getCurrentStep());
-// }
+void printStepPositionBar()
+{
+  menu.print("STEP:", 0, 1);
+  menu.print(sequencer.getCurrentStep());
+}
 
 void printStaticData()
 {
@@ -46,7 +43,7 @@ void updateSequence()
 void displayPrint()
 {
   printStaticData();
-  // printStepPositionBar();
+  printStepPositionBar();
 }
 
 void updateParameters()
@@ -74,19 +71,19 @@ void checkEncoder()
 
 void checkPause()
 {
-  // pause.check();
+  pause.check();
 
-  // if(pause.activated)
-  // {
-  //   sequencer.pauseSequence();
-  //   printPause();
-  // }
+  if(pause.activated)
+  {
+    sequencer.pauseSequence();
+    printPause();
+  }
 
-  // else
-  // {
-  //   sequencer.restartSequence();
-  //   printSpeedBar();
-  // }
+  else
+  {
+    sequencer.restartSequence();
+    printSpeedBar();
+  }
 }
 
 bool running()

@@ -12,6 +12,10 @@ public:
   LiquidCrystal *lcd;
   void begin();
   void print(const char *data, uint8_t x, uint8_t y);
+  void print(const char *data);
+  void print(float data);
+  void print(int data);
+  void printBlink(const char *data, uint8_t x, uint8_t y);
   void clear();
   uint8_t index;
 
@@ -48,7 +52,6 @@ private:
 //   lcd.print(screens[currentScreen][1]);
 // }
 
-
 // void menuBegin()
 // {
 //   lcd.begin(LCD_CHARS, LCD_LINES);
@@ -59,5 +62,3 @@ private:
 
 // // https:// github.com/VRomanov89/EEEnthusiast/blob/master/03.%20Arduino%20Tutorials/02.%20LCDMenuTutorial/LCDMenuProgramming/LCDMenuProgramming.ino
 // // https:// forum.arduino.cc/t/menu-for-changing-values-difficulty-implementing/82652
-
-
