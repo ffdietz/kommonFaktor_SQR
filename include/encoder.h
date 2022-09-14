@@ -16,7 +16,8 @@ public:
       int16_t minValue,
       int16_t maxValue,
       int16_t initalValue,
-      uint8_t type = FULL_PULSE) : encoder{aPin, bPin, minValue, maxValue, initalValue, type}
+      uint8_t type = FULL_PULSE) 
+      : encoder{aPin, bPin, minValue, maxValue, initalValue, type}
   {
   }
 

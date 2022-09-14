@@ -3,12 +3,6 @@
 
 class Controller
 {
-  private:
-    int input_pin;
-    int lastPosition;
-    int lastState;
-    int currentState;
-
   public:
     Controller(int pin);
 
@@ -16,6 +10,13 @@ class Controller
     void update();
     bool check();
     bool activated;
+
+  private:
+    int input_pin;
+    int lastPosition;
+    int lastState;
+    int currentState;
+
 };
 
 #endif

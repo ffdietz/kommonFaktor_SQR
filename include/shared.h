@@ -6,9 +6,5 @@
 #include "global.h"
 #include "controller.h"
 
-#include "menu.h"
-
-int lastValue = -1, encoderValue = 0;
-
 
 #endif

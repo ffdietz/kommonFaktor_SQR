@@ -7,29 +7,28 @@ void displaySettings()
 
 void printTitleBar()
 {
-  lcd.setCursor(0, 0);
-  lcd.print(" STEP SEQUENCER ");
+  menu.print(" STEP SEQUENCER ", 0, 0);
 }
 
-void printPause()
-{
-  lcd.setCursor(7, 1);
-  lcd.print("  PAUSE  ");
-}
+// void printPause()
+// {
+//   lcd.setCursor(7, 1);
+//   lcd.print("  PAUSE  ");
+// }
 
-void printSpeedBar()
-{
-  lcd.setCursor(7, 1);
-  lcd.print("BPM:");
-  lcd.print(sequencer.getSpeed());
-}
+// void printSpeedBar()
+// {
+//   lcd.setCursor(7, 1);
+//   lcd.print("BPM:");
+//   lcd.print(sequencer.getSpeed());
+// }
 
-void printStepPositionBar()
-{
-  lcd.setCursor(0, 1);
-  lcd.print("STEP:");
-  lcd.print(sequencer.getCurrentStep());
-}
+// void printStepPositionBar()
+// {
+//   lcd.setCursor(0, 1);
+//   lcd.print("STEP:");
+//   lcd.print(sequencer.getCurrentStep());
+// }
 
 void printStaticData()
 {
@@ -47,42 +46,7 @@ void updateSequence()
 void displayPrint()
 {
   printStaticData();
-  printStepPositionBar();
-}
-
-void checkEncoderEnable()
-{
-  encoderSet.check();
-
-  if (encoderSet.activated)
-  {
-    lcd.setCursor(0, 0);
-    lcd.print('E');
-    lcd.print(encoder.getData());
-  }
-
-  else
-  {
-    lcd.setCursor(0, 0);
-    lcd.print('U');
-  }
-}
-
-void checkPause()
-{
-  pause.check();
-
-  if (pause.activated)
-  {
-    sequencer.pauseSequence();
-    printPause();
-  }
-
-  else
-  {
-    sequencer.restartSequence();
-    printSpeedBar();
-  }
+  // printStepPositionBar();
 }
 
 void updateParameters()
@@ -90,34 +54,71 @@ void updateParameters()
   updateSequence();
 }
 
+void checkEncoder()
+{
+  // encoderSet.check();
+
+  // if(encoderSet.activated)
+  // {
+  //   lcd.setCursor(0, 0);
+  //   lcd.print('E');
+  //   lcd.print(encoder.getData());
+  // }
+
+  // else
+  // {
+  //   lcd.setCursor(0, 0);
+  //   lcd.print('U');
+  // }
+}
+
+void checkPause()
+{
+  // pause.check();
+
+  // if(pause.activated)
+  // {
+  //   sequencer.pauseSequence();
+  //   printPause();
+  // }
+
+  // else
+  // {
+  //   sequencer.restartSequence();
+  //   printSpeedBar();
+  // }
+}
+
 bool running()
 {
   checkPause();
-  checkEncoderEnable();
+  
+  checkEncoder();
 
   updateParameters();
+  
   displayPrint();
+
 
   return true;
 }
 
 void restart()
 {
-  lcd.clear();
+  menu.clear();
 }
 
 void setup()
 {
-  lcd.begin(LCD_CHARS, LCD_LINES);
   encoder.begin();
+  menu.begin();
 
   restart();
 }
 
 void loop()
 {
-  while (running())
-    ;
+  while (running());
 }
 
 // STRUCTURE TO SHOW LABEL AND VALUES AND MODIFY BY ENCODER
@@ -127,8 +128,8 @@ void loop()
 // // BMPs
 // // CURRENT STEP
 // // ACTIVE STEPS
-// // SEQUENCE OPTION
 // // CLOCK OPTION
+// // SEQUENCE OPTION [IN TARGET DEVICE]
 
 // SEQUENCE OPTIONS
 // // LINEAR

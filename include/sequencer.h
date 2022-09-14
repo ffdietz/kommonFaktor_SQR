@@ -19,10 +19,10 @@ class Sequencer {
     float getSpeed();
 
     //Steps methods
-    uint8_t getStepsQuantity();
     void  changeStep();
     bool  stepChanged();
     uint8_t getCurrentStep();
+    uint8_t getStepsQuantity();
 
     //Pause methods
     bool paused = false;
@@ -31,7 +31,7 @@ class Sequencer {
     void restartSequence();
 
   private:
-    float speed = 140.0;  // in BPM
+    float speed;  // in BPM
     uint8_t steps;
     uint8_t lastStep = 0;
     uint8_t currentStep = 0;
