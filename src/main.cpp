@@ -12,7 +12,7 @@ void printTitleBar()
 
 void printPause()
 {
-  menu.print("  PAUSE  ", 7, 1);
+  menu.blink("  PAUSE  ", 7, 1);
 }
 
 void printSpeedBar()
@@ -96,7 +96,6 @@ bool running()
   
   displayPrint();
 
-
   return true;
 }
 
@@ -107,6 +106,7 @@ void restart()
 
 void setup()
 {
+  Serial.begin(9600);
   encoder.begin();
   menu.begin();
 

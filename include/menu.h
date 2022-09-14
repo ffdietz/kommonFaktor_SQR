@@ -11,15 +11,19 @@ public:
   Menu();
   LiquidCrystal *lcd;
   void begin();
+  void clear();
+  uint8_t index;
+
   void print(const char *data, uint8_t x, uint8_t y);
   void print(const char *data);
   void print(float data);
   void print(int data);
-  void printBlink(const char *data, uint8_t x, uint8_t y);
-  void clear();
-  uint8_t index;
+  void blink(const char *data, uint8_t x, uint8_t y);
 
 private:
+  uint16_t lastBlink = 0;
+  uint16_t blinkTime = 600;
+  bool blinkState = false;
 };
 
 #endif

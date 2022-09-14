@@ -40,3 +40,21 @@ void Menu::print(int data)
 {
   lcd->print(data);
 }
+
+void Menu::blink(const char *data, uint8_t x, uint8_t y)
+{
+  // strlen(data);
+  const char *temp;
+
+  if (millis() - lastBlink > blinkTime)
+  {
+    blinkState = !blinkState;
+    lastBlink = millis();
+  }
+
+  Serial.println(blinkState);
+
+  lcd->setCursor(x, y);
+  if (blinkState) lcd->print(data);
+  else            lcd->print("         ");
+}
