@@ -20,15 +20,15 @@ void Menu::clear()
   lcd->clear();
 }
 
-void Menu::print(const char * data, uint8_t x, uint8_t y)
-{
-  lcd->setCursor(x, y);
-  lcd->print(data);
-}
-
 void Menu::print(const char *data)
 {
   lcd->print(data);
+}
+
+void Menu::print(const char *data, uint8_t x, uint8_t y)
+{
+  lcd->setCursor(x, y);
+  print(data);
 }
 
 void Menu::print(float data)
@@ -41,20 +41,25 @@ void Menu::print(int data)
   lcd->print(data);
 }
 
-void Menu::blink(const char *data, uint8_t x, uint8_t y)
+void Menu::blink(const char *data)
 {
-  // strlen(data);
-  const char *temp;
+  //create a char array with the size of data input
+  char space[strlen(data)];
+
+  //fill the array with ' ' (spaces) to cover the last print 
+  memset(space, ' ', strlen(data));
 
   if (millis() - lastBlink > blinkTime)
   {
     blinkState = !blinkState;
     lastBlink = millis();
   }
+  
+  blinkState ? lcd->print(data) : lcd->print(space);
+}
 
-  Serial.println(blinkState);
-
+void Menu::blink(const char *data, uint8_t x, uint8_t y)
+{
   lcd->setCursor(x, y);
-  if (blinkState) lcd->print(data);
-  else            lcd->print("         ");
+  blink(data);
 }
