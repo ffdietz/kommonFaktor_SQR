@@ -3,18 +3,18 @@
 
 void printStepPositionBar()
 {
-  menu.print(Label::step, 10, 1);
+  menu.print(Label::step, Label::stepPos.x, Label::stepPos.y);
   menu.print(sequencer.getCurrentStep());
 }
 
 void printPause()
 {
-  menu.blink(Label::pause, 0, 1);
+  menu.blink(Label::pause, Label::pausePos.x, Label::pausePos.y);
 }
 
 void printSpeedBar()
 {
-  menu.print(Label::bpm, 0, 1);
+  menu.print(Label::bpm, Label::bpmPos.x, Label::bpmPos.y);
   menu.print(sequencer.speed);
 }
 
