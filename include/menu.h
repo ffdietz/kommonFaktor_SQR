@@ -18,12 +18,14 @@ public:
   void print(float data);
   void print(const char *data);
   void print(const char *data, uint8_t x, uint8_t y);
+  void blink(int data);
+  void blink(float data);
   void blink(const char *data);
   void blink(const char *data, uint8_t x, uint8_t y);
 
 private:
   uint16_t lastBlink = 0;
-  uint16_t blinkTime = 500;
+  uint16_t blinkTime = 250;
   bool blinkState = false;
 };
 

@@ -1,35 +1,37 @@
 #include "global.h"
 #include "shared.h"
 
-void displaySettings()
+void printStepPositionBar()
 {
-}
-
-void printTitleBar()
-{
-  menu.print(" STEP SEQUENCER ", 0, 0);
+  menu.print(Label::step, 10, 1);
+  menu.print(sequencer.getCurrentStep());
 }
 
 void printPause()
 {
-  menu.blink("  PAUSE  ", 7, 1);
+  menu.blink(Label::pause, 0, 1);
 }
 
 void printSpeedBar()
 {
-  menu.print("BPM:", 7, 1);
+  menu.print(Label::bpm, 0, 1);
   menu.print(sequencer.speed);
 }
 
-void printStepPositionBar()
+void printTitleBar()
 {
-  menu.print("STEP:", 0, 1);
-  menu.print(sequencer.getCurrentStep());
+  menu.print(Label::title, Label::titlePos.x, Label::titlePos.y);
 }
 
 void printStaticData()
 {
   printTitleBar();
+}
+
+void display()
+{
+  printStaticData();
+  printStepPositionBar();
 }
 
 void updateSequence()
@@ -38,12 +40,6 @@ void updateSequence()
   {
     sequencer.changeStep();
   }
-}
-
-void displayPrint()
-{
-  printStaticData();
-  printStepPositionBar();
 }
 
 void updateParameters()
@@ -73,7 +69,7 @@ void checkPause()
 {
   pause.check();
 
-  if(pause.activated)
+  if (pause.activated)
   {
     sequencer.pauseSequence();
     printPause();
@@ -86,15 +82,22 @@ void checkPause()
   }
 }
 
-bool running()
+void update()
+{
+  updateParameters();
+}
+
+void check()
 {
   checkPause();
-  
   checkEncoder();
+}
 
-  updateParameters();
-  
-  displayPrint();
+bool running()
+{
+  check();
+  update();
+  display();
 
   return true;
 }
@@ -115,7 +118,9 @@ void setup()
 
 void loop()
 {
-  while (running());
+  while (
+    running()
+  );
 }
 
 // STRUCTURE TO SHOW LABEL AND VALUES AND MODIFY BY ENCODER
@@ -128,15 +133,15 @@ void loop()
 // // CLOCK OPTION
 // // SEQUENCE OPTION [IN TARGET DEVICE]
 
+// CLOCK OPTIONS
+// // INTERNAL CLOCK
+// // EXTERNAL CLOCK
+// // DIVIDED CLOCK
+// // MULTIPLIED CLOCK
+
 // SEQUENCE OPTIONS
 // // LINEAR
 // // RANDOM SEQUENCE
 // // INVERT SEQUENCE
 // // RANGE SEQUENCE
 // // CUSTOM SEQUENCE
-
-// CLOCK OPTIONS
-// // INTERNAL CLOCK
-// // EXTERNAL CLOCK
-// // DIVIDED CLOCK
-// // MULTIPLIED CLOCK

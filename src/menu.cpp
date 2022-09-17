@@ -20,6 +20,18 @@ void Menu::clear()
   lcd->clear();
 }
 
+void Menu::print(float data)
+{
+  char result[5];                 // Buffer big enough for 7-character float
+  dtostrf(data, 3, 1, result);    // Leave room for too large numbers!
+  lcd->print(result);
+}
+
+void Menu::print(int data)
+{
+  lcd->print(data);
+}
+
 void Menu::print(const char *data)
 {
   lcd->print(data);
@@ -28,26 +40,13 @@ void Menu::print(const char *data)
 void Menu::print(const char *data, uint8_t x, uint8_t y)
 {
   lcd->setCursor(x, y);
-  print(data);
-}
-
-void Menu::print(float data)
-{
-  lcd->print(data);
-}
-
-void Menu::print(int data)
-{
   lcd->print(data);
 }
 
 void Menu::blink(const char *data)
 {
-  //create a char array with the size of data input
-  char space[strlen(data)];
-
-  //fill the array with ' ' (spaces) to cover the last print 
-  memset(space, ' ', strlen(data));
+  char space[strlen(data)];           // create a char array with the size of data input
+  memset(space, ' ', strlen(data));   // fill the array with ' ' (spaces) to cover the last print
 
   if (millis() - lastBlink > blinkTime)
   {
@@ -55,11 +54,24 @@ void Menu::blink(const char *data)
     lastBlink = millis();
   }
   
-  blinkState ? lcd->print(data) : lcd->print(space);
+  blinkState? lcd->print(data) : lcd->print(space);
+
 }
 
 void Menu::blink(const char *data, uint8_t x, uint8_t y)
 {
   lcd->setCursor(x, y);
   blink(data);
+}
+
+void Menu::blink(int data)
+{
+  blink(data);
+}
+
+void Menu::blink(float data)
+{
+  char result[5];              // Buffer big enough for 7-character float
+  dtostrf(data, 3, 1, result); // Leave room for too large numbers!
+  blink(result);
 }

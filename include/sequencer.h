@@ -9,7 +9,7 @@ class Sequencer {
     ~Sequencer(){};
 
     //Clock methods
-    float speed;  // in BPM
+    float speed; // in BPM
     bool internalClock();
     bool externalClock();
     void clockOut();

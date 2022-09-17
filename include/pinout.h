@@ -3,18 +3,18 @@
 
 #include <Arduino.h>
 
-#define SHR_LATCH 5  //to 74HC595 ST_CP [PIN 12]
-#define SHR_CLOCK 6  //to 74HC595 SH_CP [PIN 11]
-#define SHR_DATA  7  //to 74HC595 DS    [PIN 14]
+#define SHR_LATCH 5 // to 74HC595 ST_CP [PIN 12]
+#define SHR_CLOCK 6 // to 74HC595 SH_CP [PIN 11]
+#define SHR_DATA 7  // to 74HC595 DS    [PIN 14]
 
-#define ENCODER_A     2
-#define ENCODER_B     3
+#define ENCODER_A 2
+#define ENCODER_B 3
 
-#define ENCODER_MIN   0
-#define ENCODER_MAX   10
+#define ENCODER_MIN 0
+#define ENCODER_MAX 10
 
-#define ENCODER_SET   A0
-#define PAUSE_BUTTON  A1
+#define ENCODER_SET A1
+#define PAUSE_BUTTON A0
 
 #define LCD_RS 11
 #define LCD_RW 10
@@ -26,12 +26,12 @@
 #define LCD_D7 8
 
 #define LCD_CHARS 20
-#define LCD_LINES  4
+#define LCD_LINES 4
 
 #define FRAME_DELAY 10
 
-/* 
-Display 1'8'' pinout based in PDQ_ST7735 configuration 
+/*
+Display 1'8'' pinout based in PDQ_ST7735 configuration
 [DISPLAY PIN] [ATMEGA328]
 VCC           5V OR 3.3V
 GND           GND
@@ -42,6 +42,5 @@ SDA           11
 SCK           13
 LED           5V max.
 */
-
 
 #endif
