@@ -3,24 +3,24 @@
 
 void printStepPositionBar()
 {
-  menu.print(Label::step, Label::stepPos.x, Label::stepPos.y);
+  menu.print(MenuLayout::step.label, MenuLayout::step.x, MenuLayout::step.y);
   menu.print(sequencer.getCurrentStep());
 }
 
 void printPause()
 {
-  menu.blink(Label::pause, Label::pausePos.x, Label::pausePos.y);
+  menu.blink(MenuLayout::pause.label, MenuLayout::pause.x, MenuLayout::pause.y);
 }
 
 void printSpeedBar()
 {
-  menu.print(Label::bpm, Label::bpmPos.x, Label::bpmPos.y);
+  menu.print(MenuLayout::bpm.label, MenuLayout::bpm.x, MenuLayout::bpm.y);
   menu.print(sequencer.speed);
 }
 
 void printTitleBar()
 {
-  menu.print(Label::title, Label::titlePos.x, Label::titlePos.y);
+  menu.print(MenuLayout::title.label, MenuLayout::title.x, MenuLayout::title.y );
 }
 
 void printStaticData()

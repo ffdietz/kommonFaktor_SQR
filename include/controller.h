@@ -16,7 +16,7 @@ class Controller
     int lastPosition;
     int lastState;
     int currentState;
-
+    
 };
 
 #endif

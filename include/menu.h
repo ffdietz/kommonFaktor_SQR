@@ -24,9 +24,9 @@ public:
   void blink(const char *data, uint8_t x, uint8_t y);
 
 private:
-  uint16_t lastBlink = 0;
-  uint16_t blinkTime = 250;
   bool blinkState = false;
+  static const uint16_t blinkTime = 250;
+  uint16_t lastBlink = 0;
 };
 
 #endif

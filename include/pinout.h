@@ -25,8 +25,8 @@
 #define LCD_D6 7
 #define LCD_D7 8
 
-#define LCD_CHARS 20
-#define LCD_LINES 4
+#define LCD_CHARS 16
+#define LCD_LINES 2
 
 #define FRAME_DELAY 10
 
