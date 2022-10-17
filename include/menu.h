@@ -25,7 +25,7 @@ public:
 
 private:
   bool blinkState = false;
-  static const uint16_t blinkTime = 250;
+  static const uint16_t blinkTime = 500;
   uint16_t lastBlink = 0;
 };
 

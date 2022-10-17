@@ -7,10 +7,12 @@ void printStepPositionBar()
   menu.print(sequencer.getCurrentStep());
 }
 
+
 void printPause()
 {
   menu.blink(MenuLayout::pause.label, MenuLayout::pause.x, MenuLayout::pause.y);
 }
+
 
 void printSpeedBar()
 {
@@ -18,21 +20,25 @@ void printSpeedBar()
   menu.print(sequencer.speed);
 }
 
+
 void printTitleBar()
 {
   menu.print(MenuLayout::title.label, MenuLayout::title.x, MenuLayout::title.y );
 }
+
 
 void printStaticData()
 {
   printTitleBar();
 }
 
+
 void display()
 {
   printStaticData();
   printStepPositionBar();
 }
+
 
 void updateSequence()
 {
@@ -42,34 +48,37 @@ void updateSequence()
   }
 }
 
+
 void updateParameters()
 {
   updateSequence();
 }
 
+
 void checkEncoder()
 {
-  // encoderSet.check();
+  encoderSet.check();
 
-  // if(encoderSet.activated)
-  // {
-  //   lcd.setCursor(0, 0);
-  //   lcd.print('E');
-  //   lcd.print(encoder.getData());
-  // }
+  if(encoderSet.activated)
+  {
+    // lcd.setCursor(0, 0);
+    // lcd.print('E');
+    menu.print(encoder.getData());
+  }
 
-  // else
-  // {
-  //   lcd.setCursor(0, 0);
-  //   lcd.print('U');
-  // }
+  else
+  {
+    // lcd.setCursor(0, 0);
+    // lcd.print('U');
+  }
 }
+
 
 void checkPause()
 {
   pause.check();
 
-  if (pause.activated)
+  if(pause.activated)
   {
     sequencer.pauseSequence();
     printPause();
@@ -82,16 +91,19 @@ void checkPause()
   }
 }
 
+
 void update()
 {
   updateParameters();
 }
+
 
 void check()
 {
   checkPause();
   checkEncoder();
 }
+
 
 bool running()
 {
@@ -102,10 +114,12 @@ bool running()
   return true;
 }
 
+
 void restart()
 {
   menu.clear();
 }
+
 
 void setup()
 {
@@ -115,6 +129,7 @@ void setup()
 
   restart();
 }
+
 
 void loop()
 {

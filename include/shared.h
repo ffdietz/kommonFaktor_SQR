@@ -35,6 +35,11 @@ const MenuField MenuLayout::step  = {10, 1, "STEP:"};
 const MenuField MenuLayout::stepStatesTitle  = {0, 1, "ACTIVE STEPS"};
 const MenuField MenuLayout::clockOptionTitle = {0, 0, "CLOCK OPTIONS"};
 
+void screen1()
+{
+  
+}
+
 #endif
 
 // struct Label
