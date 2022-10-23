@@ -13,6 +13,8 @@ void Menu::begin()
 {
   lcd->begin(LCD_CHARS, LCD_LINES);
   lcd->clear();
+
+  lastBlink = millis();
 }
 
 void Menu::clear()
@@ -23,7 +25,7 @@ void Menu::clear()
 void Menu::print(float data)
 {
   char result[5];                 // Buffer big enough for 7-character float
-  dtostrf(data, 3, 1, result);    // Leave room for too large numbers!
+  dtostrf(data, 3, 1, result);    // Leave room for too large numbers ['C''D''E''.''F']
   lcd->print(result);
 }
 

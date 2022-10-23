@@ -1,49 +1,32 @@
 #include "global.h"
 #include "shared.h"
 
-void printStepPositionBar()
-{
-  menu.print(MenuLayout::step.label, MenuLayout::step.x, MenuLayout::step.y);
-  menu.print(sequencer.getCurrentStep());
-}
-
-
-void printPause()
-{
-  menu.blink(MenuLayout::pause.label, MenuLayout::pause.x, MenuLayout::pause.y);
-}
-
-
-void printSpeedBar()
-{
-  menu.print(MenuLayout::bpm.label, MenuLayout::bpm.x, MenuLayout::bpm.y);
-  menu.print(sequencer.speed);
-}
-
-
-void printTitleBar()
-{
-  menu.print(MenuLayout::title.label, MenuLayout::title.x, MenuLayout::title.y );
-}
-
-
-void printStaticData()
-{
-  printTitleBar();
-}
-
 
 void display()
 {
-  printStaticData();
-  printStepPositionBar();
+  if(pauseButton.activated) MenuLayout::printPause();
+
+  else{
+    if (encoder.newDataAvailable()) menu.clear();
+
+    switch(encoder.getData()){
+      case 0:
+        MenuLayout::screen1();
+        break;
+      case 1:
+        MenuLayout::screen2();
+        break;
+      case 2:
+        MenuLayout::screen3();
+        break;
+    }
+  }
 }
 
 
 void updateSequence()
 {
-  if (!sequencer.paused && sequencer.internalClock())
-  {
+  if (!sequencer.paused && sequencer.internalClock()){
     sequencer.changeStep();
   }
 }
@@ -55,53 +38,34 @@ void updateParameters()
 }
 
 
-void checkEncoder()
-{
-  encoderSet.check();
+void checkSetEncoder() {
+  encoderSetButton.check();
 
-  if(encoderSet.activated)
-  {
-    // lcd.setCursor(0, 0);
-    // lcd.print('E');
-    menu.print(encoder.getData());
-  }
-
-  else
-  {
-    // lcd.setCursor(0, 0);
-    // lcd.print('U');
+  if(encoderSetButton.activated) {
+    // sequencer.edit.mode.on
+  } else {
+    // sequencer.edit.mode.off
   }
 }
 
 
-void checkPause()
-{
-  pause.check();
+void checkPause() {
+  pauseButton.check();
 
-  if(pause.activated)
-  {
-    sequencer.pauseSequence();
-    printPause();
-  }
+  if(pauseButton.activated) sequencer.pauseSequence();
+  else sequencer.restartSequence();
 
-  else
-  {
-    sequencer.restartSequence();
-    printSpeedBar();
-  }
 }
 
 
-void update()
-{
+void update() {
   updateParameters();
 }
 
 
-void check()
-{
+void check() {
   checkPause();
-  checkEncoder();
+  checkSetEncoder();
 }
 
 
@@ -110,6 +74,8 @@ bool running()
   check();
   update();
   display();
+
+  Serial.println(encoder.getData());
 
   return true;
 }

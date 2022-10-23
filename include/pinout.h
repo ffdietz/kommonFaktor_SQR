@@ -7,11 +7,11 @@
 #define SHR_CLOCK 6 // to 74HC595 SH_CP [PIN 11]
 #define SHR_DATA 7  // to 74HC595 DS    [PIN 14]
 
-#define ENCODER_A 2
-#define ENCODER_B 3
+#define ENCODER_A 3
+#define ENCODER_B 2
 
 #define ENCODER_MIN 0
-#define ENCODER_MAX 10
+#define ENCODER_MAX 2
 
 #define ENCODER_SET A1
 #define PAUSE_BUTTON A0

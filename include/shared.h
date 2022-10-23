@@ -16,29 +16,49 @@ struct MenuField
 
 struct MenuLayout
 {
-  static const MenuField title;
-  static const MenuField bpm;
-  static const MenuField pause;
-  static const MenuField step;
-  static const MenuField stepStatesTitle;
-  static const MenuField clockOptionTitle;
+  static const MenuField title = {0, 0, " STEP SEQUENCER "};
+  static const MenuField pause = {0, 0, "     PAUSE      "};
+  static const MenuField bpm = {0, 1,   "BPM:"};
+  static const MenuField step  = {10, 1, "STEP:"};
+  static const MenuField stepStatesTitle = {0, 0, "ACTIVE STEPS"};
+  static const MenuField clockOptionTitle = {0, 0, "CLOCK OPTIONS"};
 
-  void screen1();
-  void screen2();
-  void screen3();
+  static void printPause(){
+    menu.blink(MenuLayout::pause.label, MenuLayout::pause.x, MenuLayout::pause.y);
+  }
+
+  static void screen1(){
+    menu.print(MenuLayout::title.label, MenuLayout::title.x, MenuLayout::title.y );
+
+    menu.print(MenuLayout::step.label, MenuLayout::step.x, MenuLayout::step.y);
+    menu.print(sequencer.getCurrentStep());
+
+    menu.print(MenuLayout::bpm.label, MenuLayout::bpm.x, MenuLayout::bpm.y);
+    menu.print(sequencer.speed);
+  }
+
+  static void screen2()
+  {
+    menu.print(MenuLayout::stepStatesTitle.label, MenuLayout::stepStatesTitle.x, MenuLayout::stepStatesTitle.y );
+  }
+
+  static void screen3(){
+    menu.print(MenuLayout::clockOptionTitle.label, MenuLayout::clockOptionTitle.x, MenuLayout::clockOptionTitle.y );
+  }
 };
 
-const MenuField MenuLayout::title = {0, 0, " STEP SEQUENCER "};
-const MenuField MenuLayout::pause = {0, 1, "  PAUSE  "};
-const MenuField MenuLayout::bpm   = {0, 1, "BPM:"};
-const MenuField MenuLayout::step  = {10, 1, "STEP:"};
-const MenuField MenuLayout::stepStatesTitle  = {0, 1, "ACTIVE STEPS"};
-const MenuField MenuLayout::clockOptionTitle = {0, 0, "CLOCK OPTIONS"};
+// const MenuField MenuLayout::title = {0, 0, " STEP SEQUENCER "};
+// const MenuField MenuLayout::pause 
+// const MenuField MenuLayout::bpm   
+// const MenuField MenuLayout::step 
+// const MenuField MenuLayout::stepStatesTitle  
+// const MenuField MenuLayout::clockOptionTitle 
 
-void screen1()
-{
-  
-}
+
+// void MenuLayout::screen3()
+// {
+//   menu.print(MenuLayout::stepStatesTitle.label, MenuLayout::stepStatesTitle.x, MenuLayout::stepStatesTitle.y );
+// }
 
 #endif
 
