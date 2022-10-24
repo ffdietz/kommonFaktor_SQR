@@ -9,8 +9,8 @@
 
 struct MenuField
 {
-  uint8_t x;
-  uint8_t y;
+  unsigned int x;
+  unsigned int y;
   const char *label;
 };
 
@@ -30,11 +30,14 @@ struct MenuLayout
   static void screen1(){
     menu.print(MenuLayout::title.label, MenuLayout::title.x, MenuLayout::title.y );
 
-    menu.print(MenuLayout::step.label, MenuLayout::step.x, MenuLayout::step.y);
-    menu.print(sequencer.getCurrentStep());
-
     menu.print(MenuLayout::bpm.label, MenuLayout::bpm.x, MenuLayout::bpm.y);
     menu.print(sequencer.speed);
+
+    menu.print(MenuLayout::step.label, MenuLayout::step.x, MenuLayout::step.y);
+    
+    // if(menu.editMode) menu.blink(sequencer.getCurrentStep());
+    // else menu.print(sequencer.getCurrentStep());
+
   }
 
   static void screen2()

@@ -12,7 +12,8 @@ public:
   LiquidCrystal *lcd;
   void begin();
   void clear();
-  uint8_t index;
+  boolean editMode = false;
+  // uint8_t index;
 
   void print(int data);
   void print(float data);

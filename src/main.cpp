@@ -13,9 +13,11 @@ void display()
       case 0:
         MenuLayout::screen1();
         break;
+
       case 1:
         MenuLayout::screen2();
         break;
+
       case 2:
         MenuLayout::screen3();
         break;
@@ -38,32 +40,31 @@ void updateParameters()
 }
 
 
-void checkSetEncoder() {
+void checkSetEncoder() 
+{
   encoderSetButton.check();
-
-  if(encoderSetButton.activated) {
-    // sequencer.edit.mode.on
-  } else {
-    // sequencer.edit.mode.off
-  }
+  if(encoderSetButton.activated) menu.editMode = true;
+  else menu.editMode = false;
 }
 
 
-void checkPause() {
+void checkPause()
+{
   pauseButton.check();
 
   if(pauseButton.activated) sequencer.pauseSequence();
   else sequencer.restartSequence();
-
 }
 
 
-void update() {
+void update()
+{
   updateParameters();
 }
 
 
-void check() {
+void check()
+{
   checkPause();
   checkSetEncoder();
 }
@@ -75,7 +76,7 @@ bool running()
   update();
   display();
 
-  Serial.println(encoder.getData());
+  Serial.println(menu.editMode);
 
   return true;
 }
