@@ -10,8 +10,8 @@
 #define ENCODER_A 3
 #define ENCODER_B 2
 
-#define ENCODER_MIN 0
-#define ENCODER_MAX 2
+#define ENCODER_MIN -1000
+#define ENCODER_MAX 1000
 
 #define ENCODER_SET A1
 #define PAUSE_BUTTON A0

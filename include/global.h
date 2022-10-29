@@ -8,7 +8,8 @@
 #include "menu.h"
 
 Sequencer   sequencer(8, 140.0);
-Encoder     encoder{ENCODER_A, ENCODER_B, ENCODER_MIN, ENCODER_MAX, ENCODER_MIN};
+Encoder     encoder{ENCODER_A, ENCODER_B, ENCODER_MIN, ENCODER_MAX, 0};
+// Encoder     encoder{ENCODER_A, ENCODER_B, ENCODER_MIN, ENCODER_MAX, ENCODER_MIN};
 Controller  encoderSetButton(ENCODER_SET);
 Controller  pauseButton(PAUSE_BUTTON);
 Menu        menu;

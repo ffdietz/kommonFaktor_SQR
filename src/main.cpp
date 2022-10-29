@@ -5,23 +5,25 @@
 void display()
 {
   if(pauseButton.activated) MenuLayout::printPause();
+  if(encoder.newDataAvailable()) 
+  {
+    encoder.getDirection();
+    Serial.println(encoder.getData());
+    menu.clear();
+  }
 
-  else{
-    if (encoder.newDataAvailable()) menu.clear();
+  switch(encoder.getData()){
+    case 0:
+      MenuLayout::screen1();
+      break;
 
-    switch(encoder.getData()){
-      case 0:
-        MenuLayout::screen1();
-        break;
+    case 1:
+      MenuLayout::screen2();
+      break;
 
-      case 1:
-        MenuLayout::screen2();
-        break;
-
-      case 2:
-        MenuLayout::screen3();
-        break;
-    }
+    case 2:
+      MenuLayout::screen3();
+      break;
   }
 }
 
@@ -75,8 +77,6 @@ bool running()
   check();
   update();
   display();
-
-  Serial.println(menu.editMode);
 
   return true;
 }

@@ -16,7 +16,7 @@ public:
       int16_t minValue,
       int16_t maxValue,
       int16_t initalValue,
-      uint8_t type = FULL_PULSE) 
+      uint8_t type = FULL_PULSE)
       : encoder{aPin, bPin, minValue, maxValue, initalValue, type}
   {
   }
@@ -24,10 +24,8 @@ public:
   bool begin()
   {
     NewEncoder::EncoderState state;
-    if (!encoder.begin())
-    {
-      return false;
-    }
+    if (!encoder.begin()) return false;
+
     newValueAvailable = false;
     encoder.getState(state);
     encoderValue = state.currentValue;
@@ -53,6 +51,32 @@ public:
     return temp;
   }
 
+  int16_t getDirection()
+  {
+    NewEncoder::EncoderState currentEncoderState;
+    if (encoder.getState(currentEncoderState)) {
+      Serial.print("Encoder: ");
+      if (currentEncoderState.currentValue != prevEncoderValue) {
+        Serial.println(currentEncoderState.currentValue - prevEncoderValue);
+        prevEncoderValue = currentEncoderState.currentValue;
+      } 
+      // else
+        // switch (currentEncoderState.currentClick) {
+        //   case NewEncoder::UpClick:
+        //     Serial.println("at upper limit.");
+        //     break;
+
+        //   case NewEncoder::DownClick:
+        //     Serial.println("at lower limit.");
+        //     break;
+
+        //   default:
+        //     break;
+        // }
+    }
+  }
+
+
 private:
   // embedded NewEncoder object
   NewEncoder encoder;
@@ -61,6 +85,7 @@ private:
   volatile bool newValueAvailable = false;
   void handleEncoder(const volatile NewEncoder::EncoderState *state);
   static void callBack(NewEncoder *encPtr, const volatile NewEncoder::EncoderState *state, void *uPtr);
+  int16_t prevEncoderValue;
 };
 
 // Static class callback function. Common to all instances. Uses the uPtr parameter to select the proper
