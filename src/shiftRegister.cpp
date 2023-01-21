@@ -3,18 +3,6 @@
 #include "shiftRegister.h"
 
 
-<<<<<<< Updated upstream
-// ShiftRegister::ShiftRegister()
-// {
-//   //SETTING PINS
-//   DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH
-//   DDRD |= (1 << SHR_CLOCK);
-//   DDRD |= (1 << SHR_DATA);
-
-//   // this->position = 1;
-//   // this->shifter  = 1;
-//   // this->position_out = 0;
-=======
 ShiftRegister::ShiftRegister()
 {
   //SETTING PINS
@@ -66,7 +54,6 @@ void ShiftRegister::pinRead()
  
   // Serial.println(output);
 }
->>>>>>> Stashed changes
 
 // };
 
