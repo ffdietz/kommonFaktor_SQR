@@ -51,7 +51,7 @@ public:
     return temp;
   }
 
-  int16_t getDirection()
+  void getDirection()
   {
     NewEncoder::EncoderState currentEncoderState;
     if (encoder.getState(currentEncoderState)) {

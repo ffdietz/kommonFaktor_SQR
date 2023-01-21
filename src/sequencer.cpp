@@ -79,3 +79,15 @@ void Sequencer::clockOut(){
   clockOutState = !clockOutState;
   digitalWrite(13, clockOutState);
 }
+
+void Sequencer::setModeOn(){
+  setMode = true;
+}
+
+void Sequencer::setModeOff(){
+  setMode = false;
+}
+
+bool Sequencer::isSetMode(){
+  return setMode;
+}

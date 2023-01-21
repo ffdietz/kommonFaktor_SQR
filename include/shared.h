@@ -16,19 +16,30 @@ struct MenuField
 
 struct MenuLayout
 {
+<<<<<<< Updated upstream
   static const MenuField title = {0, 0, " STEP SEQUENCER "};
   static const MenuField pause = {0, 0, "     PAUSE      "};
   static const MenuField bpm = {0, 1,   "BPM:"};
   static const MenuField step  = {10, 1, "STEP:"};
   static const MenuField stepStatesTitle = {0, 0, "ACTIVE STEPS"};
   static const MenuField clockOptionTitle = {0, 0, "CLOCK OPTIONS"};
+=======
+  static constexpr MenuField title = {0, 0, "STEP SEQUENCER"};
+  static constexpr MenuField pause = {0, 0, "PAUSE"};
+  static constexpr MenuField bpm  = {0, 1, "BPM:"};
+  static constexpr MenuField step  = {10, 1, "STEP:"};
+  static constexpr MenuField stepStatesTitle = {0, 0, "ACTIVE STEPS"};
+  static constexpr MenuField clockOptionTitle = {0, 0, "CLOCK OPTIONS"};
+>>>>>>> Stashed changes
 
   static void printPause(){
+    // menu.print("                ", MenuLayout::pause.x, MenuLayout::pause.y );
     menu.blink(MenuLayout::pause.label, MenuLayout::pause.x, MenuLayout::pause.y);
   }
 
-  static void screen1(){
-    menu.print(MenuLayout::title.label, MenuLayout::title.x, MenuLayout::title.y );
+  static void screen1(bool pause, bool set){
+    if(pause) printPause();
+    else menu.print(MenuLayout::title.label, MenuLayout::title.x, MenuLayout::title.y );
 
     menu.print(MenuLayout::bpm.label, MenuLayout::bpm.x, MenuLayout::bpm.y);
     menu.print(sequencer.speed);

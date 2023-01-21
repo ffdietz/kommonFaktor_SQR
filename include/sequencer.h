@@ -26,18 +26,24 @@ class Sequencer {
     uint8_t getStepsQuantity();
 
     //Pause methods
-    bool paused = false;
+    bool paused = true;
     bool isPaused();
     void pauseSequence();
     void restartSequence();
 
+    //Set methods
+    void setModeOn();
+    void setModeOff();
+    bool isSetMode();
+
   private:
-    uint8_t steps;
-    uint8_t lastStep = 0;
-    uint8_t currentStep = 0;
-    uint16_t speedInMillis = 0;
+    bool setMode = false;
     long currentTime = 0;
     long lastChange = 0;
+    uint16_t speedInMillis = 0;
+    uint8_t currentStep = 0;
+    uint8_t lastStep = 0;
+    uint8_t steps;
 };
 
 #endif

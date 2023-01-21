@@ -13,27 +13,27 @@
 
 Controller::Controller(int pin)
 {
-    input_pin = pin;
-    pinMode(input_pin, INPUT_PULLUP);
-    
-    // Init button state
-    currentState = digitalRead(input_pin);
-    activated = false;
+  input_pin = pin;
+  pinMode(input_pin, INPUT_PULLUP);
+  
+  // Init button state
+  currentState = digitalRead(input_pin);
+  trigged = false;
 }
 
 bool Controller::check()
 {
-    /* Will update the button readings */
-    lastState = currentState;
-    currentState = digitalRead(input_pin);
+  /* Update the button readings */
+  lastState = currentState;
+  currentState = digitalRead(input_pin);
 
-    /* Return if the button just got pressed down */
-    if(currentState == LOW && lastState == HIGH)
-    {
-        activated = !activated;
-        return true;
-    }
+  /* Return if the button just got pressed down */
+  if(currentState == LOW && lastState == HIGH)
+  {
+      trigged = !trigged;
+      return true;
+  }
 
-    return false;
+  return false;
 }
 

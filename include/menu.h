@@ -12,17 +12,17 @@ public:
   LiquidCrystal *lcd;
   void begin();
   void clear();
-  boolean editMode = false;
+  bool setMode = false;
   // uint8_t index;
 
-  void print(int data);
-  void print(float data);
-  void print(const char *data);
-  void print(const char *data, uint8_t x, uint8_t y);
-  void blink(int data);
-  void blink(float data);
-  void blink(const char *data);
   void blink(const char *data, uint8_t x, uint8_t y);
+  void blink(const char *data);
+  void blink(float data);
+  void blink(int data);
+  void print(const char *data, uint8_t x, uint8_t y);
+  void print(const char *data);
+  void print(float data);
+  void print(int data);
 
 private:
   bool blinkState = false;

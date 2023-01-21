@@ -4,7 +4,7 @@
 
 void display()
 {
-  if(pauseButton.activated) MenuLayout::printPause();
+  if(sequencer.paused) MenuLayout::printPause();
   if(encoder.newDataAvailable()) 
   {
     encoder.getDirection();
@@ -14,7 +14,7 @@ void display()
 
   switch(encoder.getData()){
     case 0:
-      MenuLayout::screen1();
+      MenuLayout::screen1(sequencer.paused, menu.setMode);
       break;
 
     case 1:
@@ -45,8 +45,8 @@ void updateParameters()
 void checkSetEncoder() 
 {
   encoderSetButton.check();
-  if(encoderSetButton.activated) menu.editMode = true;
-  else menu.editMode = false;
+  if(encoderSetButton.trigged) sequencer.setModeOn();
+  else sequencer.setModeOff();
 }
 
 
@@ -54,7 +54,7 @@ void checkPause()
 {
   pauseButton.check();
 
-  if(pauseButton.activated) sequencer.pauseSequence();
+  if(pauseButton.trigged) sequencer.pauseSequence();
   else sequencer.restartSequence();
 }
 
