@@ -11,28 +11,29 @@
 #include "pinout.h"
 
 
-
-Controller::Controller()
+Controller::Controller(int pin)
 {
-    pinMode(PAUSE_BUTTON, INPUT_PULLUP);
-    currentState = digitalRead(PAUSE_BUTTON); // Init button state
-
+  input_pin = pin;
+  pinMode(input_pin, INPUT_PULLUP);
+  
+  // Init button state
+  currentState = digitalRead(input_pin);
+  trigged = false;
 }
 
-void Controller::update()
+bool Controller::check()
 {
-}
+  /* Update the button readings */
+  lastState = currentState;
+  currentState = digitalRead(input_pin);
 
+  /* Return if the button just got pressed down */
+  if(currentState == LOW && lastState == HIGH)
+  {
+      trigged = !trigged;
+      return true;
+  }
 
-void Controller:: begin(){
-}
-
-bool Controller::pausedTriggered()
-{
-    /* Will update the button readings */
-    lastState = currentState;
-    currentState = digitalRead(PAUSE_BUTTON);
-    /* Return if the button just got pressed down */
-    return (currentState == LOW && lastState == HIGH);
+  return false;
 }
 
