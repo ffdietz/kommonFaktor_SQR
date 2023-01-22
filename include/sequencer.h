@@ -32,9 +32,9 @@ class Sequencer {
     void restartSequence();
 
     //Set methods
-    void setModeOn();
-    void setModeOff();
     bool isSetMode();
+    void setModeOff();
+    void setModeOn();
 
   private:
     bool setMode = false;

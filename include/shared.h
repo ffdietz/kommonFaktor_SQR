@@ -24,7 +24,7 @@ struct MenuLayout
   static constexpr MenuField clockOptionTitle = {0, 0, "CLOCK OPTIONS"};
 
   static void printPause(){
-    // menu.print("                ", MenuLayout::pause.x, MenuLayout::pause.y );
+    menu.print("                ", MenuLayout::pause.x, MenuLayout::pause.y );
     menu.blink(MenuLayout::pause.label, MenuLayout::pause.x, MenuLayout::pause.y);
   }
 

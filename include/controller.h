@@ -9,7 +9,7 @@ class Controller
     void begin();
     void update();
     bool check();
-    bool trigged;
+    bool active;
 
   private:
     int input_pin;

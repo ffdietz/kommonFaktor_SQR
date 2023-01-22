@@ -3,31 +3,31 @@
 // #include "shiftRegister.h"
 
 
-// ShiftRegister::ShiftRegister()
-// {
-//   SETTING PINS
-//   pinMode(SHR_STEP_BUTTONS_SCK, output);//clock
-//   pinMode(SHR_STEP_BUTTONS_MOSI, output);//data
-//   pinMode(SHIFT_REG_LATCH_STEP_CTRL, output);//latch
-//   pinMode(A5, INPUT);//Input from buttons
+ShiftRegister::ShiftRegister()
+{
+  //SETTING PINS
+  // pinMode(SHR_STEP_BUTTONS_SCK, output);//clock
+  // pinMode(SHR_STEP_BUTTONS_MOSI, output);//data
+  pinMode(SHIFT_REG_LATCH_STEP_CTRL, output);//latch
+  pinMode(A5, INPUT);//Input from buttons
 
 //   attachInterrupt(0, pin_read, RISING); 
   
 //   DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH
 //   DDRD |= (1 << SHR_CLOCK);
 //   DDRD |= (1 << SHR_DATA);
-// }
+}
 
-// void ShiftRegister::begin(){
-//   SPI.setBitOrder(MSBFIRST);
-//   SPI.setDataMode(SPI_MODE0);
-//   SPI.setClockDivider(SPI_CLOCK_DIV2);
-//   SPI.begin();
-//   SPI.transfer(0);
-//   SPI.transfer(0);
-//   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
-//   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
-// }
+void ShiftRegister::begin(){
+  SPI.setBitOrder(MSBFIRST);
+  SPI.setDataMode(SPI_MODE0);
+  SPI.setClockDivider(SPI_CLOCK_DIV2);
+  SPI.begin();
+  SPI.transfer(0);
+  SPI.transfer(0);
+  digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
+  digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
+}
 
 // void ShiftRegister::pinRead()
 // {
@@ -47,10 +47,10 @@
 //     check = check<<1;
 //   }
     
-//   SPI.transfer(255);
-//   SPI.transfer(output);
-//   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
-//   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
+  SPI.transfer(255);
+  SPI.transfer(output);
+  digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
+  digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
  
 //   Serial.println(output);
 // }
