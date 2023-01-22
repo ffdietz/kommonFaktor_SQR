@@ -1,6 +1,6 @@
-#include <Arduino.h>
-#include "pinout.h"
-#include "shiftRegister.h"
+// #include <Arduino.h>
+// #include "pinout.h"
+// #include "shiftRegister.h"
 
 
 // ShiftRegister::ShiftRegister()
@@ -11,11 +11,11 @@
 //   pinMode(SHIFT_REG_LATCH_STEP_CTRL, output);//latch
 //   pinMode(A5, INPUT);//Input from buttons
 
-//   // attachInterrupt(0, pin_read, RISING); 
+// //   attachInterrupt(0, pin_read, RISING); 
   
-//   // DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH
-//   // DDRD |= (1 << SHR_CLOCK);
-//   // DDRD |= (1 << SHR_DATA);
+// //   DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH
+// //   DDRD |= (1 << SHR_CLOCK);
+// //   DDRD |= (1 << SHR_DATA);
 // }
 
 // void ShiftRegister::begin(){
@@ -31,28 +31,28 @@
 
 // void ShiftRegister::pinRead()
 // {
-//   // for(int j=0; j<50; j++) delayMicroseconds(1000);
+//   for(int j=0; j<50; j++) delayMicroseconds(1000);
 //   check=1;
-//   // for(int j=0; j<8; j++)
-//   // {
-//   //   SPI.transfer(check);
-//   //   SPI.transfer(output);
-//   //   digitalWrite(SHR_STEP_BUTTONS_LATCH, HIGH);
-//   //   digitalWrite(SHR_STEP_BUTTONS_LATCH, LOW);
-//   //   // delayMicroseconds(500);
-//   //   if(digitalRead(A5) == HIGH)
-//   //     bitWrite(output, j, 1);
-//   //   else 
-//   //     bitWrite(output, j, 0);
-//   //   check = check<<1;
-//   // }
+//   for(int j=0; j<8; j++)
+//   {
+//     SPI.transfer(check);
+//     SPI.transfer(output);
+//     digitalWrite(SHR_STEP_BUTTONS_LATCH, HIGH);
+//     digitalWrite(SHR_STEP_BUTTONS_LATCH, LOW);
+//     // delayMicroseconds(500);
+//     if(digitalRead(A5) == HIGH)
+//       bitWrite(output, j, 1);
+//     else 
+//       bitWrite(output, j, 0);
+//     check = check<<1;
+//   }
     
 //   SPI.transfer(255);
 //   SPI.transfer(output);
 //   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
 //   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
  
-//   // Serial.println(output);
+//   Serial.println(output);
 // }
 
 // };

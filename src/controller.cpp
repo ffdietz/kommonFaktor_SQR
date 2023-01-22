@@ -18,7 +18,7 @@ Controller::Controller(int pin)
   
   // Init button state
   currentState = digitalRead(input_pin);
-  trigged = false;
+  active = false;
 }
 
 bool Controller::check()
@@ -30,7 +30,7 @@ bool Controller::check()
   /* Return if the button just got pressed down */
   if(currentState == LOW && lastState == HIGH)
   {
-      trigged = !trigged;
+      active = !active;
       return true;
   }
 

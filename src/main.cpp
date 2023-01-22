@@ -4,13 +4,7 @@
 
 void display()
 {
-  if(sequencer.paused) MenuLayout::printPause();
-  if(encoder.newDataAvailable()) 
-  {
-    encoder.getDirection();
-    Serial.println(encoder.getData());
-    menu.clear();
-  }
+  // if(sequencer.paused) MenuLayout::printPause();
 
   switch(encoder.getData()){
     case 0:
@@ -45,16 +39,20 @@ void updateParameters()
 void checkSetEncoder() 
 {
   encoderSetButton.check();
-  if(encoderSetButton.trigged) sequencer.setModeOn();
+  if(encoderSetButton.active) sequencer.setModeOn();
   else sequencer.setModeOff();
+
+  if(encoder.newDataAvailable()) 
+  {
+    encoder.getDirection();
+  }
 }
 
 
 void checkPause()
 {
   pauseButton.check();
-
-  if(pauseButton.trigged) sequencer.pauseSequence();
+  if(pauseButton.active) sequencer.pauseSequence();
   else sequencer.restartSequence();
 }
 
