@@ -1,5 +1,8 @@
 #include <Arduino.h>
-#include <LiquidCrystal.h>
+// #include <LiquidCrystal.h>
+
+#include <ShiftedLCD.h>
+#include <SPI.h>
 #include "pinout.h"
 
 #ifndef menu_h

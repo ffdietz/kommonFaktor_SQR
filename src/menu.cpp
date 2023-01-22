@@ -1,16 +1,14 @@
 #include <Arduino.h>
-#include <LiquidCrystal.h>
+#include <ShiftedLCD.h>
+#include <SPI.h>
+// #include <LiquidCrystal.h>
 
 #include "menu.h"
 #include "pinout.h"
 
 Menu::Menu()
 {
-<<<<<<< Updated upstream
-  lcd = new LiquidCrystal(LCD_RS, LCD_RW, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
-=======
   lcd = new LiquidCrystal(SHIFT_REG_LATCH_LCD);
->>>>>>> Stashed changes
 }
 
 void Menu::begin()
