@@ -3,33 +3,6 @@
 
 #include <Arduino.h>
 
-<<<<<<< Updated upstream
-#define SHR_LATCH 5 // to 74HC595 ST_CP [PIN 12]
-#define SHR_CLOCK 6 // to 74HC595 SH_CP [PIN 11]
-#define SHR_DATA 7  // to 74HC595 DS    [PIN 14]
-
-#define ENCODER_A 3
-#define ENCODER_B 2
-
-#define ENCODER_MIN -1000
-#define ENCODER_MAX 1000
-
-#define ENCODER_SET A1
-#define PAUSE_BUTTON A0
-
-#define LCD_RS 11
-#define LCD_RW 10
-#define LCD_EN 9
-
-#define LCD_D4 5
-#define LCD_D5 6
-#define LCD_D6 7
-#define LCD_D7 8
-
-#define LCD_CHARS 16
-#define LCD_LINES 2
-
-=======
 #define SHIFT_REG_SCK 13   // to 74HC595 SH_CP [PIN 11]
 #define SHIFT_REG_MOSI 11  // to 74HC595 DS    [PIN 14]
 #define SHIFT_REG_LATCH_LCD 10  // to 74HC595 ST_CP [PIN 12]
@@ -46,7 +19,6 @@
 #define ENCODER_MIN -1000
 #define ENCODER_MAX 1000
 
->>>>>>> Stashed changes
 #define FRAME_DELAY 10
 
 /*
