@@ -4,7 +4,7 @@
 
 void display()
 {
-  // if(sequencer.paused) MenuLayout::printPause();
+  if(sequencer.paused) MenuLayout::printPause();
 
   switch(encoder.getData()){
     case 0:

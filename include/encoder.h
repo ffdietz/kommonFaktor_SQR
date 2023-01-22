@@ -81,11 +81,11 @@ private:
   // embedded NewEncoder object
   NewEncoder encoder;
 
-  volatile int16_t encoderValue = 0;
-  volatile bool newValueAvailable = false;
-  void handleEncoder(const volatile NewEncoder::EncoderState *state);
-  static void callBack(NewEncoder *encPtr, const volatile NewEncoder::EncoderState *state, void *uPtr);
   int16_t prevEncoderValue;
+  static void callBack(NewEncoder *encPtr, const volatile NewEncoder::EncoderState *state, void *uPtr);
+  void handleEncoder(const volatile NewEncoder::EncoderState *state);
+  volatile bool newValueAvailable = false;
+  volatile int16_t encoderValue = 0;
 };
 
 // Static class callback function. Common to all instances. Uses the uPtr parameter to select the proper

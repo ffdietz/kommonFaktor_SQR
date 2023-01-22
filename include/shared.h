@@ -29,11 +29,12 @@ struct MenuLayout
   }
 
   static void screen1(bool pause, bool set){
-    if(pause) printPause();
-    else menu.print(MenuLayout::title.label, MenuLayout::title.x, MenuLayout::title.y );
+    // if(pause) printPause();
+    // else 
+    menu.print(MenuLayout::title.label, MenuLayout::title.x, MenuLayout::title.y );
 
     menu.print(MenuLayout::bpm.label, MenuLayout::bpm.x, MenuLayout::bpm.y);
-    menu.print(sequencer.speed);
+    menu.print(sequencer.getSpeed());
 
     menu.print(MenuLayout::step.label, MenuLayout::step.x, MenuLayout::step.y);
     
