@@ -18,6 +18,7 @@ public:
   bool setMode = false;
   // uint8_t index;
 
+  bool blinking = false;
   void blink(const char *data, uint8_t x, uint8_t y);
   void blink(const char *data);
   void blink(float data);

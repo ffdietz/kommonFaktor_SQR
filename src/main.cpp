@@ -2,42 +2,41 @@
 #include "shared.h"
 
 
-void display()
-{
-  if(sequencer.paused) MenuLayout::printPause();
+void display() {
+  if(sequencer.paused) {
+    MenuPrint::printPause();
+  }
+  // else menu.blinking = false;
 
-  switch(encoder.getData()){
+  switch(encoder.getData()) {
     case 0:
-      MenuLayout::screen1(sequencer.paused, menu.setMode);
+      MenuPrint::screen1();
       break;
 
     case 1:
-      MenuLayout::screen2();
+      MenuPrint::screen2();
       break;
 
     case 2:
-      MenuLayout::screen3();
+      MenuPrint::screen3();
       break;
   }
 }
 
 
-void updateSequence()
-{
+void updateSequence() {
   if (!sequencer.paused && sequencer.internalClock()){
-    sequencer.changeStep();
   }
+    sequencer.changeStep();
 }
 
 
-void updateParameters()
-{
+void updateParameters() {
   updateSequence();
 }
 
 
-void checkSetEncoder() 
-{
+void checkSetEncoder() {
   encoderSetButton.check();
   if(encoderSetButton.active) sequencer.setModeOn();
   else sequencer.setModeOff();
@@ -49,29 +48,31 @@ void checkSetEncoder()
 }
 
 
-void checkPause()
-{
+void checkPause() {
   pauseButton.check();
-  if(pauseButton.active) sequencer.pauseSequence();
-  else sequencer.restartSequence();
+  if(pauseButton.active) {
+    // menu.blinking = true;
+    sequencer.pauseSequence();
+  }
+  else {
+    menu.blinking = false;
+    sequencer.restartSequence();
+  }
 }
 
 
-void update()
-{
+void update() {
   updateParameters();
 }
 
 
-void check()
-{
+void check() {
   checkPause();
   checkSetEncoder();
 }
 
 
-bool running()
-{
+bool running() {
   check();
   update();
   display();
@@ -80,14 +81,12 @@ bool running()
 }
 
 
-void restart()
-{
+void restart() {
   menu.clear();
 }
 
 
-void setup()
-{
+void setup() {
   Serial.begin(9600);
   encoder.begin();
   menu.begin();
@@ -96,8 +95,7 @@ void setup()
 }
 
 
-void loop()
-{
+void loop() {
   while (
     running()
   );

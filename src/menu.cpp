@@ -49,16 +49,17 @@ void Menu::print(const char *data, uint8_t x, uint8_t y)
 
 void Menu::blink(const char *data)
 {
+
   char space[strlen(data)];           // create a char array with the size of data input
   memset(space, ' ', strlen(data));   // fill the array with ' ' (spaces) to cover the last print
 
-  if (millis() - lastBlink > blinkTime)
-  {
+  if (millis() - lastBlink > blinkTime){
     blinkState = !blinkState;
     lastBlink = millis();
   }
-  
+
   blinkState? lcd->print(data) : lcd->print(space);
+
 
 }
 

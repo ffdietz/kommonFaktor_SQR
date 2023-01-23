@@ -18,11 +18,9 @@ public:
       int16_t initalValue,
       uint8_t type = FULL_PULSE)
       : encoder{aPin, bPin, minValue, maxValue, initalValue, type}
-  {
-  }
+  {}
 
-  bool begin()
-  {
+  bool begin() {
     NewEncoder::EncoderState state;
     if (!encoder.begin()) return false;
 
@@ -33,8 +31,7 @@ public:
     return true;
   }
 
-  bool newDataAvailable()
-  {
+  bool newDataAvailable() {
     noInterrupts();
     bool temp = newValueAvailable;
     newValueAvailable = false;
@@ -42,8 +39,7 @@ public:
     return temp;
   }
 
-  int16_t getData()
-  {
+  int16_t getData() {
     int16_t temp;
     noInterrupts();
     temp = encoderValue;
