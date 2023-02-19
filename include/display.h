@@ -14,6 +14,8 @@ public:
   LiquidCrystal *lcd;
   void begin();
   void clear();
+  void clearLine(uint8_t x, uint8_t y);
+  void clearField();
   bool setMode = false;
 
   bool blinking = false;
