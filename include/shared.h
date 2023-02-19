@@ -14,12 +14,12 @@ struct MenuField {
 };
 
 struct MenuLabel {
-  static constexpr MenuField title = {0, 0, "STEP SEQUENCER"};
+  static constexpr MenuField mainTitle = {0, 0, "STEP SEQUENCER"};
+  static constexpr MenuField stepStatesTitle = {0, 0, "ACTIVE STEPS"};
+  static constexpr MenuField clockOptionTitle = {0, 0, "CLOCK OPTIONS"};
   static constexpr MenuField pause = {0, 0, "PAUSE"};
   static constexpr MenuField bpm = {0, 1, "BPM:"};
   static constexpr MenuField step = {10, 1, "STEP:"};
-  static constexpr MenuField stepStatesTitle = {0, 0, "ACTIVE STEPS"};
-  static constexpr MenuField clockOptionTitle = {0, 0, "CLOCK OPTIONS"};
 };
 
 class MenuPrint {
@@ -35,7 +35,7 @@ class MenuPrint {
     }
 
     static void screen1() {
-      if(!display.blinking) display.print(MenuLabel::title.label, MenuLabel::title.x, MenuLabel::title.y );
+      if(!display.blinking) display.print(MenuLabel::mainTitle.label, MenuLabel::mainTitle.x, MenuLabel::mainTitle.y );
 
       display.print(MenuLabel::bpm.label, MenuLabel::bpm.x, MenuLabel::bpm.y);
       display.print(sequencer.getSpeed());
