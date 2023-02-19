@@ -3,18 +3,20 @@
 
 class Controller
 {
-  private:
+  public:
+    Controller(int pin);
 
+    void begin();
+    void update();
+    bool check();
+    bool active;
+
+  private:
+    int input_pin;
     int lastPosition;
     int lastState;
     int currentState;
-
-  public:
-    Controller();
-    void begin();
-    bool pausedTriggered();
-    void update();
-
+    
 };
 
 #endif

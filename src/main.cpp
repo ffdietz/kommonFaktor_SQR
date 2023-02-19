@@ -1,121 +1,123 @@
 #include "global.h"
 #include "shared.h"
 
-void displaySettings(){
 
-}
+void displayPrint() {
+  if(sequencer.paused) MenuPrint::printPause();
 
-void printTitleBar() {
-  Serial.print("SEQUENCER ");
-  // TitleBar::printLabel(&tft, InfoBarData::row0TitlePos, InfoBarData::titleLabel);
-}
+  if(encoder.newDataAvailable()) MenuPrint::clear();
 
-void printPause(){  
-  Serial.print("PAUSE ");
-}
+  switch(encoder.getPosition()){
+    case 0:
+      MenuPrint::screen1();
+      break;
 
-void printStepsBar() {
-  Serial.print("STEPS:");  
-  Serial.print(sequencer.getSteps());
-  Serial.print(" ");  
-  // StepsBar::printLabel(&tft, InfoBarData::row1LabelPos, InfoBarData::stepsLabel);
-  // StepsBar::printValue(&tft, InfoBarData::row1ValuePos, sequencer.getSteps());
-}
+    case 1:
+      MenuPrint::screen2();
+      break;
 
-void printSpeedBar(){
-  Serial.print("BPM:");  
-  Serial.print(sequencer.getSpeed());
-  Serial.print(" ");  
-  // SpeedBar::printLabel(&tft, InfoBarData::row2LabelPos, InfoBarData::speedLabel);
-  // SpeedBar::printValue(&tft, InfoBarData::row2ValuePos, sequencer.getSpeed());
-}
-
-void printStepPositionBar(){
-  Serial.print("STEP:");  
-  Serial.print(sequencer.getCurrentStep());
-  Serial.print(" ");  
-  // StepPositionBar::printLabel(&tft, InfoBarData::row3LabelPos, InfoBarData::stepPosLabel);
-  // StepPositionBar::printValue(&tft, InfoBarData::row3ValuePos, sequencer.getCurrentStep());
-}
-
-void printStaticData(){
-  printTitleBar();
-  printStepsBar();
-  printSpeedBar();
-}
-
-void printDynamicData(){
-  printStepPositionBar();
-  // DrawLayout::drawLayout(&tft, sequencer.getCurrentStep());
-
-}
-
-void updateCurrentStep(){
-}
-
-void updateActiveSteps() {
-  // LivesBar::drawLives(&tft, InfoBarData::bottomBarValuePos, sequence.getSteps());
-}
-
-void updateSequence(){
-  if (sequencer.clockTimer()) sequencer.changeStep();
+    case 2:
+      MenuPrint::screen3();
+      break;
+  }
 }
 
 
+void updateSequence() {
+  if (!sequencer.paused && sequencer.internalClock()){
+    sequencer.changeStep();
+  }
+}
 
-void update() {
+
+void updateParameters() {
   updateSequence();
-  updateActiveSteps();
-  updateCurrentStep();
-
 }
 
-void draw() {
-  printStaticData();
-  printDynamicData();  
+
+void checkSetEncoder() {
+  encoderSetButton.check();
+
+  if(encoderSetButton.active) sequencer.setModeOn();
+  else sequencer.setModeOff();
+
+  // if(encoder.newDataAvailable()) 
+  // {
+  //   encoder.getDirection();
+  // }
 }
 
 
 void checkPause() {
-  // if (control.pausedTriggered())  sequencer.paused();
+  pauseButton.check();
+  if(pauseButton.active) {
+    sequencer.pauseSequence();
+  }
+  else {
+    display.blinking = false;
+    sequencer.restartSequence();
+  }
 }
 
-bool running() {
-  // game is paused
+
+void update() {
+  updateParameters();
+}
+
+
+void check() {
   checkPause();
-  if (sequencer.isPaused()) {
-    printPause();   // print PAUSED status message on-screen
+  checkSetEncoder();
+}
 
-    // while (!control.pausedTriggered()) {}   // wait for play button to play sequence
 
-    sequencer.restart();
-  }
-  
+bool running() {
+  check();
   update();
-  draw();
+  displayPrint();
 
-  // Serial.println("");
-  // delay(FRAME_DELAY); // maintain upper bound to frame rate
   return true;
 }
 
-void restart(){
-  // displaySettings();  
-  printStaticData();
-  printDynamicData();
+
+void restart() {
+  display.clear();
 }
 
-void setup() 
-{ 
-  Serial.begin(115200);
-  Serial.println("setup connected");
-  // restart();
-  start();
 
+void setup() {
+  Serial.begin(9600);
+  encoder.begin();
+  display.begin();
+
+  restart();
 }
 
-void loop()
-{
- while( run() );
-  // while( running() );
+void loop() {
+  while (
+    running()
+  );
 }
+
+// STRUCTURE TO SHOW LABEL AND VALUES AND MODIFY BY ENCODER
+
+// SEQUENCER DASHBOARD
+// // PLAY/STOP
+// // BMPs
+// // CURRENT STEP
+// // ACTIVE STEPS
+// // CLOCK OPTION
+// // SEQUENCE OPTION [IN TARGET DEVICE]
+
+// CLOCK OPTIONS
+// // INTERNAL CLOCK
+// // EXTERNAL CLOCK
+// // DIVIDED CLOCK
+// // MULTIPLIED CLOCK
+
+// SEQUENCE OPTIONS
+// // LINEAR
+// // RANDOM SEQUENCE
+// // INVERT SEQUENCE
+// // RANGE SEQUENCE
+// // CUSTOM SEQUENCE
