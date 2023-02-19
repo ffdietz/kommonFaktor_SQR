@@ -10,10 +10,10 @@
 struct MenuField {
   unsigned int x;
   unsigned int y;
-  const char *label;
+  const char * label;
 };
 
-struct MenuData {
+struct MenuLabel {
   static constexpr MenuField title = {0, 0, "STEP SEQUENCER"};
   static constexpr MenuField pause = {0, 0, "PAUSE"};
   static constexpr MenuField bpm = {0, 1, "BPM:"};
@@ -24,32 +24,37 @@ struct MenuData {
 
 class MenuPrint {
   public:
+    static void clear(){
+      display.clear();
+    }
+
     static void printPause() {
-    if(!menu.blinking) menu.print("                ", MenuData::pause.x, MenuData::pause.y );
+      if(!display.blinking) display.print("                ", MenuLabel::pause.x, MenuLabel::pause.y );
+      display.blink(MenuLabel::pause.label, MenuLabel::pause.x, MenuLabel::pause.y);
+      display.blinking = true;
+    }
 
-    menu.blinking = true;
-    menu.blink(MenuData::pause.label, MenuData::pause.x, MenuData::pause.y);
-  }
+    static void screen1() {
+      if(!display.blinking) display.print(MenuLabel::title.label, MenuLabel::title.x, MenuLabel::title.y );
 
-  static void screen1() {
-    if(!menu.blinking) menu.print(MenuData::title.label, MenuData::title.x, MenuData::title.y );
+      display.print(MenuLabel::bpm.label, MenuLabel::bpm.x, MenuLabel::bpm.y);
+      display.print(sequencer.getSpeed());
 
-    menu.print(MenuData::bpm.label, MenuData::bpm.x, MenuData::bpm.y);
-    menu.print(sequencer.getSpeed());
+      display.print(MenuLabel::step.label, MenuLabel::step.x, MenuLabel::step.y);
+      display.print(sequencer.getCurrentStep());
 
-    menu.print(MenuData::step.label, MenuData::step.x, MenuData::step.y);
-    menu.print(sequencer.getCurrentStep());
-
-  }
+    }
 
   static void screen2() {
-    if(!menu.blinking) 
-        menu.print(MenuData::stepStatesTitle.label, MenuData::stepStatesTitle.x, MenuData::stepStatesTitle.y );
+    if(!display.blinking) display.print(MenuLabel::stepStatesTitle.label, MenuLabel::stepStatesTitle.x, MenuLabel::stepStatesTitle.y );
+    
+    display.print("    screen 2    ", 0, 1);
   }
 
   static void screen3() {
-    if(!menu.blinking) 
-      menu.print(MenuData::clockOptionTitle.label, MenuData::clockOptionTitle.x, MenuData::clockOptionTitle.y );
+    if(!display.blinking) display.print(MenuLabel::clockOptionTitle.label, MenuLabel::clockOptionTitle.x, MenuLabel::clockOptionTitle.y );
+  
+    display.print("    screen 3    ", 0, 1);
   }
 
 };

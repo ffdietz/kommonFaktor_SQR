@@ -2,11 +2,11 @@
 
 //Constructor
 Sequencer::Sequencer(uint8_t steps, float speed){
-  steps = steps - 1;
-  speed = speed;
-  speedInMillis = int( 60000/speed );
-  lastChange = 0;
-  paused = false;
+  this->steps = steps - 1;
+  this->speed = speed;
+  this->speedInMillis = int( 60000/speed );
+  this->lastChange = 0;
+  this->paused = false;
   
   pinMode(13, OUTPUT);
 

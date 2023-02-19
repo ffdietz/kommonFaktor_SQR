@@ -2,13 +2,12 @@
 #include "shared.h"
 
 
-void display() {
-  if(sequencer.paused) {
-    MenuPrint::printPause();
-  }
-  // else menu.blinking = false;
+void displayPrint() {
+  if(sequencer.paused) MenuPrint::printPause();
 
-  switch(encoder.getData()) {
+  if(encoder.newDataAvailable()) MenuPrint::clear();
+
+  switch(encoder.getPosition()){
     case 0:
       MenuPrint::screen1();
       break;
@@ -26,8 +25,8 @@ void display() {
 
 void updateSequence() {
   if (!sequencer.paused && sequencer.internalClock()){
-  }
     sequencer.changeStep();
+  }
 }
 
 
@@ -38,24 +37,24 @@ void updateParameters() {
 
 void checkSetEncoder() {
   encoderSetButton.check();
+
   if(encoderSetButton.active) sequencer.setModeOn();
   else sequencer.setModeOff();
 
-  if(encoder.newDataAvailable()) 
-  {
-    encoder.getDirection();
-  }
+  // if(encoder.newDataAvailable()) 
+  // {
+  //   encoder.getDirection();
+  // }
 }
 
 
 void checkPause() {
   pauseButton.check();
   if(pauseButton.active) {
-    // menu.blinking = true;
     sequencer.pauseSequence();
   }
   else {
-    menu.blinking = false;
+    display.blinking = false;
     sequencer.restartSequence();
   }
 }
@@ -75,25 +74,24 @@ void check() {
 bool running() {
   check();
   update();
-  display();
+  displayPrint();
 
   return true;
 }
 
 
 void restart() {
-  menu.clear();
+  display.clear();
 }
 
 
 void setup() {
   Serial.begin(9600);
   encoder.begin();
-  menu.begin();
+  display.begin();
 
   restart();
 }
-
 
 void loop() {
   while (

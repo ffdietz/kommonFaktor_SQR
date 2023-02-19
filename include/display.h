@@ -1,32 +1,32 @@
 #include <Arduino.h>
-// #include <LiquidCrystal.h>
 
 #include <ShiftedLCD.h>
 #include <SPI.h>
 #include "pinout.h"
 
-#ifndef menu_h
-#define menu_h
+#ifndef display_h
+#define display_h
 
-class Menu
+class Display
 {
 public:
-  Menu();
+  Display();
   LiquidCrystal *lcd;
   void begin();
   void clear();
   bool setMode = false;
-  // uint8_t index;
 
   bool blinking = false;
-  void blink(const char *data, uint8_t x, uint8_t y);
-  void blink(const char *data);
+  void blink(const char * data, uint8_t x, uint8_t y);
+  void blink(const char * data);
   void blink(float data);
   void blink(int data);
-  void print(const char *data, uint8_t x, uint8_t y);
-  void print(const char *data);
+
+  void print(const char * data, uint8_t x, uint8_t y);
+  void print(const char * data);
   void print(float data);
   void print(int data);
+  
 
 private:
   bool blinkState = false;

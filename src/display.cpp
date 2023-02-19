@@ -3,52 +3,44 @@
 #include <SPI.h>
 // #include <LiquidCrystal.h>
 
-#include "menu.h"
+#include "display.h"
 #include "pinout.h"
 
-Menu::Menu()
-{
+Display::Display() {
   lcd = new LiquidCrystal(SHIFT_REG_LATCH_LCD);
 }
 
-void Menu::begin()
-{
+void Display::begin() {
   lcd->begin(LCD_CHARS, LCD_LINES);
   lcd->clear();
 
   lastBlink = millis();
 }
 
-void Menu::clear()
-{
+void Display::clear() {
   lcd->clear();
 }
 
-void Menu::print(float data)
-{
+void Display::print(float data) {
   char result[5];                 // Buffer big enough for 7-character float
-  dtostrf(data, 3, 1, result);    // Leave room for too large numbers ['C''D''E''.''F']
+  dtostrf(data, 3, 1, result);    // Leave room for too large numbers ['000' '.' '0']
   lcd->print(result);
 }
 
-void Menu::print(int data)
-{
+void Display::print(int data) {
   lcd->print(data);
 }
 
-void Menu::print(const char *data)
-{
+void Display::print(const char * data) {
   lcd->print(data);
 }
 
-void Menu::print(const char *data, uint8_t x, uint8_t y)
-{
+void Display::print(const char * data, uint8_t x, uint8_t y) {
   lcd->setCursor(x, y);
   lcd->print(data);
 }
 
-void Menu::blink(const char *data)
-{
+void Display::blink(const char * data) {
 
   char space[strlen(data)];           // create a char array with the size of data input
   memset(space, ' ', strlen(data));   // fill the array with ' ' (spaces) to cover the last print
@@ -63,20 +55,17 @@ void Menu::blink(const char *data)
 
 }
 
-void Menu::blink(const char *data, uint8_t x, uint8_t y)
-{
+void Display::blink(const char *data, uint8_t x, uint8_t y) {
   lcd->setCursor(x, y);
   blink(data);
 }
 
-void Menu::blink(int data)
-{
+void Display::blink(int data) {
   blink(data);
 }
 
-void Menu::blink(float data)
-{
-  char result[5];              // Buffer big enough for 7-character float
+void Display::blink(float data) {
+  char result[5];              // Buffer big enough for 000.00 format
   dtostrf(data, 3, 1, result); // Leave room for too large numbers!
   blink(result);
 }

@@ -20,8 +20,8 @@ class Sequencer {
     float getSpeed();
 
     //Steps methods
-    void  changeStep();
-    bool  stepChanged();
+    void changeStep();
+    bool stepChanged();
     uint8_t getCurrentStep();
     uint8_t getStepsQuantity();
 
