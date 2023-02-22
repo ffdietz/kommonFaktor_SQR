@@ -28,7 +28,7 @@ public:
   void print(const char * data);
   void print(float data);
   void print(int data);
-  
+
 
 private:
   bool blinkState = false;

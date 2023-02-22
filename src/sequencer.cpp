@@ -1,10 +1,11 @@
- #include "sequencer.h"
+#include "sequencer.h"
+#include "pinout.h"
 
 //Constructor
 Sequencer::Sequencer(uint8_t steps, float speed){
   this->steps = steps - 1;
   this->speed = speed;
-  this->speedInMillis = int( 60000/speed );
+  this->speedInMillis = speedToMillis(speed);
   this->lastChange = 0;
   this->paused = false;
   
@@ -25,6 +26,10 @@ void Sequencer::restartSequence(){
   paused = false;
 }
 
+int Sequencer::speedToMillis(float speed){
+ return ( 60000 / speed );
+}
+
 void Sequencer::setSpeed(float variation){
   speed += variation;
 }
@@ -41,12 +46,12 @@ bool Sequencer::internalClock(){
   if (millis() - lastChange >= speedInMillis)
   {
     lastChange =  millis();
-    digitalWrite(13, HIGH);
+    digitalWrite(CLOCK_OUT, HIGH);
 
     return true;
   }
 
-  digitalWrite(13, LOW);
+  digitalWrite(CLOCK_OUT, LOW);
   return false;
 }
 

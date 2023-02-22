@@ -2,49 +2,38 @@
 #include "shared.h"
 
 
-void displayPrint() {
-  if(sequencer.paused) MenuPrint::printPause();
+void print() {
+  if(sequencer.paused) Menu::printPause();
 
-  if(encoder.newDataAvailable()) MenuPrint::clear();
+  encoder.newDataAvailable() && !sequencer.isSetMode()
+  ? Menu::clear()
+  : Menu::selectScreen(encoder.getPosition());
 
-  switch(encoder.getPosition()){
-    case 0:
-      MenuPrint::screen1();
-      break;
+}
 
-    case 1:
-      MenuPrint::screen2();
-      break;
-
-    case 2:
-      MenuPrint::screen3();
-      break;
+void updateVariables() {
+  if(sequencer.isSetMode()){
+    sequencer.setSpeed(encoder.getDirection() * 0.1);
   }
 }
 
-
 void updateSequence() {
-  if (!sequencer.paused && sequencer.internalClock()){
+  if (sequencer.internalClock() && !sequencer.paused ){
     sequencer.changeStep();
   }
 }
 
 
 void updateParameters() {
+  updateVariables();
   updateSequence();
 }
 
 
 void checkSetEncoder() {
   encoderSetButton.check();
-
   if(encoderSetButton.active) sequencer.setModeOn();
   else sequencer.setModeOff();
-
-  // if(encoder.newDataAvailable()) 
-  // {
-  //   encoder.getDirection();
-  // }
 }
 
 
@@ -74,7 +63,7 @@ void check() {
 bool running() {
   check();
   update();
-  displayPrint();
+  print();
 
   return true;
 }

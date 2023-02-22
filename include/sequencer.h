@@ -18,6 +18,7 @@ class Sequencer {
     //Speed methods
     void  setSpeed(float variation);
     float getSpeed();
+    int speedToMillis(float speed);
 
     //Steps methods
     void changeStep();
