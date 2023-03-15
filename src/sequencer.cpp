@@ -9,7 +9,7 @@ Sequencer::Sequencer(uint8_t steps, float speed){
   this->lastChange = 0;
   this->paused = false;
   
-  pinMode(13, OUTPUT);
+  pinMode(CLOCK_OUT, OUTPUT);
 
 }
 
@@ -72,7 +72,7 @@ bool Sequencer::stepChanged(){
 
 void Sequencer::clockOut(){
   clockOutState = !clockOutState;
-  digitalWrite(13, clockOutState);
+  digitalWrite(CLOCK_OUT, clockOutState);
 }
 
 void Sequencer::setModeOn(){

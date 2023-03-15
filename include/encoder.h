@@ -57,42 +57,8 @@ public:
         prevEncoderValue = currentEncoderState.currentValue;
         return currentEncoderState.currentValue - prevEncoderValue;
       } 
-      else
-        switch (currentEncoderState.currentClick) {
-          case NewEncoder::UpClick:
-            Serial.println("at upper limit.");
-            break;
-
-          case NewEncoder::DownClick:
-            Serial.println("at lower limit.");
-            break;
-
-          default:
-            break;
-        }
     }
-
-    // if (encoder.getState(currentEncoderState)) {
-    //   Serial.print("Encoder: ");
-    //   if (currentEncoderState.currentValue != prevEncoderValue) {
-    //     Serial.println(currentEncoderState.currentValue - prevEncoderValue);
-    //     prevEncoderValue = currentEncoderState.currentValue;
-    //     return currentEncoderState.currentValue - prevEncoderValue
-    //   } 
-    //   else
-    //     switch (currentEncoderState.currentClick) {
-    //       case NewEncoder::UpClick:
-    //         Serial.println("at upper limit.");
-    //         break;
-
-    //       case NewEncoder::DownClick:
-    //         Serial.println("at lower limit.");
-    //         break;
-
-    //       default:
-    //         break;
-    //     }
-    // }
+    return 0;
   }
 
 

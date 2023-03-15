@@ -41,11 +41,11 @@ class Menu {
       }
     }
 
-    static void printIsSetMode() {
-      if(!display.blinking) display.print("                ", 0, 1 );
-      display.blink("SET MODE", 0, 1);
-      display.blinking = true;
-    }
+    // static void printIsSetMode() {
+    //   if(!display.blinking) display.print("                ", 0, 1 );
+    //   display.blink("SET MODE", 0, 1);
+    //   display.blinking = true;
+    // }
 
     static void printPause() {
       if(!display.blinking) display.print("                ", mainTitle.x, pause.y );
@@ -57,7 +57,7 @@ class Menu {
       if(!display.blinking) display.print(mainTitle.label, mainTitle.x, mainTitle.y );
 
       display.print(bpm.label, bpm.x, bpm.y);
-      display.print(sequencer.getSpeed());
+      display.setMode ? display.blink(sequencer.getSpeed()) : display.print(sequencer.getSpeed());
 
       display.print(step.label, step.x, step.y);
       display.print(sequencer.getCurrentStep());

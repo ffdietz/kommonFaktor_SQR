@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <ShiftedLCD.h>
 #include <SPI.h>
-// #include <LiquidCrystal.h>
 
 #include "display.h"
 #include "pinout.h"
@@ -26,7 +25,7 @@ void Display:: clearLine(uint8_t x, uint8_t y) {
 }
 
 void Display::print(float data) {
-  char result[5];                 // Buffer big enough for 000.000 lenght float
+  char result[4];                 // Buffer big enough for 000.0 lenght float
   dtostrf(data, 3, 1, result);    // Leave room for too large numbers ['000' '.' '0']
   lcd->print(result);
 }
@@ -54,8 +53,7 @@ void Display::blink(const char * data) {
     lastBlink = millis();
   }
 
-  blinkState? lcd->print(data) : lcd->print(space);
-
+  blinkState ? lcd->print(data) : lcd->print(space);
 
 }
 
@@ -69,7 +67,7 @@ void Display::blink(int data) {
 }
 
 void Display::blink(float data) {
-  char result[5];              // Buffer big enough for 000.00 format
+  char result[4];              // Buffer big enough for 000.00 format
   dtostrf(data, 3, 1, result); // Leave room for too large numbers!
   blink(result);
 }

@@ -2,61 +2,83 @@
 #include "shared.h"
 
 
-void print() {
+void print() 
+{
   if(sequencer.paused) Menu::printPause();
 
-  encoder.newDataAvailable() && !sequencer.isSetMode()
+  (encoder.newDataAvailable() && sequencer.setMode == false)
   ? Menu::clear()
   : Menu::selectScreen(encoder.getPosition());
-
 }
 
-void updateVariables() {
-  if(sequencer.isSetMode()){
-    sequencer.setSpeed(encoder.getDirection() * 0.1);
-  }
-}
 
-void updateSequence() {
-  if (sequencer.internalClock() && !sequencer.paused ){
+void updateSequence() 
+{
+  if(sequencer.internalClock() && !sequencer.paused)
+  {
     sequencer.changeStep();
   }
 }
 
 
-void updateParameters() {
-  updateVariables();
+void updateVariables() 
+{
+  if(encoder.newDataAvailable())
+  {
+    sequencer.setSpeed(encoder.getDirection() * 0.1);
+  } 
+  // else 
+  // {
+  //   display.setMode = false;
+  // }
+}
+
+
+void checkEncoder()
+{
+  
+}
+
+void checkSetEncoder() 
+{
+  encoderSetButton.check();
+
+  if(encoderSetButton.active)
+  {
+    sequencer.setModeOn();
+    display.setMode = true;
+  } 
+  else
+  {
+    sequencer.setModeOff();
+    display.setMode = false;
+  }
+}
+
+
+void checkPause() 
+{
+  pauseButton.check();
+
+  if(pauseButton.active)
+    sequencer.pauseSequence();
+  else
+    sequencer.restartSequence();
+}
+
+
+void update() 
+{
+  if(sequencer.isSetMode()) updateVariables();
   updateSequence();
 }
 
 
-void checkSetEncoder() {
-  encoderSetButton.check();
-  if(encoderSetButton.active) sequencer.setModeOn();
-  else sequencer.setModeOff();
-}
-
-
-void checkPause() {
-  pauseButton.check();
-  if(pauseButton.active) {
-    sequencer.pauseSequence();
-  }
-  else {
-    display.blinking = false;
-    sequencer.restartSequence();
-  }
-}
-
-
-void update() {
-  updateParameters();
-}
-
-
-void check() {
+void check() 
+{
   checkPause();
   checkSetEncoder();
+  checkEncoder();
 }
 
 
@@ -75,7 +97,7 @@ void restart() {
 
 
 void setup() {
-  Serial.begin(9600);
+  // Serial.begin(9600);
   encoder.begin();
   display.begin();
 
@@ -89,7 +111,6 @@ void loop() {
 }
 
 // STRUCTURE TO SHOW LABEL AND VALUES AND MODIFY BY ENCODER
-
 // SEQUENCER DASHBOARD
 // // PLAY/STOP
 // // BMPs

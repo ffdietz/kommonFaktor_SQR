@@ -18,7 +18,7 @@ class Sequencer {
     //Speed methods
     void  setSpeed(float variation);
     float getSpeed();
-    int speedToMillis(float speed);
+    int   speedToMillis(float speed);
 
     //Steps methods
     void changeStep();
@@ -37,8 +37,9 @@ class Sequencer {
     void setModeOff();
     void setModeOn();
 
-  private:
     bool setMode = false;
+    
+  private:
     long currentTime = 0;
     long lastChange = 0;
     uint16_t speedInMillis = 0;
