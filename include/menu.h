@@ -60,7 +60,7 @@ struct menuIndexSelector
     0, // items in submenu 2
     0, // items in submenu 3
     4, // items in submenu 4
-    3, // items in submenu 5
+    4, // items in submenu 5
   };
 
   void fn200(void);
@@ -86,10 +86,30 @@ struct menuIndexSelector
     fn600, fn601, fn602, fn603, fn604, 
   };
 
+  void clearMenu()
+  {
+    display.clear();
+  }
+
   void selectMenuIndex(int variation)
   {
-    indexSelector.menu = constrain(indexSelector.menu + variation, 1, MENU_LENGTH[0] - 1);
-    indexSelector.subMenu = 1;
+    if(!sequencer.isSetMode()){
+      indexSelector.menu = constrain(indexSelector.menu + variation, 1, MENU_LENGTH[0] - 1);
+       indexSelector.subMenu = 0;
+       }
+    else {
+      indexSelector.subMenu = constrain(indexSelector.subMenu + variation, 0, MENU_LENGTH[indexSelector.menu] - 1);
+    }
+    
+    clearMenu();
+    
+    Serial.print("indexSelector.menu");
+    Serial.print("  ");
+    Serial.print(indexSelector.menu);
+    Serial.print("    ");
+    Serial.print("indexSelector.subMenu");
+    Serial.print("  ");
+    Serial.println(indexSelector.subMenu);
   }
 
   uint8_t setMenuFnIndex(uint8_t menu, uint8_t submenu)
@@ -106,16 +126,11 @@ struct menuIndexSelector
     return indexOutput;
   }
 
-  void clearMenu()
-  {
-    display.clear();
-  }
-
   void printMenu()
   { 
-    display.print(MENU[0], 0, 0);
-    display.print(MENU[indexSelector.menu], 0, 1);
-    // display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
+    // display.print(MENU[0], 0, 0);
+    display.print(MENU[indexSelector.menu], 0, 0);
+    display.print(SUBMENU[setMenuFnIndex(indexSelector.menu,indexSelector.subMenu)], 0, 1);
 
   }
 
