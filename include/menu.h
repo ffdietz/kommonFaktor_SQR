@@ -14,30 +14,30 @@ struct menuIndexSelector
 
   // Menu Labels
   //menu 0
-  const uint8_t MN000[] = "STEP SEQUENCER\0";
+  const char * MN000 = "STEP SEQUENCER";
   //menu 1
-  const uint8_t MN100[] = "BPM:\0";
+  const char * MN100 = "BPM:";
   //menu 2
-  const uint8_t MN200[] = "CURRENT STEP:\0";
+  const char * MN200 = "CURRENT STEP:";
   //menu 3
-  const uint8_t MN300[] = "ACTIVE STEPS:\0";
+  const char * MN300 = "ACTIVE STEPS:";
   //menu 4
-  const uint8_t MN400[] = "CLOCK:\0";
+  const char * MN400 = "CLOCK:";
   //Submenus of menu 4
-  const uint8_t MN401[] = "INTERNAL\0";
-  const uint8_t MN402[] = "EXTERNAL\0";
-  const uint8_t MN403[] = "DIVIDED\0";
-  const uint8_t MN404[] = "MULTIPLIED\0";
+  const char * MN401 = "INTERNAL";
+  const char * MN402 = "EXTERNAL";
+  const char * MN403 = "DIVIDED";
+  const char * MN404 = "MULTIPLIED";
   //menu 5
-  const uint8_t MN500[] = "SEQUENCE:\0";
+  const char * MN500 = "SEQUENCE:";
   //Submenus of menu 5
-  const uint8_t MN501[] = "LINEAR\0";
-  const uint8_t MN502[] = "INVERT\0";
-  const uint8_t MN503[] = "RANDOM\0";
-  const uint8_t MN504[] = "CUSTOM\0";
+  const char * MN501 = "LINEAR";
+  const char * MN502 = "INVERT";
+  const char * MN503 = "RANDOM";
+  const char * MN504 = "CUSTOM";
 
 
-  const uint8_t *MENU[] = 
+  const char* MENU[] = 
   {
     MN000,
     MN100,
@@ -47,7 +47,7 @@ struct menuIndexSelector
     MN500,
   };
 
-  const uint8_t *SUBMENU[] = 
+  const char* SUBMENU[] = 
   {
     MN401, MN402, MN403, MN404,
     MN501, MN502, MN503, MN504,
@@ -86,12 +86,26 @@ struct menuIndexSelector
     fn600, fn601, fn602, fn603, fn604, 
   };
 
+  void selectMenuIndex(int variation)
+  {
+    if(indexSelector.menu < MENU_LENGTH[0])
+    { 
+      indexSelector.menu += variation;
+      indexSelector.subMenu = 1;
+    }
+    else indexSelector.menu = 1;
+  }
+
   uint8_t setMenuFnIndex(uint8_t menu, uint8_t submenu)
   {
     uint8_t indexOutput = 0;
 
-    for(uint8_t i = 0 ; i < (menu - 1) ; i++ )
+    for(uint8_t i = 0 ; i < menu - 1 ; i++ )
+    {
       indexOutput += MENU_LENGTH[i + 1];
+    }
+
+    indexOutput = indexOutput + submenu - 1;
 
     return indexOutput;
   }
@@ -103,10 +117,18 @@ struct menuIndexSelector
 
   void printMenu()
   { 
-    display.print(MENU[indexSelector.menu], 0, 0);
-    // display.lcd->setCursor(10,0);
-    // display.lcd->print(encoder.getPosition());
-    // display.print(indexSelector.subMenu, 0, 10);
+    display.print(MENU[0], 0, 0);
+    display.print(MENU[indexSelector.menu - 1], 0, 1);
+    // display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
+
+    Serial.print("indexSelector.menu");
+    Serial.print(" ");
+    Serial.print(indexSelector.menu);
+    Serial.print(" ");
+    Serial.print("setMenuFnIndex");
+    Serial.print(" ");
+    Serial.println(setMenuFnIndex(indexSelector.menu, indexSelector.subMenu));
+
   }
 
 

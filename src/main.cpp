@@ -41,9 +41,7 @@ void checkEncoder()
 {
   if(encoder.newDataAvailable())
   {
-    indexSelector.menu = encoder.getPosition();
-    indexSelector.subMenu = encoder.prevEncoderValue;
-
+    selectMenuIndex(encoder.getPosition());
     clearMenu();
   };
 }
