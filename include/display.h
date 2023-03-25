@@ -18,17 +18,16 @@ public:
   void clearField();
   bool setMode = false;
 
+  void print(const char * data, uint8_t x, uint8_t y);
+  void print(const char * data);
+  void print(float data);
+  void print(int16_t data);
+
   bool blinking = false;
   void blink(const char * data, uint8_t x, uint8_t y);
   void blink(const char * data);
   void blink(float data);
   void blink(int data);
-
-  void print(const char * data, uint8_t x, uint8_t y);
-  void print(const char * data);
-  void print(float data);
-  void print(int data);
-
 
 private:
   bool blinkState = false;

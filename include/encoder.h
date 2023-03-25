@@ -11,14 +11,13 @@ class Encoder
 {
 public:
   Encoder(
-      uint8_t aPin,
-      uint8_t bPin,
-      int16_t minValue,
-      int16_t maxValue,
-      int16_t initalValue,
-      uint8_t type = FULL_PULSE)
-      : encoder{aPin, bPin, minValue, maxValue, initalValue, type}
-  {}
+    uint8_t aPin,
+    uint8_t bPin,
+    int16_t minValue,
+    int16_t maxValue,
+    int16_t initalValue,
+    uint8_t type = FULL_PULSE
+    ):encoder{aPin, bPin, minValue, maxValue, initalValue, type}{}
 
   bool begin() {
     NewEncoder::EncoderState state;
@@ -49,24 +48,27 @@ public:
 
   int8_t getDirection()
   {
-    NewEncoder::EncoderState currentEncoderState;
-    if (encoder.getState(currentEncoderState)) {
-      // Serial.print("Encoder: ");
-      if (currentEncoderState.currentValue != prevEncoderValue) {
-        // Serial.println(currentEncoderState.currentValue - prevEncoderValue);
-        prevEncoderValue = currentEncoderState.currentValue;
-        return currentEncoderState.currentValue - prevEncoderValue;
-      } 
-    }
+    int16_t direction;
+    int16_t value;
+    noInterrupts();
+    value = encoderValue;
+    interrupts();
+    
+    if (value != prevEncoderValue) {
+      direction = value - prevEncoderValue;
+      prevEncoderValue = value;
+      return direction < 0 ? -1 : 1;
+    } 
     return 0;
   }
+
+  int16_t prevEncoderValue = 0;
 
 
 private:
   // embedded NewEncoder object
   NewEncoder encoder;
 
-  int16_t prevEncoderValue;
   static void callBack(NewEncoder *encPtr, const volatile NewEncoder::EncoderState *state, void *uPtr);
   void handleEncoder(const volatile NewEncoder::EncoderState *state);
   volatile bool newValueAvailable = false;

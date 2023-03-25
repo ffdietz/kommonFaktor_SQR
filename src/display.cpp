@@ -5,22 +5,26 @@
 #include "display.h"
 #include "pinout.h"
 
-Display::Display() {
+Display::Display() 
+{
   lcd = new LiquidCrystal(SHIFT_REG_LATCH_LCD);
 }
 
-void Display::begin() {
+void Display::begin() 
+{
   lcd->begin(LCD_CHARS, LCD_LINES);
   lcd->clear();
 
   lastBlink = millis();
 }
 
-void Display::clear() {
+void Display::clear() 
+{
   lcd->clear();
 }
 
-void Display:: clearLine(uint8_t x, uint8_t y) {
+void Display:: clearLine(uint8_t x, uint8_t y) 
+{
 
 }
 
@@ -30,7 +34,8 @@ void Display::print(float data) {
   lcd->print(result);
 }
 
-void Display::print(int data) {
+void Display::print(int16_t data) 
+{
   lcd->print(data);
 }
 

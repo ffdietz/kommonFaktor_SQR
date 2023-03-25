@@ -12,6 +12,5 @@ Encoder     encoder{ENCODER_A, ENCODER_B, ENCODER_MIN, ENCODER_MAX, 0};
 Controller  encoderSetButton(ENCODER_SET);
 Controller  pauseButton(PAUSE_BUTTON);
 Display     display;
-// Encoder     encoder{ENCODER_A, ENCODER_B, ENCODER_MIN, ENCODER_MAX, ENCODER_MIN};
 
 #endif

@@ -1,14 +1,17 @@
 #include "global.h"
-#include "shared.h"
+#include "menu.h"
 
+// encoder.getDirection() not working
+// typo bug in shared.h printMenu()
 
 void print() 
 {
-  if(sequencer.paused) Menu::printPause();
+  printMenu();
+  // if(sequencer.paused) Menu::printPause();
 
-  (encoder.newDataAvailable() && sequencer.setMode == false)
-  ? Menu::clear()
-  : Menu::selectScreen(encoder.getPosition());
+  // (encoder.newDataAvailable() && sequencer.setMode == false)
+  // ? Menu::clear()
+  // : Menu::selectScreen(encoder.getPosition());
 }
 
 
@@ -23,20 +26,26 @@ void updateSequence()
 
 void updateVariables() 
 {
-  if(encoder.newDataAvailable())
-  {
-    sequencer.setSpeed(encoder.getDirection() * 0.1);
-  } 
-  // else 
-  // {
-  //   display.setMode = false;
-  // }
+
+}
+
+
+void update() 
+{
+  if(sequencer.isSetMode()) updateVariables();
+  updateSequence();
 }
 
 
 void checkEncoder()
 {
-  
+  if(encoder.newDataAvailable())
+  {
+    indexSelector.menu = encoder.getPosition();
+    indexSelector.subMenu = encoder.prevEncoderValue;
+
+    clearMenu();
+  };
 }
 
 void checkSetEncoder() 
@@ -67,13 +76,6 @@ void checkPause()
 }
 
 
-void update() 
-{
-  if(sequencer.isSetMode()) updateVariables();
-  updateSequence();
-}
-
-
 void check() 
 {
   checkPause();
@@ -97,12 +99,18 @@ void restart() {
 
 
 void setup() {
-  // Serial.begin(9600);
+  Serial.begin(9600);
+  
+  Serial.println("serial");
+  Serial.println("connected");
+  Serial.println("");
+
   encoder.begin();
   display.begin();
 
   restart();
 }
+
 
 void loop() {
   while (
