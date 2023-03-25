@@ -41,7 +41,16 @@ void checkEncoder()
 {
   if(encoder.newDataAvailable())
   {
-    selectMenuIndex(encoder.getPosition());
+    selectMenuIndex(encoder.getDirection());
+
+    Serial.print("indexSelector.menu");
+    Serial.print(" ");
+    Serial.print(indexSelector.menu);
+    Serial.print(" ");
+    Serial.print("setMenuFnIndex");
+    Serial.print(" ");
+    Serial.println(setMenuFnIndex(indexSelector.menu, indexSelector.subMenu));
+
     clearMenu();
   };
 }

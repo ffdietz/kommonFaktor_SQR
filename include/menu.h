@@ -8,8 +8,8 @@ FnPr FPr;
 //Structure describes current menu and submenu state
 struct menuIndexSelector
 {
-  uint8_t menu;
-  uint8_t subMenu;
+  uint8_t menu = 0;
+  uint8_t subMenu = 0;
 } indexSelector;
 
   // Menu Labels
@@ -88,12 +88,8 @@ struct menuIndexSelector
 
   void selectMenuIndex(int variation)
   {
-    if(indexSelector.menu < MENU_LENGTH[0])
-    { 
-      indexSelector.menu += variation;
-      indexSelector.subMenu = 1;
-    }
-    else indexSelector.menu = 1;
+    indexSelector.menu = constrain(indexSelector.menu + variation, 1, MENU_LENGTH[0] - 1);
+    indexSelector.subMenu = 1;
   }
 
   uint8_t setMenuFnIndex(uint8_t menu, uint8_t submenu)
@@ -118,16 +114,8 @@ struct menuIndexSelector
   void printMenu()
   { 
     display.print(MENU[0], 0, 0);
-    display.print(MENU[indexSelector.menu - 1], 0, 1);
+    display.print(MENU[indexSelector.menu], 0, 1);
     // display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
-
-    Serial.print("indexSelector.menu");
-    Serial.print(" ");
-    Serial.print(indexSelector.menu);
-    Serial.print(" ");
-    Serial.print("setMenuFnIndex");
-    Serial.print(" ");
-    Serial.println(setMenuFnIndex(indexSelector.menu, indexSelector.subMenu));
 
   }
 
