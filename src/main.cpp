@@ -39,8 +39,7 @@ void update()
 
 void checkEncoder()
 {
-  if(encoder.newDataAvailable())
-  {
+  if(encoder.newDataAvailable()){
     selectMenuIndex(encoder.getDirection());
     clearMenu();
   };
@@ -48,15 +47,16 @@ void checkEncoder()
 
 void checkSetEncoder() 
 {
-  encoderSetButton.check();
-
-  if(encoderSetButton.active)
-  {
-    sequencer.setModeOn();
-  } 
-  else
-  {
-    sequencer.setModeOff();
+  if(encoderSetButton.check()){
+    if(encoderSetButton.active){
+      sequencer.setModeOn();
+      menuSetModeOn();
+    } 
+    else {
+      sequencer.setModeOff();
+      menuSetModeOff();
+    }
+    clearMenu();
   }
 }
 
