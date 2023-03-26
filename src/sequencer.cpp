@@ -5,9 +5,9 @@
 Sequencer::Sequencer(uint8_t steps, float speed){
   this->steps = steps - 1;
   this->speed = speed;
-  this->speedInMillis = speedToMillis(speed);
-  this->lastChange = 0;
-  this->paused = false;
+  speedInMillis = speedToMillis(speed);
+  lastChange = 0;
+  paused = false;
   
   pinMode(CLOCK_OUT, OUTPUT);
 
@@ -32,6 +32,7 @@ int Sequencer::speedToMillis(float speed){
 
 void Sequencer::setSpeed(float variation){
   speed += variation;
+  speedInMillis = speedToMillis(speed);
 }
 
 float Sequencer::getSpeed(){

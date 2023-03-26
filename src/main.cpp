@@ -26,13 +26,13 @@ void updateSequence()
 
 void updateVariables() 
 {
-
+  if(sequencer.isSetMode()) CurrentFunc();
 }
 
 
 void update() 
 {
-  if(sequencer.isSetMode()) updateVariables();
+  updateVariables();
   updateSequence();
 }
 
@@ -40,7 +40,7 @@ void update()
 void checkEncoder()
 {
   if(encoder.newDataAvailable()){
-    selectMenuIndex(encoder.getDirection());
+    if(!sequencer.isSetMode()) selectMenuIndex(encoder.getDirection());
     clearMenu();
   };
 }
@@ -84,7 +84,6 @@ bool running() {
   check();
   update();
   print();
-
   return true;
 }
 
@@ -103,6 +102,8 @@ void setup() {
 
   encoder.begin();
   display.begin();
+
+  menuInit();
 
   restart();
 }

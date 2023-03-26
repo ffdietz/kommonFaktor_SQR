@@ -16,14 +16,12 @@ public:
   void clear();
   void clearLine(uint8_t x, uint8_t y);
   void clearField();
-  bool setMode = false;
 
   void print(const char * data, uint8_t x, uint8_t y);
   void print(const char * data);
   void print(float data);
   void print(int16_t data);
 
-  bool blinking = false;
   void blink(const char * data, uint8_t x, uint8_t y);
   void blink(const char * data);
   void blink(float data);
