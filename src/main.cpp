@@ -1,8 +1,6 @@
 #include "global.h"
 #include "menu.h"
 
-// encoder.getDirection() not working
-// typo bug in shared.h printMenu()
 
 void print() 
 {
@@ -48,16 +46,25 @@ void checkEncoder()
 void checkSetEncoder() 
 {
   if(encoderSetButton.check()){
-    if(encoderSetButton.active){
-      sequencer.setModeOn();
-      menuSetModeOn();
-    } 
-    else {
-      sequencer.setModeOff();
-      menuSetModeOff();
-    }
+    menuIsSetMode() ? menuSetModeOff() : menuSetModeOn();
     clearMenu();
   }
+  // if(encoderSetButton.active){
+  //   sequencer.setModeOn();
+  //   menuSetModeOn();
+  // } 
+  // else {
+  //   sequencer.setModeOff();
+  //   menuSetModeOff();
+  // }
+
+
+  Serial.print("  menuIsSetMode ");
+  Serial.print(menuIsSetMode());
+  Serial.print("  encoderSetButton.active ");
+  Serial.print(encoderSetButton.active);
+  // clearMenu();
+
 }
 
 

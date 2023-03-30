@@ -100,6 +100,10 @@ struct menuIndexSelector
     setMode = false;
   }
 
+  bool menuIsSetMode(){
+    return setMode;
+  }
+
   void clearMenu()
   {
     display.clear();
@@ -132,11 +136,12 @@ struct menuIndexSelector
   {
     indexSelector.menu = 1;
     indexSelector.subMenu = 1;
-    clearMenu();
     display.print(MENU[0], 0, 0);
     display.print(SUBMENU[0], 0, 1);
 
     CurrentFunc = *MenuFn[0];
+
+    clearMenu();
 
   }
 
@@ -150,10 +155,9 @@ struct menuIndexSelector
       display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
     };
 
-    Serial.print("indexSelector.menu ");
+    Serial.print("  indexSelector.menu ");
     Serial.print(indexSelector.menu);
-    Serial.print("    ");
-    Serial.print("setMenuFnIndex ");
+    Serial.print("  setMenuFnIndex ");
     Serial.println(setMenuFnIndex(indexSelector.menu,indexSelector.subMenu));
 
   }

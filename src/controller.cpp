@@ -28,12 +28,14 @@ bool Controller::check()
   currentState = digitalRead(input_pin);
 
   /* Return if the button just got pressed down */
-  if(currentState == LOW && lastState == HIGH)
-  {
-      active = !active;
-      return true;
+  if(currentState == LOW && lastState == HIGH){
+    toggleActive();
+    return true;
   }
 
   return false;
 }
 
+void Controller::toggleActive(){
+  active = !active;
+}

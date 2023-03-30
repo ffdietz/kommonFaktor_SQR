@@ -9,6 +9,7 @@ class Controller
     void begin();
     void update();
     bool check();
+    void toggleActive();
     bool active;
 
   private:
