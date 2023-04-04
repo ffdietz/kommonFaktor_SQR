@@ -3,24 +3,35 @@
 
 void debugger()
 {
-  Serial.print("  indexSelector.menu ");      Serial.print(indexSelector.menu);
-  Serial.print("  setMenuFnIndex ");          Serial.print(setMenuFnIndex(indexSelector.menu,indexSelector.subMenu));
-  Serial.print("  menuIsSetMode ");           Serial.print(menuIsSetMode());
-  Serial.print("  encoderSetButton.active "); Serial.print(encoderSetButton.active);
+  Serial.print("  indexSelector.menu ");        Serial.print(indexSelector.menu);
+  Serial.print("  setMenuFnIndex ");            Serial.print(setMenuFnIndex(indexSelector.menu,indexSelector.subMenu));
+  Serial.print("  menuIsSetMode ");             Serial.print(menuIsSetMode());
+  Serial.print("  encoderSetButton.active ");   Serial.print(encoderSetButton.active);
+  Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentStep());
   Serial.println();
 }
+
+unsigned long lastUpdateTime = 0;
+unsigned long frameInterval = 1000 / 30; // 30 fps
 
 void print() 
 {
   // if(sequencer.paused) Menu::printPause();
-  printMenu();
+  if (millis() - lastUpdateTime >= frameInterval) 
+  {
+    printMenu();
+  lastUpdateTime = millis();
+  }
 }
 
 
 void updateSequence() 
 {
   if(sequencer.internalClock() && !sequencer.paused)
+  {
     sequencer.changeStep();
+    sequencer.clockOut();
+  }
 }
 
 
@@ -73,7 +84,8 @@ void check()
 }
 
 
-bool running() {
+bool running() 
+{
   check();
   update();
   print();
@@ -84,12 +96,14 @@ bool running() {
 }
 
 
-void restart() {
+void restart() 
+{
   display.clear();
 }
 
 
-void setup() {
+void setup() 
+{
   Serial.begin(9600);
   Serial.println("serial connected");
 
@@ -101,7 +115,8 @@ void setup() {
 }
 
 
-void loop() {
+void loop() 
+{
   while (
     running()
   );

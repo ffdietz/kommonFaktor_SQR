@@ -128,41 +128,38 @@ struct menuIndexSelector
   {
     if(!setMenuMode){
       indexSelector.menu = constrain(indexSelector.menu + variation, 1, MENU_LENGTH[0] - 1);
-      indexSelector.subMenu = 1;
+      // indexSelector.subMenu = 1;
     }
     else {
       indexSelector.subMenu = constrain(indexSelector.subMenu + variation, 1, MENU_LENGTH[indexSelector.menu]);
     }
-    
+
     currentFunc = *MenuFn[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)];
-    
+
     clearMenu();
   }
 
 
-
   void printMenu()
-  { 
+  {   
     if(!setMenuMode){
       display.print(MENU[0], 0, 0);
       display.print(MENU[indexSelector.menu], 0, 1);
     } else {
       display.print(MENU[indexSelector.menu], 0, 0);
-      display.print(MN101, 0, 1);
-      // display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
+      display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
     };
 
   }
 
   void fn101() {
   sequencer.setSpeed(encoder.getDirection());
-  char result[5];
-  dtostrf(sequencer.getSpeed(), 3, 1, result);
-  display.print(result, 0, 1);
+  display.print(sequencer.getSpeed(), 0, 1);
   }
 
   void fn201() {
-    display.print("201");
+    // sequencer.setSpeed(encoder.getDirection());
+    display.print(sequencer.getCurrentStep(), 0, 1);
   }
 
   void fn301() {

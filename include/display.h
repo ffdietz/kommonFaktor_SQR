@@ -19,6 +19,7 @@ public:
 
   void print(const char * data, uint8_t x, uint8_t y);
   void print(const char * data);
+  void print(float data, uint8_t x, uint8_t y);
   void print(float data);
   void print(int16_t data);
 

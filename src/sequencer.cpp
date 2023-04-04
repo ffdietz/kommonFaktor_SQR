@@ -46,6 +46,7 @@ uint8_t Sequencer::getStepsQuantity(){
 bool Sequencer::internalClock(){
   if (millis() - lastChange >= speedInMillis)
   {
+
     lastChange =  millis();
     digitalWrite(CLOCK_OUT, HIGH);
 

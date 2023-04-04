@@ -43,6 +43,11 @@ void Display::print(const char * data, uint8_t x, uint8_t y) {
   lcd->print(data);
 }
 
+void Display::print(float data, uint8_t x, uint8_t y) {
+  lcd->setCursor(x, y);
+  print(data);
+}
+
 void Display::blink(const char * data) {
 
   char space[strlen(data)];           // create a char array with the size of data input

@@ -41,9 +41,9 @@ class Sequencer {
     
   private:
     uint16_t speedInMillis = 0;
-    uint8_t currentStep = 0;
-    uint8_t lastStep = 0;
-    uint8_t steps;
+    byte currentStep = 0;
+    byte lastStep = 0;
+    byte steps;
     long currentTime = 0;
     long lastChange = 0;
 };
