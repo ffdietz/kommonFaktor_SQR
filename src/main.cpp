@@ -1,30 +1,32 @@
 #include "global.h"
 #include "menu.h"
 
+void debugger()
+{
+  Serial.print("  indexSelector.menu ");      Serial.print(indexSelector.menu);
+  Serial.print("  setMenuFnIndex ");          Serial.print(setMenuFnIndex(indexSelector.menu,indexSelector.subMenu));
+  Serial.print("  menuIsSetMode ");           Serial.print(menuIsSetMode());
+  Serial.print("  encoderSetButton.active "); Serial.print(encoderSetButton.active);
+  Serial.println();
+}
 
 void print() 
 {
-  printMenu();
   // if(sequencer.paused) Menu::printPause();
-
-  // (encoder.newDataAvailable() && sequencer.setMode == false)
-  // ? Menu::clear()
-  // : Menu::selectScreen(encoder.getPosition());
+  printMenu();
 }
 
 
 void updateSequence() 
 {
   if(sequencer.internalClock() && !sequencer.paused)
-  {
     sequencer.changeStep();
-  }
 }
 
 
 void updateVariables() 
 {
-  if(sequencer.isSetMode()) CurrentFunc();
+  if(menuIsSetMode()) currentFunc();
 }
 
 
@@ -38,33 +40,17 @@ void update()
 void checkEncoder()
 {
   if(encoder.newDataAvailable()){
-    if(!sequencer.isSetMode()) selectMenuIndex(encoder.getDirection());
+    if(!setMenuMode) selectMenuIndex(encoder.getDirection());
+    else currentFunc();
     clearMenu();
   };
 }
 
 void checkSetEncoder() 
 {
-  if(encoderSetButton.check()){
-    menuIsSetMode() ? menuSetModeOff() : menuSetModeOn();
-    clearMenu();
-  }
-  // if(encoderSetButton.active){
-  //   sequencer.setModeOn();
-  //   menuSetModeOn();
-  // } 
-  // else {
-  //   sequencer.setModeOff();
-  //   menuSetModeOff();
-  // }
-
-
-  Serial.print("  menuIsSetMode ");
-  Serial.print(menuIsSetMode());
-  Serial.print("  encoderSetButton.active ");
-  Serial.print(encoderSetButton.active);
-  // clearMenu();
-
+  encoderSetButton.check();
+  setMenuMode = encoderSetButton.active;
+  clearMenu();
 }
 
 
@@ -91,6 +77,9 @@ bool running() {
   check();
   update();
   print();
+
+  debugger();
+
   return true;
 }
 
@@ -102,14 +91,10 @@ void restart() {
 
 void setup() {
   Serial.begin(9600);
-  
-  Serial.println("serial");
-  Serial.println("connected");
-  Serial.println("");
+  Serial.println("serial connected");
 
   encoder.begin();
   display.begin();
-
   menuInit();
 
   restart();
@@ -121,25 +106,3 @@ void loop() {
     running()
   );
 }
-
-// STRUCTURE TO SHOW LABEL AND VALUES AND MODIFY BY ENCODER
-// SEQUENCER DASHBOARD
-// // PLAY/STOP
-// // BMPs
-// // CURRENT STEP
-// // ACTIVE STEPS
-// // CLOCK OPTION
-// // SEQUENCE OPTION [IN TARGET DEVICE]
-
-// CLOCK OPTIONS
-// // INTERNAL CLOCK
-// // EXTERNAL CLOCK
-// // DIVIDED CLOCK
-// // MULTIPLIED CLOCK
-
-// SEQUENCE OPTIONS
-// // LINEAR
-// // RANDOM SEQUENCE
-// // INVERT SEQUENCE
-// // RANGE SEQUENCE
-// // CUSTOM SEQUENCE

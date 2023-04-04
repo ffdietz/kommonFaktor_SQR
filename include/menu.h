@@ -4,8 +4,9 @@
 
 typedef void (*FunctionPr)(void);
 //function pointer
-FunctionPr CurrentFunc;
-bool setMode = false;
+FunctionPr currentFunc;
+bool setMenuMode = false;
+char * dataOut;
 
 //Structure describes current menu and submenu state
 struct menuIndexSelector
@@ -19,13 +20,13 @@ struct menuIndexSelector
   const char * MN000 = "SQR_";
   //menu 1
   const char * MN100 = "BPM ";
-  const char * MN101 = "";
+ char*  MN101;
   //menu 2
   const char * MN200 = "CURRENT STEP ";
-  const char * MN201 = "";
+  char * MN201;
   //menu 3
   const char * MN300 = "ACTIVE STEPS ";
-  const char * MN301 = "";
+  char * MN301;
   //menu 4
   const char * MN400 = "CLOCK ";
   //Submenus of menu 4
@@ -83,8 +84,7 @@ struct menuIndexSelector
   void fn503(void);
   void fn504(void);
 
-  const FunctionPr MenuFn[] = 
-  {
+  const FunctionPr MenuFn[] = {
     fn101, 
     fn201, 
     fn301, 
@@ -92,16 +92,8 @@ struct menuIndexSelector
     fn501, fn502, fn503, fn504, 
   };
 
-  void menuSetModeOn(){
-    setMode = true;
-  }
-
-  void menuSetModeOff(){
-    setMode = false;
-  }
-
   bool menuIsSetMode(){
-    return setMode;
+    return setMenuMode;
   }
 
   void clearMenu()
@@ -109,11 +101,24 @@ struct menuIndexSelector
     display.clear();
   }
 
-    uint8_t setMenuFnIndex(uint8_t menu, uint8_t submenu)
+  void menuInit()
+  {
+    indexSelector.menu = 1;
+    indexSelector.subMenu = 1;
+
+    currentFunc = *MenuFn[0];
+
+    clearMenu();
+
+  }
+
+  int setMenuFnIndex(uint8_t menu, uint8_t submenu)
   {
     uint8_t indexOutput = 0;
-    for(uint8_t i = 0 ; i < (menu - 1) ; i++ ) 
+
+    for(byte i = 0 ; i < (menu - 1) ; i++ ) 
       indexOutput += MENU_LENGTH[i + 1];
+
     indexOutput = indexOutput + submenu - 1;
 
     return indexOutput;
@@ -121,7 +126,7 @@ struct menuIndexSelector
 
   void selectMenuIndex(int variation)
   {
-    if(!setMode){
+    if(!setMenuMode){
       indexSelector.menu = constrain(indexSelector.menu + variation, 1, MENU_LENGTH[0] - 1);
       indexSelector.subMenu = 1;
     }
@@ -129,42 +134,31 @@ struct menuIndexSelector
       indexSelector.subMenu = constrain(indexSelector.subMenu + variation, 1, MENU_LENGTH[indexSelector.menu]);
     }
     
-    CurrentFunc = *MenuFn[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)];
-  }
-
-  void menuInit()
-  {
-    indexSelector.menu = 1;
-    indexSelector.subMenu = 1;
-    display.print(MENU[0], 0, 0);
-    display.print(SUBMENU[0], 0, 1);
-
-    CurrentFunc = *MenuFn[0];
-
+    currentFunc = *MenuFn[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)];
+    
     clearMenu();
-
   }
+
+
 
   void printMenu()
   { 
-    if(!setMode){
+    if(!setMenuMode){
       display.print(MENU[0], 0, 0);
       display.print(MENU[indexSelector.menu], 0, 1);
     } else {
       display.print(MENU[indexSelector.menu], 0, 0);
-      display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
+      display.print(MN101, 0, 1);
+      // display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
     };
-
-    Serial.print("  indexSelector.menu ");
-    Serial.print(indexSelector.menu);
-    Serial.print("  setMenuFnIndex ");
-    Serial.println(setMenuFnIndex(indexSelector.menu,indexSelector.subMenu));
 
   }
 
   void fn101() {
-    sequencer.setSpeed(encoder.getDirection());
-    display.print(sequencer.getSpeed());
+  sequencer.setSpeed(encoder.getDirection());
+  char result[5];
+  dtostrf(sequencer.getSpeed(), 3, 1, result);
+  display.print(result, 0, 1);
   }
 
   void fn201() {

@@ -23,11 +23,6 @@ void Display::clear()
   lcd->clear();
 }
 
-void Display:: clearLine(uint8_t x, uint8_t y) 
-{
-
-}
-
 void Display::print(float data) {
   char result[4];                 // Buffer big enough for 000.0 lenght float
   dtostrf(data, 3, 1, result);    // Leave room for too large numbers ['000' '.' '0']
