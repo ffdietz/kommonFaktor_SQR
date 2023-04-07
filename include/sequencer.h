@@ -10,27 +10,29 @@ class Sequencer {
 
     //Speed methods
     float speed; // in BPM
-    int   speedToMillis(float speed);
     void  setSpeed(float variation);
+    int   speedToMillis(float speed);
     float getSpeed();
 
     //Pause methods
     bool paused = true;
     bool isPaused();
     void pauseSequence();
-    void restartSequence();
+    void playSequence();
 
     //Clock methods
+    bool clockOutState = true;
     bool internalClock();
     bool externalClock();
     void clockOut();
-    bool clockOutState = LOW;
 
     //Steps methods
     void changeStep();
     bool stepChanged();
-    uint8_t getCurrentStep();
-    uint8_t getStepsQuantity();
+    byte getCurrentStep();
+    byte getStepsQuantity();
+    void setStepManually(int8_t variation);
+
 
     //Set methods
     bool isSetMode();
@@ -38,12 +40,12 @@ class Sequencer {
     void setModeOn();
 
     bool setMode = false;
+    byte steps;
     
   private:
     uint16_t speedInMillis = 0;
     byte currentStep = 0;
     byte lastStep = 0;
-    byte steps;
     long currentTime = 0;
     long lastChange = 0;
 };

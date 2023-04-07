@@ -19,6 +19,6 @@ class ShiftRegister
   byte position_out;
   byte shifter;
   void clearRegister();
-}
+};
 
 #endif

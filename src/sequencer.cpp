@@ -1,7 +1,7 @@
 #include "sequencer.h"
 #include "pinout.h"
 
-//Constructor
+// constructor
 Sequencer::Sequencer(uint8_t steps, float speed){
   this->steps = steps - 1;
   this->speed = speed;
@@ -13,78 +13,91 @@ Sequencer::Sequencer(uint8_t steps, float speed){
 
 }
 
-bool Sequencer::isPaused(){
-  return paused;
+// speed methods
+void  Sequencer::setSpeed(float variation)
+{
+  speed += variation;
+  speedInMillis = speedToMillis(speed);
+}
+int   Sequencer::speedToMillis(float speed)
+{
+ return ( 60000 / speed );
+}
+float Sequencer::getSpeed()
+{
+  return speed;
 }
 
-void Sequencer::pauseSequence()
+
+// pause methods
+bool Sequencer::isPaused() 
+{
+  return paused;
+}
+void Sequencer::playSequence() 
+{
+  paused = false;
+}
+void Sequencer::pauseSequence() 
 {
   paused = true;
 }
 
-void Sequencer::restartSequence(){
-  paused = false;
-}
 
-int Sequencer::speedToMillis(float speed){
- return ( 60000 / speed );
-}
-
-void Sequencer::setSpeed(float variation){
-  speed += variation;
-  speedInMillis = speedToMillis(speed);
-}
-
-float Sequencer::getSpeed(){
-  return speed;
-}
-
-uint8_t Sequencer::getStepsQuantity(){
-  return steps + 1;
-}
-
-bool Sequencer::internalClock(){
+// clock methods
+bool Sequencer::internalClock()
+{
   if (millis() - lastChange >= speedInMillis)
   {
-
     lastChange =  millis();
-    digitalWrite(CLOCK_OUT, HIGH);
-
     return true;
   }
-
-  digitalWrite(CLOCK_OUT, LOW);
   return false;
 }
-
-uint8_t Sequencer::getCurrentStep(){
-  return currentStep;
-}
-
-void Sequencer::changeStep(){
-  if(currentStep > steps) currentStep = 0;
-  lastStep = currentStep;
-  currentStep++;
-}
-
-bool Sequencer::stepChanged(){
-  if(lastStep != currentStep) return true;
-  return false;
-}
-
-void Sequencer::clockOut(){
+void Sequencer::clockOut()
+{
   clockOutState = !clockOutState;
   digitalWrite(CLOCK_OUT, clockOutState);
 }
 
-void Sequencer::setModeOn(){
+
+// steps methods
+void  Sequencer::changeStep()
+{
+  lastStep = currentStep;
+  currentStep++;
+  if(currentStep > steps) currentStep = 0;
+}
+bool  Sequencer::stepChanged()
+{
+  if(lastStep != currentStep) return true;
+  return false;
+}
+byte  Sequencer::getCurrentStep()
+{
+  return currentStep + 1;
+}
+void  Sequencer::setStepManually(int8_t variation)
+{
+  lastStep = currentStep;
+  currentStep += variation;
+
+  if(currentStep > steps) currentStep = 0;
+  if(currentStep < 0) currentStep = steps;
+
+}
+
+
+// set methods
+void Sequencer::setModeOn()
+{
   setMode = true;
 }
-
-void Sequencer::setModeOff(){
+void Sequencer::setModeOff()
+{
   setMode = false;
 }
-
-bool Sequencer::isSetMode(){
+bool Sequencer::isSetMode()
+{
   return setMode;
 }

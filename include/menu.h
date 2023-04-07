@@ -115,11 +115,8 @@ struct menuIndexSelector
   int setMenuFnIndex(uint8_t menu, uint8_t submenu)
   {
     uint8_t indexOutput = 0;
-
-    for(byte i = 0 ; i < (menu - 1) ; i++ ) 
-      indexOutput += MENU_LENGTH[i + 1];
-
-    indexOutput = indexOutput + submenu - 1;
+    for(byte i = 0 ; i < (menu - 1) ; i++ ) indexOutput += MENU_LENGTH[i + 1];
+    indexOutput += submenu - 1;
 
     return indexOutput;
   }
@@ -128,20 +125,18 @@ struct menuIndexSelector
   {
     if(!setMenuMode){
       indexSelector.menu = constrain(indexSelector.menu + variation, 1, MENU_LENGTH[0] - 1);
-      // indexSelector.subMenu = 1;
     }
     else {
       indexSelector.subMenu = constrain(indexSelector.subMenu + variation, 1, MENU_LENGTH[indexSelector.menu]);
     }
 
     currentFunc = *MenuFn[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)];
-
     clearMenu();
   }
 
 
   void printMenu()
-  {   
+  {
     if(!setMenuMode){
       display.print(MENU[0], 0, 0);
       display.print(MENU[indexSelector.menu], 0, 1);
@@ -150,20 +145,44 @@ struct menuIndexSelector
       display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
     };
 
+    currentFunc();
   }
 
   void fn101() {
-  sequencer.setSpeed(encoder.getDirection());
-  display.print(sequencer.getSpeed(), 0, 1);
+    if(setMenuMode) {
+      sequencer.setSpeed(encoder.getDirection());
+      display.print(sequencer.getSpeed(), 0, 1);
+    } else {
+      display.print(sequencer.getSpeed());
+    }
   }
 
   void fn201() {
-    // sequencer.setSpeed(encoder.getDirection());
-    display.print(sequencer.getCurrentStep(), 0, 1);
+    if(setMenuMode){
+
+      sequencer.pauseSequence();
+      sequencer.setStepManually(encoder.getDirection());
+      display.print(sequencer.getCurrentStep(), 0, 1);
+
+    } else {
+
+      sequencer.playSequence();
+      display.print(sequencer.getCurrentStep());
+
+    }
   }
 
   void fn301() {
-    display.print("301");
+    display.print("O O O O O O O O", 0, 1);
+
+    // display.lcd->write(byte(0));
+    // display.lcd->write(byte(1));
+    // display.lcd->write(byte(1));
+    // display.lcd->write(byte(1));
+    // display.lcd->write(byte(1));
+    // display.lcd->write(byte(1));
+    // display.lcd->write(byte(1));
+    // display.lcd->write(byte(1));
   }
 
   void fn401() {

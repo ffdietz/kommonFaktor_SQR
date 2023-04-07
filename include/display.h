@@ -17,21 +17,22 @@ public:
   void clearLine(uint8_t x, uint8_t y);
   void clearField();
 
-  void print(const char * data, uint8_t x, uint8_t y);
   void print(const char * data);
-  void print(float data, uint8_t x, uint8_t y);
+  void print(const char * data, uint8_t x, uint8_t y);
   void print(float data);
-  void print(int16_t data);
+  void print(float data, uint8_t x, uint8_t y);
+  void print(int data);
+  void print(int data, uint8_t x, uint8_t y);
 
-  void blink(const char * data, uint8_t x, uint8_t y);
-  void blink(const char * data);
-  void blink(float data);
-  void blink(int data);
+  // void blink(const char * data, uint8_t x, uint8_t y);
+  // void blink(const char * data);
+  // void blink(float data);
+  // void blink(int data);
 
 private:
   bool blinkState = false;
-  static const uint16_t blinkTime = 500;
   unsigned long lastBlink;
+  static const uint16_t blinkTime = 500;
 };
 
 #endif
