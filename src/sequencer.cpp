@@ -8,6 +8,7 @@ Sequencer::Sequencer(uint8_t steps, float speed){
   speedInMillis = speedToMillis(speed);
   lastChange = 0;
   paused = false;
+  clockOutValue = true;
   
   pinMode(CLOCK_OUT, OUTPUT);
 
@@ -45,21 +46,28 @@ void Sequencer::pauseSequence()
 
 
 // clock methods
+void Sequencer::updateClock(){
+  currentMillis = millis();
+}
 bool Sequencer::internalClock()
 {
-  if (millis() - lastChange >= speedInMillis)
+  if (currentMillis - lastChange >= speedInMillis)
   {
-    lastChange =  millis();
+    lastChange =  currentMillis;
+
+    // clockOutValue = HIGH;
+    digitalWrite(CLOCK_OUT, HIGH);
     return true;
   }
+  
+  // clockOutValue = LOW;
+  digitalWrite(CLOCK_OUT, LOW);
   return false;
 }
 void Sequencer::clockOut()
 {
-  clockOutState = !clockOutState;
-  digitalWrite(CLOCK_OUT, clockOutState);
+  digitalWrite(CLOCK_OUT, clockOutValue);
 }
-
 
 // steps methods
 void  Sequencer::changeStep()
@@ -77,7 +85,7 @@ byte  Sequencer::getCurrentStep()
 {
   return currentStep + 1;
 }
-void  Sequencer::setStepManually(int8_t variation)
+void  Sequencer::setManualStep(int8_t variation)
 {
   lastStep = currentStep;
   currentStep += variation;

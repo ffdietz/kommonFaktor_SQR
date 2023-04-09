@@ -15,23 +15,23 @@ class Sequencer {
     float getSpeed();
 
     //Pause methods
-    bool paused = true;
+    bool paused;
     bool isPaused();
     void pauseSequence();
     void playSequence();
 
     //Clock methods
-    bool clockOutState = true;
+    bool clockOutValue;
     bool internalClock();
     bool externalClock();
-    void clockOut();
+    void updateClock();
 
     //Steps methods
     void changeStep();
     bool stepChanged();
     byte getCurrentStep();
     byte getStepsQuantity();
-    void setStepManually(int8_t variation);
+    void setManualStep(int8_t variation);
 
 
     //Set methods
@@ -43,11 +43,11 @@ class Sequencer {
     byte steps;
     
   private:
-    uint16_t speedInMillis = 0;
     byte currentStep = 0;
     byte lastStep = 0;
-    long currentTime = 0;
-    long lastChange = 0;
+    uint16_t speedInMillis = 0;
+    uint16_t currentMillis = 0;
+    uint16_t lastChange = 0;
 };
 
 #endif

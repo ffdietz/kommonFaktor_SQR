@@ -8,31 +8,35 @@ void debugger()
   Serial.print("  menuIsSetMode ");             Serial.print(menuIsSetMode());
   Serial.print("  encoderSetButton.active ");   Serial.print(encoderSetButton.active);
   Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentStep());
-  Serial.print("  sequencer.clockOutState ");   Serial.print(sequencer.clockOutState);
+  Serial.print("  sequencer.clockOut ");        Serial.print(sequencer.clockOutValue);
+  Serial.print("  sequencer.internalClock ");   Serial.print(sequencer.internalClock());
   
   Serial.println();
 }
 
 unsigned long lastUpdateTime = 0;
-unsigned long frameInterval = 1000 / 30; // 30 fps
+unsigned long currentMillis = 0;
 
 void print() 
 {
   // if(sequencer.paused) Menu::printPause();
-  // if (millis() - lastUpdateTime >= frameInterval) 
-  // {
+  currentMillis = millis();
+  if (currentMillis - lastUpdateTime >= 1000 / 30) 
+  {
+    lastUpdateTime = currentMillis;
     printMenu();
-    // lastUpdateTime = millis();
-  // }
+  }
 }
 
 
 void updateSequence() 
 {
+  sequencer.updateClock();
   if(sequencer.internalClock() && !sequencer.paused)
   {
     sequencer.clockOut();
     sequencer.changeStep();
+
   }
 }
 
@@ -111,7 +115,6 @@ void setup()
 
   encoder.begin();
   display.begin();
-  delay(1000);
 
   menuInit();
 

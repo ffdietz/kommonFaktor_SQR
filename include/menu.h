@@ -158,31 +158,30 @@ struct menuIndexSelector
   }
 
   void fn201() {
-    if(setMenuMode){
-
+    if(setMenuMode)
+    {
       sequencer.pauseSequence();
-      sequencer.setStepManually(encoder.getDirection());
+      sequencer.setManualStep(encoder.getDirection());
       display.print(sequencer.getCurrentStep(), 0, 1);
-
-    } else {
-
+    } 
+    else 
+    {
       sequencer.playSequence();
       display.print(sequencer.getCurrentStep());
-
     }
   }
 
   void fn301() {
-    display.print("O O O O O O O O", 0, 1);
+    // display.print("O O O O O O O O", 0, 1);
 
-    // display.lcd->write(byte(0));
-    // display.lcd->write(byte(1));
-    // display.lcd->write(byte(1));
-    // display.lcd->write(byte(1));
-    // display.lcd->write(byte(1));
-    // display.lcd->write(byte(1));
-    // display.lcd->write(byte(1));
-    // display.lcd->write(byte(1));
+    display.lcd->write(byte(0));
+    display.lcd->write(byte(1));
+    display.lcd->write(byte(1));
+    display.lcd->write(byte(1));
+    display.lcd->write(byte(1));
+    display.lcd->write(byte(1));
+    display.lcd->write(byte(1));
+    display.lcd->write(byte(1));
   }
 
   void fn401() {

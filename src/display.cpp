@@ -30,17 +30,17 @@ byte deactivedStep[] = {
 Display::Display() 
 {
   lcd = new LiquidCrystal(SHIFT_REG_LATCH_LCD);
-
-  lcd->createChar(0, deactivedStep);
-  lcd->createChar(1, activedStep);
 }
 
 void Display::begin() 
 {
   lcd->begin(LCD_CHARS, LCD_LINES);
+
+  lcd->createChar(0, deactivedStep);
+  lcd->createChar(1, activedStep);
+
   lcd->clear();
 
-  lastBlink = millis();
 }
 
 void Display::clear() 
