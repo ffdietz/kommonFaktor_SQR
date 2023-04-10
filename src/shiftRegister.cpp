@@ -1,137 +1,68 @@
-// #include <Arduino.h>
-// #include "pinout.h"
-// #include "shiftRegister.h"
+#include <Arduino.h>
+#include <SPI.h>
+#include "pinout.h"
+#include "shiftRegister.h"
 
+ShiftReg::ShiftReg()
+{
+  //SETTING PINS
+  // pinMode(SHR_STEP_BUTTONS_SCK, output);//clock
+  // pinMode(SHR_STEP_BUTTONS_MOSI, output);//data
+  // pinMode(SHIFT_REG_LATCH_STEP_CTRL, OUTPUT);//latch
+  // pinMode(STEP_CTRL_INPUT, INPUT);//Input from buttons
 
-// ShiftRegister::ShiftRegister()
-// {
-//   //SETTING PINS
-//   // pinMode(SHR_STEP_BUTTONS_SCK, output);//clock
-//   // pinMode(SHR_STEP_BUTTONS_MOSI, output);//data
-//   pinMode(SHIFT_REG_LATCH_STEP_CTRL, output);//latch
-//   pinMode(A5, INPUT);//Input from buttons
-
-// //   attachInterrupt(0, pin_read, RISING); 
+//   attachInterrupt(0, pin_read, RISING); 
   
-// //   DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH
-// //   DDRD |= (1 << SHR_CLOCK);
-// //   DDRD |= (1 << SHR_DATA);
-// }
+//   DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH
+//   DDRD |= (1 << SHR_CLOCK);
+//   DDRD |= (1 << SHR_DATA);
+}
 
-// void ShiftRegister::begin(){
-//   SPI.setBitOrder(MSBFIRST);
-//   SPI.setDataMode(SPI_MODE0);
-//   SPI.setClockDivider(SPI_CLOCK_DIV2);
-//   SPI.begin();
-//   SPI.transfer(0);
-//   SPI.transfer(0);
-//   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
-//   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
-// }
+void ShiftReg::begin(){
+  // pinMode(13, OUTPUT);//clock
+  // pinMode(11, OUTPUT);//data
+  pinMode(SHIFT_REG_LATCH_STEP_CTRL, OUTPUT);//latch
+  pinMode(STEP_CTRL_INPUT, INPUT);//Input from buttons
 
-// void ShiftRegister::pinRead()
-// {
-//   for(int j=0; j<50; j++) delayMicroseconds(1000);
-//   check=1;
-//   for(int j=0; j<8; j++)
-//   {
-//     SPI.transfer(check);
-//     SPI.transfer(output);
-//     digitalWrite(SHR_STEP_BUTTONS_LATCH, HIGH);
-//     digitalWrite(SHR_STEP_BUTTONS_LATCH, LOW);
-//     // delayMicroseconds(500);
-//     if(digitalRead(A5) == HIGH)
-//       bitWrite(output, j, 1);
-//     else 
-//       bitWrite(output, j, 0);
-//     check = check<<1;
-//   }
+  SPI.setBitOrder(MSBFIRST);
+  SPI.setDataMode(SPI_MODE0);
+  SPI.setClockDivider(SPI_CLOCK_DIV2);
+  SPI.begin();
+    digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
+    SPI.transfer(255);
+    SPI.transfer(0);
+    digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
+//  attachInterrupt(0, pin_read, RISING); 
+}
+
+void ShiftReg::read()
+{
+  check = 1;
+  for(j = 0; j < 8; j++)
+  {
+    digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
+    SPI.transfer(output);
+    SPI.transfer(check);
+    digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
+
+    if(digitalRead(STEP_CTRL_INPUT) == HIGH)
+    {
+      if(bitRead(output, j) == 1) 
+        bitWrite(output, j, 0);
+      else 
+        bitWrite(output, j, 1);
+    }
     
-//   SPI.transfer(255);
-//   SPI.transfer(output);
-//   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
-//   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
- 
-//   Serial.println(output);
-// }
+    check = check << 1;
+  }
 
-// };
+}
 
-// void ShiftRegister::clearRegister()
-// {
-//     /*Clear the registers*/
-//   PORTD &= ~(1 << SHR_LATCH);   //LATCH LOW
-//     this->bitPrint(0);
-//     this->bitPrint(0);
-//   PORTD |= (1 << SHR_LATCH );   //LATCH HIGH
-// }
-
-// void ShiftRegister::bitPrint(byte  data)
-// {
-//   shiftOut(SHR_DATA, SHR_CLOCK, MSBFIRST, data);
-// }
-
-// void ShiftRegister::bitLatch()
-// {
-//   PORTD &= ~(1 << SHR_LATCH);   //LATCH LOW
-//   PORTD |= (1 << SHR_LATCH );   //LATCH HIGH
-// }
-
-// void ShiftRegister::update()
-// {
-//   PORTD &= ~(1 << SHR_LATCH);   //LATCH LOW
-//     this->bitPrint(shifter);
-//     this->bitPrint(position_out);
-//   PORTD |= (1 << SHR_LATCH );   //LATCH HIGH
-// }
-
-// uint8_t ShiftRegister::getPosition()
-// {
-//   return position - 1;
-// }
-
-// void ShiftRegister::setPositionOut()
-// {
-//   position_out ^= (1 << (position - 1)); // XOR to toggle the bit 
-// }
-
-// void ShiftRegister::bitShifter()
-// {
-//   this->shifter = (1 << this->position );
-//   this->position++; 
-
-//   if(this->position > 8) 
-//   {
-//     this->position = 1;
-//     this->shifter = 1;
-//   }
-// }
-
-
-// byte Input, Output, Check = 1;
-// void pin_read()
-// {
-//   // for(int j=0; j<50; j++) delayMicroseconds(1000);
-//   Check=1;
-
-//   for(int j=0; j<8; j++)
-//   {
-//     shiftRegister_bit_out(Check);
-//     shiftRegister_bit_out(Output);
-//     digitalWrite(SHR_LATCH, HIGH);
-//     digitalWrite(SHR_LATCH, LOW);
-//     delayMicroseconds(500);
-    
-//     if(digitalRead(2)==HIGH) bitWrite(Output, j, 1);
-//     else bitWrite(Output, j, 0);
-
-//     Check = Check<<1;
-//   }
-
-//   shiftRegister_bit_out(255);
-//   shiftRegister_bit_out(Output);
-//   digitalWrite(SHR_LATCH, HIGH);
-//   digitalWrite(SHR_LATCH, LOW);
-
-//   // Serial.println(Output);
-// }
+void ShiftReg::out(int value)
+{
+  uint8_t result = 1 << value; 
+  digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
+  SPI.transfer(result);
+  SPI.transfer(255);
+  digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
+}

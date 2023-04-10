@@ -3,13 +3,15 @@
 
 void debugger()
 {
-  Serial.print("  indexSelector.menu ");        Serial.print(indexSelector.menu);
-  Serial.print("  setMenuFnIndex ");            Serial.print(setMenuFnIndex(indexSelector.menu,indexSelector.subMenu));
-  Serial.print("  menuIsSetMode ");             Serial.print(menuIsSetMode());
+  // Serial.print("  indexSelector.menu ");        Serial.print(indexSelector.menu);
+  // Serial.print("  setMenuFnIndex ");            Serial.print(setMenuFnIndex(indexSelector.menu,indexSelector.subMenu));
+  // Serial.print("  menuIsSetMode ");             Serial.print(menuIsSetMode());
   Serial.print("  encoderSetButton.active ");   Serial.print(encoderSetButton.active);
   Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentStep());
   Serial.print("  sequencer.clockOut ");        Serial.print(sequencer.clockOutValue);
   Serial.print("  sequencer.internalClock ");   Serial.print(sequencer.internalClock());
+  Serial.print("  digitalRead(A1) ");           Serial.print(digitalRead(A1));
+  Serial.print("  shiftReg.out ");                  Serial.print(shiftReg.output);
   
   Serial.println();
 }
@@ -28,13 +30,17 @@ void print()
   }
 }
 
+void updateRegister()
+{
+  if(sequencer.stepChanged()) shiftReg.out(sequencer.getCurrentStep());
+}
 
 void updateSequence() 
 {
   sequencer.updateClock();
   if(sequencer.internalClock() && !sequencer.paused)
   {
-    sequencer.clockOut();
+    // sequencer.clockOut();
     sequencer.changeStep();
 
   }
@@ -51,6 +57,7 @@ void update()
 {
   updateVariables();
   updateSequence();
+  updateRegister();
 }
 
 
@@ -70,6 +77,10 @@ void checkSetEncoder()
   clearMenu();
 }
 
+void checkRegister()
+{
+  shiftReg.read();
+}
 
 void checkPause() 
 {
@@ -85,6 +96,7 @@ void checkPause()
 void check() 
 {
   checkPause();
+  checkRegister();
   checkSetEncoder();
   checkEncoder();
 }
@@ -114,6 +126,7 @@ void setup()
   Serial.println("serial connected");
 
   encoder.begin();
+  shiftReg.begin();
   display.begin();
 
   menuInit();

@@ -6,7 +6,7 @@
 #define SHIFT_REG_SCK 13            // to 74HC595 SH_CP [PIN 11]
 #define SHIFT_REG_MOSI 11           // to 74HC595 DS    [PIN 14]
 #define SHIFT_REG_LATCH_LCD 10      // to 74HC595 ST_CP [PIN 12]
-#define SHIFT_REG_LATCH_STEP_CTRL 5 // to 74HC595 ST_CP [PIN 12]
+#define SHIFT_REG_LATCH_STEP_CTRL 8 // to 74HC595 ST_CP [PIN 12]
 
 #define ENCODER_A   2
 #define ENCODER_B   3

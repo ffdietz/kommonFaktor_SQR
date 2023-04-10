@@ -162,12 +162,13 @@ struct menuIndexSelector
     {
       sequencer.pauseSequence();
       sequencer.setManualStep(encoder.getDirection());
-      display.print(sequencer.getCurrentStep(), 0, 1);
+      display.print(sequencer.getCurrentStep() + 1, 0, 1);
+      shiftReg.out(sequencer.getCurrentStep() + 1);
     } 
     else 
     {
       sequencer.playSequence();
-      display.print(sequencer.getCurrentStep());
+      display.print(sequencer.getCurrentStep() + 1);
     }
   }
 

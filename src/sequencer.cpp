@@ -51,7 +51,7 @@ void Sequencer::updateClock(){
 }
 bool Sequencer::internalClock()
 {
-  if (currentMillis - lastChange >= speedInMillis)
+  if (currentMillis - lastChange >= speedInMillis / 2)
   {
     lastChange =  currentMillis;
 
@@ -64,10 +64,10 @@ bool Sequencer::internalClock()
   digitalWrite(CLOCK_OUT, LOW);
   return false;
 }
-void Sequencer::clockOut()
-{
-  digitalWrite(CLOCK_OUT, clockOutValue);
-}
+// void Sequencer::clockOut()
+// {
+//   digitalWrite(CLOCK_OUT, clockOutValue);
+// }
 
 // steps methods
 void  Sequencer::changeStep()
@@ -83,7 +83,7 @@ bool  Sequencer::stepChanged()
 }
 byte  Sequencer::getCurrentStep()
 {
-  return currentStep + 1;
+  return currentStep;
 }
 void  Sequencer::setManualStep(int8_t variation)
 {

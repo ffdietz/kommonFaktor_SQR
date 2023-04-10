@@ -1,24 +1,18 @@
 #ifndef shiftRegister_h
 #define shiftRegister_h
 
-class ShiftRegister
+class ShiftReg
 {
   public:
-  ShiftRegister();
-  void bitPrint(byte data);
-  void bitLatch();
-  void update();
-  void setPositionOut();
-  uint8_t getPosition();
-  void bitShifter();
+  ShiftReg();
+  void begin();
 
+  void read();
+  void out(int value);
+  byte output;
+  byte check = 1;
+  int j;
 
-
-  private:
-  byte position;
-  byte position_out;
-  byte shifter;
-  void clearRegister();
 };
 
 #endif
