@@ -22,10 +22,10 @@ struct menuIndexSelector
   const char * MN100 = "BPM ";
  char*  MN101;
   //menu 2
-  const char * MN200 = "CURRENT STEP ";
+  const char * MN200 = "POSITION ";
   char * MN201;
   //menu 3
-  const char * MN300 = "ACTIVE STEPS ";
+  const char * MN300 = "STEPS ";
   char * MN301;
   //menu 4
   const char * MN400 = "CLOCK ";

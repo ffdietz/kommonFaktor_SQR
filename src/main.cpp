@@ -11,7 +11,7 @@ void debugger()
   Serial.print("  sequencer.clockOut ");        Serial.print(sequencer.clockOutValue);
   Serial.print("  sequencer.internalClock ");   Serial.print(sequencer.internalClock());
   Serial.print("  digitalRead(A1) ");           Serial.print(digitalRead(A1));
-  Serial.print("  shiftReg.out ");                  Serial.print(shiftReg.output);
+  Serial.print("  shiftReg.output ");           Serial.print(shiftReg.output, BIN);
   
   Serial.println();
 }
@@ -23,16 +23,16 @@ void print()
 {
   // if(sequencer.paused) Menu::printPause();
   currentMillis = millis();
-  if (currentMillis - lastUpdateTime >= 1000 / 30) 
+  if (currentMillis - lastUpdateTime >= (1000 / 60)) 
   {
-    lastUpdateTime = currentMillis;
     printMenu();
+    lastUpdateTime = millis();
   }
 }
 
 void updateRegister()
 {
-  if(sequencer.stepChanged()) shiftReg.out(sequencer.getCurrentStep());
+  if(sequencer.stepChanged()) ;
 }
 
 void updateSequence() 
@@ -40,7 +40,6 @@ void updateSequence()
   sequencer.updateClock();
   if(sequencer.internalClock() && !sequencer.paused)
   {
-    // sequencer.clockOut();
     sequencer.changeStep();
 
   }
@@ -55,60 +54,101 @@ void updateVariables()
 
 void update() 
 {
-  updateVariables();
-  updateSequence();
-  updateRegister();
+  // updateVariables();
+  if(menuIsSetMode()) currentFunc();
+
+  // updateSequence();
+  sequencer.updateClock();
+  if(sequencer.internalClock() && !sequencer.paused)
+  {
+    sequencer.changeStep();
+  }
+  
 }
 
 
-void checkEncoder()
-{
-  if(encoder.newDataAvailable()){
-    if(!setMenuMode) selectMenuIndex(encoder.getDirection());
-    else currentFunc();
-    clearMenu();
-  };
-}
+// void checkEncoder()
+// {
+//   if(encoder.newDataAvailable()){
+//     if(!setMenuMode) selectMenuIndex(encoder.getDirection());
+//     else currentFunc();
+//     clearMenu();
+//   };
+// }
 
-void checkSetEncoder() 
-{
-  encoderSetButton.check();
-  setMenuMode = encoderSetButton.active;
-  clearMenu();
-}
+// void checkSetEncoder() 
+// {
+//   encoderSetButton.check();
+//   setMenuMode = encoderSetButton.active;
+//   clearMenu();
+// }
 
-void checkRegister()
-{
-  shiftReg.read();
-}
+// void checkRegister()
+// {
+//   shiftReg.read();
+// }
 
-void checkPause() 
-{
-  pauseButton.check();
-
-  if(pauseButton.active)
-    sequencer.pauseSequence();
-  else
-    sequencer.playSequence();
-}
+// void checkPause() 
+// {
+//   pauseButton.check();
+//   if(pauseButton.active)
+//     sequencer.pauseSequence();
+//   else
+//     sequencer.playSequence();
+// }
 
 
 void check() 
 {
-  checkPause();
-  checkRegister();
-  checkSetEncoder();
-  checkEncoder();
+  // checkPause();
+    pauseButton.check();
+    if(pauseButton.active)sequencer.pauseSequence();
+    else sequencer.playSequence();
+
+  // checkRegister();
+    shiftReg.read();
+
+  // checkSetEncoder();
+    encoderSetButton.check();
+    setMenuMode = encoderSetButton.active;
+    clearMenu();
+
+  // checkEncoder();
+    if(encoder.newDataAvailable()){
+      if(!setMenuMode) selectMenuIndex(encoder.getDirection());
+      else currentFunc();
+      clearMenu();
+    };
 }
 
 
 bool running() 
 {
-  check();
+  // check();
+    // checkPause();
+    pauseButton.check();
+    if(pauseButton.active)sequencer.pauseSequence();
+    else sequencer.playSequence();
+
+  // checkRegister();
+    shiftReg.read();
+
+  // checkSetEncoder();
+    encoderSetButton.check();
+    setMenuMode = encoderSetButton.active;
+    clearMenu();
+
+  // checkEncoder();
+    if(encoder.newDataAvailable()){
+      if(!setMenuMode) selectMenuIndex(encoder.getDirection());
+      else currentFunc();
+      clearMenu();
+    };
+
   update();
   print();
 
-  debugger();
+  // debugger();
 
   return true;
 }

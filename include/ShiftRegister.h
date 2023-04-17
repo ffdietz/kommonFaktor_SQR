@@ -9,10 +9,8 @@ class ShiftReg
 
   void read();
   void out(int value);
-  byte output;
-  byte check = 1;
-  int j;
-
+  byte output = B00000000;
+  byte check = 1 << 0;
 };
 
 #endif

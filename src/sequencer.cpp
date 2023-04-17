@@ -51,7 +51,7 @@ void Sequencer::updateClock(){
 }
 bool Sequencer::internalClock()
 {
-  if (currentMillis - lastChange >= speedInMillis / 2)
+  if (currentMillis - lastChange >= speedInMillis)
   {
     lastChange =  currentMillis;
 
