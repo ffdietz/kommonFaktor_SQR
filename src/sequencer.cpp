@@ -2,13 +2,15 @@
 #include "pinout.h"
 
 // constructor
-Sequencer::Sequencer(uint8_t steps, float speed){
-  this->steps = steps - 1;
+Sequencer::Sequencer(uint8_t steps, float speed)
+{
+  this->stepsLength = steps - 1;
   this->speed = speed;
+
   speedInMillis = speedToMillis(speed);
-  lastChange = 0;
   paused = false;
   clockOutValue = true;
+  lastChange = 0;
   
   pinMode(CLOCK_OUT, OUTPUT);
 
@@ -54,16 +56,15 @@ bool Sequencer::internalClock()
   if (currentMillis - lastChange >= speedInMillis)
   {
     lastChange =  currentMillis;
-
-    // clockOutValue = HIGH;
     digitalWrite(CLOCK_OUT, HIGH);
+
     return true;
   }
   
-  // clockOutValue = LOW;
   digitalWrite(CLOCK_OUT, LOW);
   return false;
 }
+
 // void Sequencer::clockOut()
 // {
 //   digitalWrite(CLOCK_OUT, clockOutValue);
@@ -72,29 +73,45 @@ bool Sequencer::internalClock()
 // steps methods
 void  Sequencer::changeStep()
 {
-  lastStep = currentStep;
-  currentStep++;
-  if(currentStep > steps) currentStep = 0;
+  lastPosition = stepPosition;
+  switch(mode){
+    case LINEAR:
+      stepPosition++;
+      break;
+
+    case INVERT:
+      stepPosition--;
+      break;
+
+    case RANDOM:
+      stepPosition = random(0, stepsLength + 1);
+      break;
+
+    case CUSTOM:
+      stepPosition++;
+      break;
+  }
+
+  if(stepPosition > stepsLength) stepPosition = 0;
 }
-bool  Sequencer::stepChanged()
+bool  Sequencer::isStepChanged()
 {
-  if(lastStep != currentStep) return true;
+  if(lastPosition != stepPosition) return true;
   return false;
 }
-byte  Sequencer::getCurrentStep()
+byte  Sequencer::getCurrentPosition()
 {
-  return currentStep;
+  return stepPosition;
 }
 void  Sequencer::setManualStep(int8_t variation)
 {
-  lastStep = currentStep;
-  currentStep += variation;
+  lastPosition = stepPosition;
+  stepPosition += variation;
 
-  if(currentStep > steps) currentStep = 0;
-  if(currentStep < 0) currentStep = steps;
+  if(stepPosition > stepsLength) stepPosition = 0;
+  if(stepPosition < 0) stepPosition = stepsLength;
 
 }
-
 
 // set methods
 void Sequencer::setModeOn()

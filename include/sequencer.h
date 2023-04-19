@@ -1,12 +1,12 @@
 //Track states of sequence
+#include <Arduino.h>
+
 #ifndef sequencer_h
 #define sequencer_h
-#include <Arduino.h>
 
 class Sequencer {
   public:
     Sequencer(uint8_t steps, float speed);
-    ~Sequencer(){};
 
     //Speed methods
     float speed; // in BPM
@@ -28,11 +28,12 @@ class Sequencer {
 
     //Steps methods
     void changeStep();
-    bool stepChanged();
-    byte getCurrentStep();
+    bool isStepChanged();
+    byte getCurrentPosition();
     byte getStepsQuantity();
     void setManualStep(int8_t variation);
-
+    enum sequenceMode {LINEAR, INVERT, RANDOM, CUSTOM};
+    sequenceMode mode = RANDOM;
 
     //Set methods
     bool isSetMode();
@@ -40,11 +41,11 @@ class Sequencer {
     void setModeOn();
 
     bool setMode = false;
-    byte steps;
+    byte stepsLength;
     
-  private:
-    byte currentStep = 0;
-    byte lastStep = 0;
+  // private:
+    byte stepPosition = 0;
+    byte lastPosition = 0;
     uint16_t speedInMillis = 0;
     uint16_t currentMillis = 0;
     uint16_t lastChange = 0;

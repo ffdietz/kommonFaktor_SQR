@@ -150,25 +150,29 @@ struct menuIndexSelector
 
   void fn101() {
     if(setMenuMode) {
+
       sequencer.setSpeed(encoder.getDirection());
       display.print(sequencer.getSpeed(), 0, 1);
+
     } else {
       display.print(sequencer.getSpeed());
     }
   }
 
   void fn201() {
-    if(setMenuMode)
-    {
+    if(setMenuMode) {
       sequencer.pauseSequence();
       sequencer.setManualStep(encoder.getDirection());
-      display.print(sequencer.getCurrentStep() + 1, 0, 1);
-      shiftReg.out(sequencer.getCurrentStep() + 1);
+
+      stepControl.write(sequencer.getCurrentPosition() + 1);
+
+      display.print(sequencer.getCurrentPosition() + 1, 0, 1);
+      
     } 
     else 
     {
       sequencer.playSequence();
-      display.print(sequencer.getCurrentStep() + 1);
+      display.print(sequencer.getCurrentPosition() + 1);
     }
   }
 

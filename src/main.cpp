@@ -3,15 +3,11 @@
 
 void debugger()
 {
-  // Serial.print("  indexSelector.menu ");        Serial.print(indexSelector.menu);
-  // Serial.print("  setMenuFnIndex ");            Serial.print(setMenuFnIndex(indexSelector.menu,indexSelector.subMenu));
-  // Serial.print("  menuIsSetMode ");             Serial.print(menuIsSetMode());
-  Serial.print("  encoderSetButton.active ");   Serial.print(encoderSetButton.active);
-  Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentStep());
-  Serial.print("  sequencer.clockOut ");        Serial.print(sequencer.clockOutValue);
+  Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentPosition());
   Serial.print("  sequencer.internalClock ");   Serial.print(sequencer.internalClock());
-  Serial.print("  digitalRead(A1) ");           Serial.print(digitalRead(A1));
-  Serial.print("  shiftReg.output ");           Serial.print(shiftReg.output, BIN);
+  Serial.print("  shiftRegister.output ");      Serial.print(stepControl.output, BIN);
+  Serial.print("  sequencer.currentStep ");     Serial.print(sequencer.stepPosition);
+  Serial.print("  steps ");                     Serial.print(sequencer.stepsLength);
   
   Serial.println();
 }
@@ -22,17 +18,13 @@ unsigned long currentMillis = 0;
 void print() 
 {
   // if(sequencer.paused) Menu::printPause();
-  currentMillis = millis();
-  if (currentMillis - lastUpdateTime >= (1000 / 60)) 
-  {
     printMenu();
-    lastUpdateTime = millis();
-  }
+
 }
 
 void updateRegister()
 {
-  if(sequencer.stepChanged()) ;
+  if(sequencer.isStepChanged()) stepControl.write(sequencer.getCurrentPosition());
 }
 
 void updateSequence() 
@@ -41,7 +33,6 @@ void updateSequence()
   if(sequencer.internalClock() && !sequencer.paused)
   {
     sequencer.changeStep();
-
   }
 }
 
@@ -54,101 +45,60 @@ void updateVariables()
 
 void update() 
 {
-  // updateVariables();
-  if(menuIsSetMode()) currentFunc();
-
-  // updateSequence();
-  sequencer.updateClock();
-  if(sequencer.internalClock() && !sequencer.paused)
-  {
-    sequencer.changeStep();
-  }
-  
+  updateVariables();
+  updateSequence();
+  updateRegister();
 }
 
 
-// void checkEncoder()
-// {
-//   if(encoder.newDataAvailable()){
-//     if(!setMenuMode) selectMenuIndex(encoder.getDirection());
-//     else currentFunc();
-//     clearMenu();
-//   };
-// }
+void checkEncoder()
+{
+  if(encoder.newDataAvailable()){
+    if(!setMenuMode) selectMenuIndex(encoder.getDirection());
+    else currentFunc();
+    clearMenu();
+  };
+}
 
-// void checkSetEncoder() 
-// {
-//   encoderSetButton.check();
-//   setMenuMode = encoderSetButton.active;
-//   clearMenu();
-// }
+void checkSetEncoder() 
+{
+  encoderSetButton.check();
+  setMenuMode = encoderSetButton.active;
+  clearMenu();
+}
 
-// void checkRegister()
-// {
-//   shiftReg.read();
-// }
+void checkRegister()
+{
+  stepControl.check();
+}
 
-// void checkPause() 
-// {
-//   pauseButton.check();
-//   if(pauseButton.active)
-//     sequencer.pauseSequence();
-//   else
-//     sequencer.playSequence();
-// }
+void checkPause() 
+{
+  pauseButton.check();
+  if(pauseButton.active)
+    sequencer.pauseSequence();
+  else
+    sequencer.playSequence();
+}
 
 
 void check() 
 {
-  // checkPause();
-    pauseButton.check();
-    if(pauseButton.active)sequencer.pauseSequence();
-    else sequencer.playSequence();
+  checkPause();
+  checkRegister();
+  checkSetEncoder();
+  checkEncoder();
 
-  // checkRegister();
-    shiftReg.read();
-
-  // checkSetEncoder();
-    encoderSetButton.check();
-    setMenuMode = encoderSetButton.active;
-    clearMenu();
-
-  // checkEncoder();
-    if(encoder.newDataAvailable()){
-      if(!setMenuMode) selectMenuIndex(encoder.getDirection());
-      else currentFunc();
-      clearMenu();
-    };
 }
 
 
 bool running() 
 {
-  // check();
-    // checkPause();
-    pauseButton.check();
-    if(pauseButton.active)sequencer.pauseSequence();
-    else sequencer.playSequence();
-
-  // checkRegister();
-    shiftReg.read();
-
-  // checkSetEncoder();
-    encoderSetButton.check();
-    setMenuMode = encoderSetButton.active;
-    clearMenu();
-
-  // checkEncoder();
-    if(encoder.newDataAvailable()){
-      if(!setMenuMode) selectMenuIndex(encoder.getDirection());
-      else currentFunc();
-      clearMenu();
-    };
-
+  check();
   update();
   print();
 
-  // debugger();
+  debugger();
 
   return true;
 }
@@ -166,7 +116,7 @@ void setup()
   Serial.println("serial connected");
 
   encoder.begin();
-  shiftReg.begin();
+  stepControl.begin();
   display.begin();
 
   menuInit();

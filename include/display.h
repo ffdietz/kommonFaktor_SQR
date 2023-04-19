@@ -2,6 +2,7 @@
 
 #include <ShiftedLCD.h>
 #include <SPI.h>
+
 #include "pinout.h"
 
 #ifndef display_h
@@ -31,8 +32,8 @@ public:
 
 private:
   bool blinkState = false;
-  unsigned long lastBlink;
   static const uint16_t blinkTime = 500;
+  unsigned long lastBlink;
 };
 
 #endif
