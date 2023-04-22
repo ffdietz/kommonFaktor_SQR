@@ -1,12 +1,12 @@
 #include <Arduino.h>
 
-#ifndef stepControl_h
-#define stepControl_h
+#ifndef stepRegister_h
+#define stepRegister_h
 
-class StepControl
+class StepRegister
 {
   public:
-    StepControl();
+    StepRegister();
     void begin();
 
     void check();

@@ -9,10 +9,10 @@ void debugger()
   Serial.print("  sequenceMode ");  Serial.print(sequencer.sequenceMode);
   Serial.print("  indexSelector.menu ");  Serial.print(indexSelector.menu);
   Serial.print("  indexSelector.subMenu ");  Serial.print(indexSelector.subMenu);
-  // Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentPosition());
-  // Serial.print("  sequencer.stepsLength ");  Serial.print(sequencer.stepsLength);
+  Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentPosition());
+  // Serial.print("  sequencer.stepsLength ");     Serial.print(sequencer.stepsLength);
   // Serial.print("  sequencer.internalClock ");   Serial.print(sequencer.internalClock());
-  // Serial.print("  shiftRegister.output ");      Serial.print(stepControl.output, BIN);
+  // Serial.print("  shiftRegister.output ");      Serial.print(stepRegister.output, BIN);
   // Serial.print("  sequencer.currentStep ");     Serial.print(sequencer.stepPosition);
   // Serial.print("  steps ");                     Serial.print(sequencer.stepsLength);
   
@@ -28,7 +28,7 @@ void print()
 
 void updateRegister()
 {
-  if(sequencer.isStepChanged()) stepControl.write(sequencer.getCurrentPosition());
+  if(sequencer.isStepChanged()) stepRegister.write(sequencer.getCurrentPosition());
 }
 void updateSequence() 
 {
@@ -67,7 +67,7 @@ void checkSetEncoder()
 }
 void checkRegister()
 {
-  stepControl.check();
+  stepRegister.check();
 }
 void checkPause() 
 {
@@ -113,7 +113,7 @@ void setup()
     Serial.println("serial connected");
   }
   encoder.begin();
-  stepControl.begin();
+  stepRegister.begin();
   display.begin();
 
   menuInit();

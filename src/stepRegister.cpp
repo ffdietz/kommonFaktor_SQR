@@ -1,16 +1,16 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#include "stepControl.h"
+#include "StepRegister.h"
 #include "pinout.h"
 
-StepControl::StepControl()
+StepRegister::StepRegister()
 {
   pinMode(SHIFT_REG_LATCH_STEP_CTRL, OUTPUT);   //latch
   pinMode(STEP_CTRL_INPUT, INPUT);  //Input from buttons
 }
 
-void StepControl::begin(){
+void StepRegister::begin(){
 
   SPI.setBitOrder(MSBFIRST);
   SPI.setDataMode(SPI_MODE0);
@@ -23,7 +23,7 @@ void StepControl::begin(){
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
 }
 
-void StepControl::check()
+void StepRegister::check()
 {
   
   static int prevState = LOW;
@@ -50,7 +50,7 @@ void StepControl::check()
   // write(output);
 }
 
-void StepControl::write(byte value)
+void StepRegister::write(byte value)
 {
   uint8_t result = 1 << value;  //convert value in power of 2
   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
@@ -60,12 +60,7 @@ void StepControl::write(byte value)
 }
 
 
-  //SETTING PINS
-  // pinMode(SHR_STEP_BUTTONS_SCK, output);//clock
-  // pinMode(SHR_STEP_BUTTONS_MOSI, output);//data
-  // pinMode(SHIFT_REG_LATCH_STEP_CTRL, OUTPUT);//latch
-  // pinMode(STEP_CTRL_INPUT, INPUT);//Input from buttons
-
-//   DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH
-//   DDRD |= (1 << SHR_CLOCK);
-//   DDRD |= (1 << SHR_DATA);
+//  SETTING PINS
+//  DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH
+//  DDRD |= (1 << SHR_CLOCK);
+//  DDRD |= (1 << SHR_DATA);

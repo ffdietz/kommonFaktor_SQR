@@ -33,10 +33,12 @@ class Sequencer {
     byte getStepsQuantity();
     byte getCurrentPosition();
     void setManualStep(int8_t variation);
-    void setSequenceMode(int8_t variation);
-    int getSequenceMode();
+
+    //Step mode sequence
     enum Mode { ASCEND, DESCEND, RANDOM, CUSTOM };
     Mode sequenceMode = ASCEND;
+    void setSequenceMode(int8_t variation);
+    int  getSequenceMode();
 
     //Set methods
     bool isSetMode();

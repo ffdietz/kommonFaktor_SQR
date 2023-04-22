@@ -14,7 +14,6 @@ struct menuIndexSelector
   uint8_t menu;
   uint8_t subMenu;
 } indexSelector;
-
   // Menu Labels
   //menu 0
   const char * MN000 = "SQR_";
@@ -161,10 +160,9 @@ struct menuIndexSelector
       sequencer.pauseSequence();
       sequencer.setManualStep(encoder.getDirection());
 
-      stepControl.write(sequencer.getCurrentPosition() + 1);
-
+      stepRegister.write(sequencer.getCurrentPosition());
       display.print(sequencer.getCurrentPosition() + 1, 0, 1);
-      
+
     } else {
       sequencer.playSequence();
       display.print(sequencer.getCurrentPosition() + 1);
