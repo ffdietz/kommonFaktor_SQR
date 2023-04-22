@@ -2,6 +2,7 @@
 
 #include <ShiftedLCD.h>
 #include <SPI.h>
+
 #include "pinout.h"
 
 #ifndef display_h
@@ -16,19 +17,18 @@ public:
   void clear();
   void clearLine(uint8_t x, uint8_t y);
   void clearField();
-  bool setMode = false;
 
-  bool blinking = false;
-  void blink(const char * data, uint8_t x, uint8_t y);
-  void blink(const char * data);
-  void blink(float data);
-  void blink(int data);
-
-  void print(const char * data, uint8_t x, uint8_t y);
   void print(const char * data);
+  void print(const char * data, uint8_t x, uint8_t y);
   void print(float data);
+  void print(float data, uint8_t x, uint8_t y);
   void print(int data);
-  
+  void print(int data, uint8_t x, uint8_t y);
+
+  // void blink(const char * data, uint8_t x, uint8_t y);
+  // void blink(const char * data);
+  // void blink(float data);
+  // void blink(int data);
 
 private:
   bool blinkState = false;

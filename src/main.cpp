@@ -1,123 +1,131 @@
 #include "global.h"
-#include "shared.h"
+#include "menu.h"
 
+bool debug =  true;
 
-void displayPrint() {
-  if(sequencer.paused) MenuPrint::printPause();
-
-  if(encoder.newDataAvailable()) MenuPrint::clear();
-
-  switch(encoder.getPosition()){
-    case 0:
-      MenuPrint::screen1();
-      break;
-
-    case 1:
-      MenuPrint::screen2();
-      break;
-
-    case 2:
-      MenuPrint::screen3();
-      break;
-  }
+void debugger()
+{
+  
+  Serial.print("  sequenceMode ");  Serial.print(sequencer.sequenceMode);
+  Serial.print("  indexSelector.menu ");  Serial.print(indexSelector.menu);
+  Serial.print("  indexSelector.subMenu ");  Serial.print(indexSelector.subMenu);
+  Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentPosition());
+  // Serial.print("  sequencer.stepsLength ");     Serial.print(sequencer.stepsLength);
+  // Serial.print("  sequencer.internalClock ");   Serial.print(sequencer.internalClock());
+  // Serial.print("  shiftRegister.output ");      Serial.print(stepRegister.output, BIN);
+  // Serial.print("  sequencer.currentStep ");     Serial.print(sequencer.stepPosition);
+  // Serial.print("  steps ");                     Serial.print(sequencer.stepsLength);
+  
+  Serial.println();
 }
 
+void print() 
+{
+  // if(sequencer.paused) Menu::printPause();
+    printMenu();
 
-void updateSequence() {
-  if (!sequencer.paused && sequencer.internalClock()){
+}
+
+void updateRegister()
+{
+  if(sequencer.isStepChanged()) stepRegister.write(sequencer.getCurrentPosition());
+}
+void updateSequence() 
+{
+  sequencer.updateClock();
+  if(sequencer.internalClock() && !sequencer.paused)
+  {
     sequencer.changeStep();
   }
 }
+void updateVariables() 
+{
+  if(menuIsSetMode()) currentFunc();
+}
 
-
-void updateParameters() {
+void update() 
+{
+  updateVariables();
   updateSequence();
+  updateRegister();
 }
 
 
-void checkSetEncoder() {
+void checkEncoder()
+{
+  if(encoder.newDataAvailable()){
+    if(!setMenuMode) selectMenuIndex(encoder.getDirection());
+    else currentFunc();
+    clearMenu();
+  };
+}
+void checkSetEncoder() 
+{
   encoderSetButton.check();
-
-  if(encoderSetButton.active) sequencer.setModeOn();
-  else sequencer.setModeOff();
-
-  // if(encoder.newDataAvailable()) 
-  // {
-  //   encoder.getDirection();
-  // }
+  setMenuMode = encoderSetButton.active;
+  clearMenu();
 }
-
-
-void checkPause() {
+void checkRegister()
+{
+  stepRegister.check();
+}
+void checkPause() 
+{
   pauseButton.check();
-  if(pauseButton.active) {
+  if(pauseButton.active)
     sequencer.pauseSequence();
-  }
-  else {
-    display.blinking = false;
-    sequencer.restartSequence();
-  }
+  else
+    sequencer.playSequence();
 }
 
-
-void update() {
-  updateParameters();
-}
-
-
-void check() {
+void check() 
+{
   checkPause();
+  checkRegister();
   checkSetEncoder();
+  checkEncoder();
+
 }
 
 
-bool running() {
+bool running() 
+{
   check();
   update();
-  displayPrint();
+  print();
+
+  if(debug) debugger();
 
   return true;
 }
 
 
-void restart() {
+void restart() 
+{
   display.clear();
 }
 
 
-void setup() {
-  Serial.begin(9600);
+void setup() 
+{
+  if(debug){
+    Serial.begin(9600);
+    Serial.println("serial connected");
+  }
   encoder.begin();
+  stepRegister.begin();
   display.begin();
+
+  menuInit();
+
 
   restart();
 }
 
-void loop() {
+
+void loop() 
+{
   while (
     running()
   );
 }
-
-// STRUCTURE TO SHOW LABEL AND VALUES AND MODIFY BY ENCODER
-
-// SEQUENCER DASHBOARD
-// // PLAY/STOP
-// // BMPs
-// // CURRENT STEP
-// // ACTIVE STEPS
-// // CLOCK OPTION
-// // SEQUENCE OPTION [IN TARGET DEVICE]
-
-// CLOCK OPTIONS
-// // INTERNAL CLOCK
-// // EXTERNAL CLOCK
-// // DIVIDED CLOCK
-// // MULTIPLIED CLOCK
-
-// SEQUENCE OPTIONS
-// // LINEAR
-// // RANDOM SEQUENCE
-// // INVERT SEQUENCE
-// // RANGE SEQUENCE
-// // CUSTOM SEQUENCE

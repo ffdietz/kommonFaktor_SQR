@@ -1,49 +1,59 @@
 //Track states of sequence
+#include <Arduino.h>
+
 #ifndef sequencer_h
 #define sequencer_h
-#include <Arduino.h>
 
 class Sequencer {
   public:
     Sequencer(uint8_t steps, float speed);
-    ~Sequencer(){};
-
-    //Clock methods
-    float speed; // in BPM
-    bool internalClock();
-    bool externalClock();
-    void clockOut();
-    bool clockOutState = LOW;
 
     //Speed methods
+    float speed; // in BPM
     void  setSpeed(float variation);
+    int   speedToMillis(float speed);
     float getSpeed();
+
+    //Pause methods
+    bool paused;
+    bool isPaused();
+    void pauseSequence();
+    void playSequence();
+
+    //Clock methods
+    int clockOutValue;
+    bool internalClock();
+    bool externalClock();
+    void updateClock();
+    void clockOut();
 
     //Steps methods
     void changeStep();
-    bool stepChanged();
-    uint8_t getCurrentStep();
-    uint8_t getStepsQuantity();
+    bool isStepChanged();
+    byte getStepsQuantity();
+    byte getCurrentPosition();
+    void setManualStep(int8_t variation);
 
-    //Pause methods
-    bool paused = true;
-    bool isPaused();
-    void pauseSequence();
-    void restartSequence();
+    //Step mode sequence
+    void setSequenceMode(int8_t variation);
+    int  getSequenceMode();
+    enum Mode { ASCEND, DESCEND, RANDOM, CUSTOM };
+    Mode sequenceMode = ASCEND;
 
     //Set methods
     bool isSetMode();
     void setModeOff();
     void setModeOn();
 
-  private:
     bool setMode = false;
-    long currentTime = 0;
+    byte stepsLength;
+    
+  // private:
+    byte stepPosition = 0;
+    byte lastPosition = 0;
+    long speedInMillis = 0;
+    long currentMillis = 0;
     long lastChange = 0;
-    uint16_t speedInMillis = 0;
-    uint8_t currentStep = 0;
-    uint8_t lastStep = 0;
-    uint8_t steps;
 };
 
 #endif

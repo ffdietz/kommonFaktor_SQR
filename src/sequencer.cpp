@@ -1,83 +1,139 @@
- #include "sequencer.h"
+#include "sequencer.h"
+#include "pinout.h"
 
-//Constructor
-Sequencer::Sequencer(uint8_t steps, float speed){
-  this->steps = steps - 1;
+// constructor
+Sequencer::Sequencer(uint8_t steps, float speed)
+{
+  this->stepsLength = steps - 1;
   this->speed = speed;
-  this->speedInMillis = int( 60000/speed );
-  this->lastChange = 0;
-  this->paused = false;
+
+  speedInMillis = speedToMillis(speed);
+  paused = false;
+  clockOutValue = true;
+  lastChange = 0;
+
+  if(sequenceMode == ASCEND) stepPosition = 0;
+  if(sequenceMode == DESCEND) stepPosition = stepsLength;
   
-  pinMode(13, OUTPUT);
+  pinMode(CLOCK_OUT, OUTPUT);
 
 }
 
-bool Sequencer::isPaused(){
+// speed methods
+void  Sequencer::setSpeed(float variation)
+{
+  speed += variation;
+  speedInMillis = speedToMillis(speed);
+}
+int   Sequencer::speedToMillis(float speed)
+{
+ return ( 60000 / speed );
+}
+float Sequencer::getSpeed()
+{
+  return speed;
+}
+
+
+// pause methods
+bool Sequencer::isPaused() 
+{
   return paused;
 }
-
-void Sequencer::pauseSequence()
+void Sequencer::playSequence() 
+{
+  paused = false;
+}
+void Sequencer::pauseSequence() 
 {
   paused = true;
 }
 
-void Sequencer::restartSequence(){
-  paused = false;
-}
 
-void Sequencer::setSpeed(float variation){
-  speed += variation;
+// clock methods
+void Sequencer::updateClock(){
+  currentMillis = millis();
 }
-
-float Sequencer::getSpeed(){
-  return speed;
-}
-
-uint8_t Sequencer::getStepsQuantity(){
-  return steps + 1;
-}
-
-bool Sequencer::internalClock(){
-  if (millis() - lastChange >= speedInMillis)
+bool Sequencer::internalClock()
+{
+  if (currentMillis - lastChange >= speedInMillis)
   {
-    lastChange =  millis();
-    digitalWrite(13, HIGH);
+    lastChange =  currentMillis;
+    digitalWrite(CLOCK_OUT, HIGH);
 
     return true;
   }
-
-  digitalWrite(13, LOW);
+  
+  digitalWrite(CLOCK_OUT, LOW);
   return false;
 }
 
-uint8_t Sequencer::getCurrentStep(){
-  return currentStep;
-}
+// void Sequencer::clockOut()
+// {
+//   digitalWrite(CLOCK_OUT, clockOutValue);
+// }
 
-void Sequencer::changeStep(){
-  if(currentStep > steps) currentStep = 0;
-  lastStep = currentStep;
-  currentStep++;
-}
+// steps methods
+void  Sequencer::changeStep()
+{
+  lastPosition = stepPosition;
+  switch(sequenceMode){
+    case ASCEND:
+      stepPosition = (stepPosition + 1) & stepsLength;
+      break;
 
-bool Sequencer::stepChanged(){
-  if(lastStep != currentStep) return true;
+    case DESCEND:
+      stepPosition = (stepPosition - 1) & stepsLength;
+      break;
+
+    case RANDOM:
+      stepPosition = random(0, stepsLength + 1);
+      break;
+
+    case CUSTOM:
+      stepPosition = (stepPosition + 1) & stepsLength;
+      break;
+  }
+
+}
+bool  Sequencer::isStepChanged()
+{
+  if(lastPosition != stepPosition) return true;
   return false;
 }
-
-void Sequencer::clockOut(){
-  clockOutState = !clockOutState;
-  digitalWrite(13, clockOutState);
+byte  Sequencer::getCurrentPosition()
+{
+  return stepPosition;
 }
+void  Sequencer::setManualStep(int8_t variation)
+{
+  lastPosition = stepPosition;
+  stepPosition = (stepPosition + variation) % (stepsLength + 1);
 
-void Sequencer::setModeOn(){
+}
+void  Sequencer::setSequenceMode(int8_t mode)
+{
+  switch(mode){
+    case 0: sequenceMode = ASCEND;  break;
+    case 1: sequenceMode = DESCEND; break;
+    case 2: sequenceMode = RANDOM;  break;
+    case 3: sequenceMode = CUSTOM;  break;
+  }
+}
+int   Sequencer::getSequenceMode()
+{
+  return sequenceMode;
+}
+// set methods
+void Sequencer::setModeOn()
+{
   setMode = true;
 }
-
-void Sequencer::setModeOff(){
+void Sequencer::setModeOff()
+{
   setMode = false;
 }
-
-bool Sequencer::isSetMode(){
+bool Sequencer::isSetMode()
+{
   return setMode;
 }

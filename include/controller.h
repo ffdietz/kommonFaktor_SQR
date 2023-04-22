@@ -4,14 +4,15 @@
 class Controller
 {
   public:
-    Controller(int pin);
+    Controller(uint8_t pin);
 
     void begin();
     void update();
     bool check();
+    void toggleActive();
     bool active;
 
-  private:
+  // private:
     int input_pin;
     int lastPosition;
     int lastState;
