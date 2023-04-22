@@ -108,10 +108,7 @@ byte  Sequencer::getCurrentPosition()
 void  Sequencer::setManualStep(int8_t variation)
 {
   lastPosition = stepPosition;
-  stepPosition += variation;
-
-  if(stepPosition > stepsLength) stepPosition = 0;
-  if(stepPosition < 0) stepPosition = stepsLength;
+  stepPosition = (stepPosition + variation) % (stepsLength + 1);
 
 }
 void  Sequencer::setSequenceMode(int8_t mode)
