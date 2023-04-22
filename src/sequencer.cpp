@@ -11,6 +11,9 @@ Sequencer::Sequencer(uint8_t steps, float speed)
   paused = false;
   clockOutValue = true;
   lastChange = 0;
+
+  if(sequenceMode == ASCEND) stepPosition = 0;
+  if(sequenceMode == DESCEND) stepPosition = stepsLength;
   
   pinMode(CLOCK_OUT, OUTPUT);
 
@@ -74,13 +77,13 @@ bool Sequencer::internalClock()
 void  Sequencer::changeStep()
 {
   lastPosition = stepPosition;
-  switch(mode){
-    case LINEAR:
-      stepPosition++;
+  switch(sequenceMode){
+    case ASCEND:
+      stepPosition = (stepPosition + 1) & stepsLength;
       break;
 
-    case INVERT:
-      stepPosition--;
+    case DESCEND:
+      stepPosition = (stepPosition - 1) & stepsLength;
       break;
 
     case RANDOM:
@@ -88,11 +91,10 @@ void  Sequencer::changeStep()
       break;
 
     case CUSTOM:
-      stepPosition++;
+      stepPosition = (stepPosition + 1) & stepsLength;
       break;
   }
 
-  if(stepPosition > stepsLength) stepPosition = 0;
 }
 bool  Sequencer::isStepChanged()
 {
@@ -112,7 +114,19 @@ void  Sequencer::setManualStep(int8_t variation)
   if(stepPosition < 0) stepPosition = stepsLength;
 
 }
-
+void  Sequencer::setSequenceMode(int8_t mode)
+{
+  switch(mode){
+    case 0: sequenceMode = ASCEND;  break;
+    case 1: sequenceMode = DESCEND; break;
+    case 2: sequenceMode = RANDOM;  break;
+    case 3: sequenceMode = CUSTOM;  break;
+  }
+}
+int   Sequencer::getSequenceMode()
+{
+  return sequenceMode;
+}
 // set methods
 void Sequencer::setModeOn()
 {

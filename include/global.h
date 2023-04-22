@@ -8,7 +8,7 @@
 #include "display.h"
 #include "stepControl.h"
 
-Sequencer     sequencer(8, 400.0);
+Sequencer     sequencer(8, 170.0);
 Encoder       encoder{ENCODER_A, ENCODER_B, ENCODER_MIN, ENCODER_MAX, 0};
 Controller    encoderSetButton(ENCODER_SET);
 Controller    pauseButton(PAUSE_BUTTON);

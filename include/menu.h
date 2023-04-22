@@ -20,27 +20,27 @@ struct menuIndexSelector
   const char * MN000 = "SQR_";
   //menu 1
   const char * MN100 = "BPM ";
- char*  MN101;
+  const char*  MN101;
   //menu 2
   const char * MN200 = "POSITION ";
-  char * MN201;
+  const char * MN201;
   //menu 3
   const char * MN300 = "STEPS ";
-  char * MN301;
+  const char * MN301;
   //menu 4
-  const char * MN400 = "CLOCK ";
+  const char * MN400 = "SEQUENCE ";
   //Submenus of menu 4
-  const char * MN401 = "INTERNAL";
-  const char * MN402 = "EXTERNAL";
-  const char * MN403 = "DIVIDED";
-  const char * MN404 = "MULTIPLIED";
+  const char * MN401 = "LINEAR";
+  const char * MN402 = "INVERT";
+  const char * MN403 = "RANDOM";
+  const char * MN404 = "CUSTOM";
   //menu 5
-  const char * MN500 = "SEQUENCE ";
+  const char * MN500 = "CLOCK ";
   //Submenus of menu 5
-  const char * MN501 = "LINEAR";
-  const char * MN502 = "INVERT";
-  const char * MN503 = "RANDOM";
-  const char * MN504 = "CUSTOM";
+  const char * MN501 = "INTERNAL";
+  const char * MN502 = "EXTERNAL";
+  const char * MN503 = "DIVIDED";
+  const char * MN504 = "MULTIPLIED";
 
 
   const char* MENU[] = 
@@ -68,8 +68,8 @@ struct menuIndexSelector
     1, // items in submenu 1
     1, // items in submenu 2
     1, // items in submenu 3
-    4, // items in submenu 4
-    4, // items in submenu 5
+    3, // items in submenu 4
+    3, // items in submenu 5
   };
 
   void fn101(void);
@@ -88,7 +88,7 @@ struct menuIndexSelector
     fn101, 
     fn201, 
     fn301, 
-    fn401, fn402, fn403, &fn404, 
+    fn401, fn402, fn403, fn404, 
     fn501, fn502, fn503, fn504, 
   };
 
@@ -134,7 +134,6 @@ struct menuIndexSelector
     clearMenu();
   }
 
-
   void printMenu()
   {
     if(!setMenuMode){
@@ -150,10 +149,8 @@ struct menuIndexSelector
 
   void fn101() {
     if(setMenuMode) {
-
       sequencer.setSpeed(encoder.getDirection());
       display.print(sequencer.getSpeed(), 0, 1);
-
     } else {
       display.print(sequencer.getSpeed());
     }
@@ -168,18 +165,14 @@ struct menuIndexSelector
 
       display.print(sequencer.getCurrentPosition() + 1, 0, 1);
       
-    } 
-    else 
-    {
+    } else {
       sequencer.playSequence();
       display.print(sequencer.getCurrentPosition() + 1);
     }
   }
 
   void fn301() {
-    // display.print("O O O O O O O O", 0, 1);
-
-    display.lcd->write(byte(0));
+    display.lcd->write(byte(1));
     display.lcd->write(byte(1));
     display.lcd->write(byte(1));
     display.lcd->write(byte(1));
@@ -190,7 +183,14 @@ struct menuIndexSelector
   }
 
   void fn401() {
-    display.print("401");
+    static int subMenu = 0;
+
+    if(setMenuMode) {
+      subMenu = constrain(subMenu + encoder.getDirection(), 0, MENU_LENGTH[indexSelector.menu]);
+
+      sequencer.setSequenceMode(subMenu);
+      display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, subMenu) + 1], 0, 1);
+    }
   }
 
   void fn402() {

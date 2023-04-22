@@ -21,19 +21,22 @@ class Sequencer {
     void playSequence();
 
     //Clock methods
-    bool clockOutValue;
+    int clockOutValue;
     bool internalClock();
     bool externalClock();
     void updateClock();
+    void clockOut();
 
     //Steps methods
     void changeStep();
     bool isStepChanged();
-    byte getCurrentPosition();
     byte getStepsQuantity();
+    byte getCurrentPosition();
     void setManualStep(int8_t variation);
-    enum sequenceMode {LINEAR, INVERT, RANDOM, CUSTOM};
-    sequenceMode mode = RANDOM;
+    void setSequenceMode(int8_t variation);
+    int getSequenceMode();
+    enum Mode { ASCEND, DESCEND, RANDOM, CUSTOM };
+    Mode sequenceMode = ASCEND;
 
     //Set methods
     bool isSetMode();
@@ -46,9 +49,9 @@ class Sequencer {
   // private:
     byte stepPosition = 0;
     byte lastPosition = 0;
-    uint16_t speedInMillis = 0;
-    uint16_t currentMillis = 0;
-    uint16_t lastChange = 0;
+    long speedInMillis = 0;
+    long currentMillis = 0;
+    long lastChange = 0;
 };
 
 #endif
