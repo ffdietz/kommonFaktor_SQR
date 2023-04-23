@@ -6,11 +6,12 @@ bool debug =  true;
 void debugger()
 {
   
-  Serial.print("  sequenceMode ");  Serial.print(sequencer.sequenceMode);
-  Serial.print("  indexSelector.menu ");  Serial.print(indexSelector.menu);
-  Serial.print("  indexSelector.subMenu ");  Serial.print(indexSelector.subMenu);
+  // Serial.print("  sequenceMode ");  Serial.print(sequencer.sequenceMode);
+  // Serial.print("  indexSelector.menu ");  Serial.print(indexSelector.menu);
+  // Serial.print("  indexSelector.subMenu ");  Serial.print(indexSelector.subMenu);
   Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentPosition());
-  // Serial.print("  sequencer.stepsLength ");     Serial.print(sequencer.stepsLength);
+  Serial.print("  stepRegister.output ");       Serial.print(stepRegister.output, BIN);
+  Serial.print("  sequencer.getStepsState ");   Serial.print(sequencer.getStepsState(), BIN);
   // Serial.print("  sequencer.internalClock ");   Serial.print(sequencer.internalClock());
   // Serial.print("  shiftRegister.output ");      Serial.print(stepRegister.output, BIN);
   // Serial.print("  sequencer.currentStep ");     Serial.print(sequencer.stepPosition);
@@ -22,13 +23,18 @@ void debugger()
 void print() 
 {
   // if(sequencer.paused) Menu::printPause();
+  // if(screenHasChange)
     printMenu();
 
 }
 
 void updateRegister()
 {
-  if(sequencer.isStepChanged()) stepRegister.write(sequencer.getCurrentPosition());
+  if(sequencer.isStepChanged()) {
+    stepRegister.write(sequencer.stepStates);
+    // stepRegister.write(sequencer.getCurrentPosition());
+    
+  }
 }
 void updateSequence() 
 {
@@ -67,15 +73,13 @@ void checkSetEncoder()
 }
 void checkRegister()
 {
-  stepRegister.check();
+  sequencer.setStepsState(stepRegister.check(sequencer.stepStates));
 }
 void checkPause() 
 {
   pauseButton.check();
-  if(pauseButton.active)
-    sequencer.pauseSequence();
-  else
-    sequencer.playSequence();
+  if(pauseButton.active)  sequencer.pauseSequence();
+  else  sequencer.playSequence();
 }
 
 void check() 
@@ -84,7 +88,6 @@ void check()
   checkRegister();
   checkSetEncoder();
   checkEncoder();
-
 }
 
 

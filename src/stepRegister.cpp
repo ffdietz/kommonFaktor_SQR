@@ -19,20 +19,20 @@ void StepRegister::begin(){
   SPI.begin();
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
     SPI.transfer(0);
-    SPI.transfer(255);
+    SPI.transfer(0);
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
 }
 
-void StepRegister::check()
+byte StepRegister::check(byte state)
 {
-  
+  output = 0;
   static int prevState = LOW;
   static int currentState = LOW;
-
+  
   for(int j = 0; j < 8; j++)
   {
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
-    SPI.transfer(output);
+    SPI.transfer(state);
     SPI.transfer(shifter);
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
 
@@ -47,15 +47,15 @@ void StepRegister::check()
   shifter |= 1;
   prevState = currentState;
   
-  // write(output);
+  return output;
 }
 
 void StepRegister::write(byte value)
 {
-  uint8_t result = 1 << value;  //convert value in power of 2
+  // uint8_t result = 1 << value;  //convert value in power of 2
   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
-  SPI.transfer(result);
-  SPI.transfer(255);
+  SPI.transfer(value);
+  SPI.transfer(0);
   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
 }
 
