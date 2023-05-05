@@ -23,7 +23,7 @@ void StepRegister::begin(){
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
 }
 
-byte StepRegister::check(byte state)
+byte StepRegister::check(byte keepOutputValue)
 {
   output = 0;
   static int prevState = LOW;
@@ -32,7 +32,7 @@ byte StepRegister::check(byte state)
   for(int j = 0; j < 8; j++)
   {
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
-    SPI.transfer(state);
+    SPI.transfer(keepOutputValue);
     SPI.transfer(shifter);
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
 
@@ -52,13 +52,11 @@ byte StepRegister::check(byte state)
 
 void StepRegister::write(byte value)
 {
-  // uint8_t result = 1 << value;  //convert value in power of 2
   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
   SPI.transfer(value);
   SPI.transfer(0);
   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
 }
-
 
 //  SETTING PINS
 //  DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH

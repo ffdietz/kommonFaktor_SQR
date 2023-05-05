@@ -1,22 +1,22 @@
 #include "global.h"
 #include "menu.h"
+#include "utils.h"
 
 bool debug =  true;
 
 void debugger()
 {
-  
-  // Serial.print("  sequenceMode ");  Serial.print(sequencer.sequenceMode);
-  // Serial.print("  indexSelector.menu ");  Serial.print(indexSelector.menu);
-  // Serial.print("  indexSelector.subMenu ");  Serial.print(indexSelector.subMenu);
+  Serial.print("  indexSelector.menu ");        Serial.print(indexSelector.menu);
+  Serial.print("  indexSelector.subMenu ");     Serial.print(indexSelector.subMenu);
+  // Serial.print("  sequenceMode ");              Serial.print(sequencer.sequenceMode);
+  // Serial.print("  sequencer.currentBytePosition ");   Serial.print(sequencer.currentBytePosition);
   Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentPosition());
-  Serial.print("  stepRegister.output ");       Serial.print(stepRegister.output, BIN);
-  Serial.print("  sequencer.getStepsState ");   Serial.print(sequencer.getStepsState(), BIN);
+  Serial.print("  position ");  printByte(sequencer.getStatesAndPosition());
+  // Serial.print("  sequencer.getStepsState ");   Serial.print(sequencer.getStepsState(), BIN);
   // Serial.print("  sequencer.internalClock ");   Serial.print(sequencer.internalClock());
   // Serial.print("  shiftRegister.output ");      Serial.print(stepRegister.output, BIN);
-  // Serial.print("  sequencer.currentStep ");     Serial.print(sequencer.stepPosition);
+  // Serial.print("  stepPosition ");              Serial.print(stepPosition);
   // Serial.print("  steps ");                     Serial.print(sequencer.stepsLength);
-  
   Serial.println();
 }
 
@@ -31,9 +31,9 @@ void print()
 void updateRegister()
 {
   if(sequencer.isStepChanged()) {
-    stepRegister.write(sequencer.stepStates);
-    // stepRegister.write(sequencer.getCurrentPosition());
-    
+  // uint8_t x =  sequencer.getStepsState();
+  // x ^= 1 << sequencer.getCurrentPosition();
+    stepRegister.write(sequencer.getStatesAndPosition());
   }
 }
 void updateSequence() 
@@ -73,7 +73,8 @@ void checkSetEncoder()
 }
 void checkRegister()
 {
-  sequencer.setStepsState(stepRegister.check(sequencer.stepStates));
+  byte currentActiveSteps = stepRegister.check(sequencer.getStatesAndPosition());
+  sequencer.setStepsState(currentActiveSteps);
 }
 void checkPause() 
 {
@@ -93,11 +94,11 @@ void check()
 
 bool running() 
 {
+  if(debug) debugger();
   check();
   update();
   print();
-
-  if(debug) debugger();
+  
 
   return true;
 }
@@ -121,8 +122,8 @@ void setup()
 
   menuInit();
 
-
   restart();
+
 }
 
 

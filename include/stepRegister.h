@@ -9,7 +9,7 @@ class StepRegister
     StepRegister();
     void begin();
 
-    byte check(byte currentState);
+    byte check(byte keepOutputValue);
     void write(byte value);
     byte output;
     byte shifter = 1 << 0;

@@ -67,6 +67,7 @@ bool  Sequencer::internalClock()
 // steps methods
 void  Sequencer::changeStep()
 {
+  currentBytePosition =  0;
   lastPosition = stepPosition;
   switch(sequenceMode){
     case ASCEND:
@@ -92,7 +93,7 @@ bool  Sequencer::isStepChanged()
   if(lastPosition != stepPosition) return true;
   return false;
 }
-byte  Sequencer::getCurrentPosition()
+uint8_t  Sequencer::getCurrentPosition()
 {
   return stepPosition;
 }
@@ -108,7 +109,16 @@ void  Sequencer::setManualStep(int8_t variation)
 {
   lastPosition = stepPosition;
   stepPosition = (stepPosition + variation) % (stepsLength + 1);
+}
 
+byte Sequencer::getStatesAndPosition()
+{
+  uint8_t x = getStepsState();
+  x ^= (1 << getCurrentPosition());
+  
+  Serial.print(x);
+
+  return x;
 }
 
 // Step mode methods
