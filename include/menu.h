@@ -14,7 +14,6 @@ struct menuIndexSelector
   uint8_t menu;
   uint8_t subMenu;
 } indexSelector;
-
   // Menu Labels
   //menu 0
   const char * MN000 = "SQR_";

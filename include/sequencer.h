@@ -21,7 +21,7 @@ class Sequencer {
     void playSequence();
 
     //Clock methods
-    int clockOutValue;
+    int  clockOutValue;
     bool internalClock();
     bool externalClock();
     void updateClock();
@@ -31,26 +31,25 @@ class Sequencer {
     void changeStep();
     bool isStepChanged();
     byte getStepsQuantity();
-    byte getCurrentPosition();
+    uint8_t getCurrentPosition(); //
+    byte getStatesAndPosition();
+    void setStepsState(byte position);
+    byte getStepsState();
     void setManualStep(int8_t variation);
 
     //Step mode sequence
-    void setSequenceMode(int8_t variation);
-    int  getSequenceMode();
     enum Mode { ASCEND, DESCEND, RANDOM, CUSTOM };
     Mode sequenceMode = ASCEND;
+    void setSequenceMode(int8_t variation);
+    int  getSequenceMode();
 
-    //Set methods
-    bool isSetMode();
-    void setModeOff();
-    void setModeOn();
-
-    bool setMode = false;
     byte stepsLength;
     
   // private:
     byte stepPosition = 0;
     byte lastPosition = 0;
+    byte stepStates = 255;
+    uint8_t currentBytePosition = 1 << 0;
     long speedInMillis = 0;
     long currentMillis = 0;
     long lastChange = 0;

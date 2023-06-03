@@ -1,16 +1,16 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#include "stepControl.h"
+#include "StepRegister.h"
 #include "pinout.h"
 
-StepControl::StepControl()
+StepRegister::StepRegister()
 {
   pinMode(SHIFT_REG_LATCH_STEP_CTRL, OUTPUT);   //latch
   pinMode(STEP_CTRL_INPUT, INPUT);  //Input from buttons
 }
 
-void StepControl::begin(){
+void StepRegister::begin(){
 
   SPI.setBitOrder(MSBFIRST);
   SPI.setDataMode(SPI_MODE0);
@@ -19,20 +19,20 @@ void StepControl::begin(){
   SPI.begin();
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
     SPI.transfer(0);
-    SPI.transfer(255);
+    SPI.transfer(0);
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
 }
 
-void StepControl::check()
+byte StepRegister::check(byte keepOutputValue)
 {
-  
+  output = 0;
   static int prevState = LOW;
   static int currentState = LOW;
-
+  
   for(int j = 0; j < 8; j++)
   {
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
-    SPI.transfer(output);
+    SPI.transfer(keepOutputValue);
     SPI.transfer(shifter);
     digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
 
@@ -47,25 +47,18 @@ void StepControl::check()
   shifter |= 1;
   prevState = currentState;
   
-  // write(output);
+  return output;
 }
 
-void StepControl::write(byte value)
+void StepRegister::write(byte value)
 {
-  uint8_t result = 1 << value;  //convert value in power of 2
   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
-  SPI.transfer(result);
-  SPI.transfer(255);
+  SPI.transfer(value);
+  SPI.transfer(0);
   digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
 }
 
-
-  //SETTING PINS
-  // pinMode(SHR_STEP_BUTTONS_SCK, output);//clock
-  // pinMode(SHR_STEP_BUTTONS_MOSI, output);//data
-  // pinMode(SHIFT_REG_LATCH_STEP_CTRL, OUTPUT);//latch
-  // pinMode(STEP_CTRL_INPUT, INPUT);//Input from buttons
-
-//   DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH
-//   DDRD |= (1 << SHR_CLOCK);
-//   DDRD |= (1 << SHR_DATA);
+//  SETTING PINS
+//  DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH
+//  DDRD |= (1 << SHR_CLOCK);
+//  DDRD |= (1 << SHR_DATA);
