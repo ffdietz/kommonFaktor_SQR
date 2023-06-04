@@ -28,11 +28,14 @@ void print()
 
 }
 
+void updateMultiplexer(){
+  if(sequencer.isStepChanged())
+    mux.selector(sequencer.getStatesAndPosition());
+}
+
 void updateRegister()
 {
   if(sequencer.isStepChanged()) {
-  // uint8_t x =  sequencer.getStepsState();
-  // x ^= 1 << sequencer.getCurrentPosition();
     stepRegister.write(sequencer.getStatesAndPosition());
   }
 }
@@ -53,6 +56,7 @@ void update()
 {
   updateVariables();
   updateSequence();
+  updateMultiplexer();
   updateRegister();
 }
 
@@ -119,6 +123,7 @@ void setup()
   encoder.begin();
   stepRegister.begin();
   display.begin();
+  mux.begin();
 
   menuInit();
 
