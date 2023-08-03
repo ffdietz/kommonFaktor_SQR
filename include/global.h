@@ -7,12 +7,14 @@
 #include "controller.h"
 #include "display.h"
 #include "stepRegister.h"
+#include "multiplexer.h"
 
-Sequencer     sequencer(8, 140.0);
+Sequencer     sequencer(8, 640.0);
 Encoder       encoder{ENCODER_A, ENCODER_B, ENCODER_MIN, ENCODER_MAX, 0};
 Controller    encoderSetButton(ENCODER_SET);
 Controller    pauseButton(PAUSE_BUTTON);
 Display       display;
 StepRegister  stepRegister;
+Multiplexer   mux;
 
 #endif
