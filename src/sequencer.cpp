@@ -52,17 +52,18 @@ bool  Sequencer::internalClock()
   {
     lastChange =  currentMillis;
     digitalWrite(CLOCK_OUT, HIGH);
+    // clockOutValue = HIGH;
 
     return true;
   }
-  
+  // clockOutValue =  LOW;
   digitalWrite(CLOCK_OUT, LOW);
   return false;
 }
-// void Sequencer::clockOut()
-// {
-//   digitalWrite(CLOCK_OUT, clockOutValue);
-// }
+void Sequencer::clockOut()
+{
+  digitalWrite(CLOCK_OUT, clockOutValue);
+}
 
 // steps methods
 void  Sequencer::changeStep()
@@ -110,7 +111,6 @@ void  Sequencer::setManualStep(int8_t variation)
   lastPosition = stepPosition;
   stepPosition = (stepPosition + variation) % (stepsLength + 1);
 }
-
 byte Sequencer::getStatesAndPosition()
 {
   uint8_t x = getStepsState();

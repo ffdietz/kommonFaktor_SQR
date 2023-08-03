@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#include "StepRegister.h"
+#include "stepRegister.h"
 #include "pinout.h"
 
 StepRegister::StepRegister()

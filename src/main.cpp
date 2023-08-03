@@ -30,7 +30,7 @@ void print()
 
 void updateMultiplexer(){
   if(sequencer.isStepChanged())
-    mux.selector(sequencer.getStatesAndPosition());
+    mux.selector(sequencer.getCurrentPosition());
 }
 
 void updateRegister()
@@ -45,6 +45,7 @@ void updateSequence()
   if(sequencer.internalClock() && !sequencer.paused)
   {
     sequencer.changeStep();
+    // sequencer.clockOut();
   }
 }
 void updateVariables() 
