@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#include "stepRegister.h"
 #include "pinout.h"
+#include "stepRegister.h"
 
 StepRegister::StepRegister()
 {
-  pinMode(SHIFT_REG_LATCH_STEP_CTRL, OUTPUT);   //latch
+  pinMode(SHIFT_REG_LATCH_BTNS, OUTPUT);   //latch
   pinMode(STEP_CTRL_INPUT, INPUT);  //Input from buttons
 }
 
@@ -17,10 +17,10 @@ void StepRegister::begin(){
   SPI.setClockDivider(SPI_CLOCK_DIV2);
 
   SPI.begin();
-    digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
+    digitalWrite(SHIFT_REG_LATCH_BTNS, LOW);
     SPI.transfer(0);
     SPI.transfer(0);
-    digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
+    digitalWrite(SHIFT_REG_LATCH_BTNS, HIGH);
 }
 
 byte StepRegister::check(byte keepOutputValue)
@@ -31,10 +31,10 @@ byte StepRegister::check(byte keepOutputValue)
   
   for(int j = 0; j < 8; j++)
   {
-    digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
+    digitalWrite(SHIFT_REG_LATCH_BTNS, LOW);
     SPI.transfer(keepOutputValue);
     SPI.transfer(shifter);
-    digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
+    digitalWrite(SHIFT_REG_LATCH_BTNS, HIGH);
 
     currentState = digitalRead(STEP_CTRL_INPUT);
 
@@ -52,10 +52,10 @@ byte StepRegister::check(byte keepOutputValue)
 
 void StepRegister::write(byte value)
 {
-  digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, LOW);
+  digitalWrite(SHIFT_REG_LATCH_BTNS, LOW);
   SPI.transfer(value);
   SPI.transfer(0);
-  digitalWrite(SHIFT_REG_LATCH_STEP_CTRL, HIGH);
+  digitalWrite(SHIFT_REG_LATCH_BTNS, HIGH);
 }
 
 //  SETTING PINS

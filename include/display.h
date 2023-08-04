@@ -1,12 +1,16 @@
 #include <Arduino.h>
 
-#include <ShiftedLCD.h>
-#include <SPI.h>
-
 #include "pinout.h"
 
 #ifndef display_h
 #define display_h
+
+#ifdef PROTOTYPE_BOARD_PINOUT
+  #include <ShiftedLCD.h>
+  #include <SPI.h>
+#elif defined(METRIC_BOARD_PINOUT)
+  #include <LiquidCrystal.h>
+#endif
 
 class Display
 {
