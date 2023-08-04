@@ -1,9 +1,13 @@
 #include <Arduino.h>
-#include <ShiftedLCD.h>
-#include <SPI.h>
-
-#include "display.h"
 #include "pinout.h"
+#include "display.h"
+
+#ifdef PROTOTYPE_BOARD_PINOUT
+  #include <ShiftedLCD.h>
+  #include <SPI.h>
+#elif defined(METRIC_BOARD_PINOUT)
+  #include <LiquidCrystal.h>
+#endif
 
 byte activedStep[] = {
   B11111,
@@ -29,7 +33,11 @@ byte deactivedStep[] = {
 
 Display::Display() 
 {
-  lcd = new LiquidCrystal(SHIFT_REG_LATCH_LCD);
+  #ifdef PROTOTYPE_BOARD_PINOUT 
+    lcd = new LiquidCrystal(SHIFT_REG_LATCH_LCD);
+  #elif defined(METRIC_BOARD_PINOUT) 
+    lcd = new LiquidCrystal(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
+  #endif
 }
 
 void Display::begin() 
