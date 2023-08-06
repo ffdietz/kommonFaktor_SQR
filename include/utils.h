@@ -7,7 +7,7 @@ void printByte(byte b)
 {
   for(int i = 7; i >= 0; i--)
     Serial.print(bitRead(b,i));
-  Serial.println();  
+  // Serial.println();  
 }
 
 #endif

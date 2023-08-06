@@ -2,16 +2,19 @@
 #include "menu.h"
 #include "utils.h"
 
-bool debug =  true;
+bool debug =  false;
 
 void debugger()
 {
-  Serial.print("  indexSelector.menu ");        Serial.print(indexSelector.menu);
-  Serial.print("  indexSelector.subMenu ");     Serial.print(indexSelector.subMenu);
+  // Serial.print("  indexSelector.menu ");        Serial.print(indexSelector.menu);
+  // Serial.print("  indexSelector.subMenu ");     Serial.print(indexSelector.subMenu);
+  // Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentPosition());
+  // Serial.print("  encoderSetButton ");          Serial.print(encoderSetButton.check());
+  // Serial.print("  encoderSetButton ");          Serial.print(analogRead(ENCODER_SET));
+  // Serial.print("  pause ");                     Serial.print(analogRead(PAUSE_BUTTON));
+  // Serial.print("  position ");                  printByte(sequencer.getStatesAndPosition());
   // Serial.print("  sequenceMode ");              Serial.print(sequencer.sequenceMode);
   // Serial.print("  sequencer.currentBytePosition ");   Serial.print(sequencer.currentBytePosition);
-  Serial.print("  sequencer.getCurrentStep ");  Serial.print(sequencer.getCurrentPosition());
-  Serial.print("  position ");  printByte(sequencer.getStatesAndPosition());
   // Serial.print("  sequencer.getStepsState ");   Serial.print(sequencer.getStepsState(), BIN);
   // Serial.print("  sequencer.internalClock ");   Serial.print(sequencer.internalClock());
   // Serial.print("  shiftRegister.output ");      Serial.print(stepRegister.output, BIN);
@@ -24,7 +27,8 @@ void print()
 {
   // if(sequencer.paused) Menu::printPause();
   // if(screenHasChange)
-    printMenu();
+  printMenu();
+  delay(300);
 
 }
 
@@ -45,7 +49,6 @@ void updateSequence()
   if(sequencer.internalClock() && !sequencer.paused)
   {
     sequencer.changeStep();
-    // sequencer.clockOut();
   }
 }
 void updateVariables() 
@@ -103,7 +106,6 @@ bool running()
   check();
   update();
   print();
-  
 
   return true;
 }
