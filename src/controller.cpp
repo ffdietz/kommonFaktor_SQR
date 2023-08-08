@@ -7,22 +7,18 @@
 Controller::Controller(uint8_t pin)
 {
   input_pin = pin;
-  // pinMode(input_pin, INPUT_PULLUP);
+  if(input_pin != A6 || input_pin != A7) pinMode(input_pin, INPUT_PULLUP);
   
-  // Init button state
-  // currentState = digitalRead(input_pin);
+  currentState = pinRead();
 
-  currentState = analogRead(input_pin) < 200 ? HIGH : LOW;
   active = false;
 }
 
 bool Controller::check()
 {
-  /* Update the button readings */
   lastState = currentState;
-  currentState = analogRead(input_pin) < 200 ? HIGH : LOW;
+  currentState = pinRead();
 
-  /* Return if the button just got pressed down */
   if(currentState == LOW && lastState == HIGH){
     toggleActive();
     return true;
@@ -33,4 +29,12 @@ bool Controller::check()
 
 void Controller::toggleActive(){
   active = !active;
+}
+
+int Controller::pinRead(){
+  if (input_pin == A6 || input_pin == A7) {
+    return analogRead(input_pin) < 200 ? LOW : HIGH;
+  } else {
+    return digitalRead(input_pin);
+  }
 }

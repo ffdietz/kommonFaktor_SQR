@@ -10,6 +10,7 @@ class Controller
     void update();
     bool check();
     void toggleActive();
+    int  pinRead();
     bool active;
 
   // private:
