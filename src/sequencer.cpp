@@ -51,13 +51,13 @@ bool  Sequencer::internalClock()
   if (currentMillis - lastChange >= speedInMillis)
   {
     lastChange =  currentMillis;
-    digitalWrite(CLOCK_OUT, HIGH);
+    digitalWrite(CLOCK_OUT, LOW);
     // clockOutValue = HIGH;
 
     return true;
   }
   // clockOutValue =  LOW;
-  digitalWrite(CLOCK_OUT, LOW);
+  digitalWrite(CLOCK_OUT, HIGH);
   return false;
 }
 void Sequencer::clockOut()
@@ -98,27 +98,30 @@ uint8_t  Sequencer::getCurrentPosition()
 {
   return stepPosition;
 }
+
+byte  Sequencer::getStepsState()
+{
+  return stepStates;
+}
 void  Sequencer::setStepsState(byte state)
 {
   stepStates ^= state;
 }
-byte  Sequencer::getStepsState()
+byte Sequencer::getStatesAndPosition()
 {
-  return stepStates;
+  byte states = getStepsState();
+  byte position = getCurrentPosition();
+
+  states ^= (1 << position);
+  
+  Serial.print("  sequencer.getCurrentStep ");  Serial.print(getCurrentPosition());
+
+  return states;
 }
 void  Sequencer::setManualStep(int8_t variation)
 {
   lastPosition = stepPosition;
   stepPosition = (stepPosition + variation) % (stepsLength + 1);
-}
-byte Sequencer::getStatesAndPosition()
-{
-  uint8_t x = getStepsState();
-  x ^= (1 << getCurrentPosition());
-  
-  Serial.print(x);
-
-  return x;
 }
 
 // Step mode methods

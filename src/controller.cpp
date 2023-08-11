@@ -14,17 +14,18 @@ Controller::Controller(uint8_t pin)
   active = false;
 }
 
-bool Controller::check()
+void Controller::check()
 {
   lastState = currentState;
   currentState = pinRead();
 
   if(currentState == LOW && lastState == HIGH){
+    isTrigged = true;
     toggleActive();
-    return true;
   }
+  else isTrigged = false;
 
-  return false;
+  // return isTrigged;
 }
 
 void Controller::toggleActive(){

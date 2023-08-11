@@ -8,10 +8,11 @@ class Controller
 
     void begin();
     void update();
-    bool check();
+    void check();
     void toggleActive();
     int  pinRead();
     bool active;
+    bool isTrigged;
 
   // private:
     int input_pin;

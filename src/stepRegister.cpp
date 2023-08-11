@@ -23,7 +23,11 @@ void StepRegister::begin(){
     digitalWrite(REGISTER_LATCH_BTNS, HIGH);
 }
 
-byte StepRegister::check(byte keepOutputValue)
+void StepRegister::keepOutputValue(byte value){
+  keepValueOutput = value;
+}
+
+byte StepRegister::check()
 {
   output = 0;
   static int prevState = LOW;
@@ -32,7 +36,7 @@ byte StepRegister::check(byte keepOutputValue)
   for(int j = 0; j < 8; j++)
   {
     digitalWrite(REGISTER_LATCH_BTNS, LOW);
-    SPI.transfer(keepOutputValue);
+    SPI.transfer(keepValueOutput);
     SPI.transfer(shifter);
     digitalWrite(REGISTER_LATCH_BTNS, HIGH);
 
@@ -57,8 +61,3 @@ void StepRegister::write(byte value)
   SPI.transfer(0);
   digitalWrite(REGISTER_LATCH_BTNS, HIGH);
 }
-
-//  SETTING PINS
-//  DDRD |= (1 << SHR_LATCH); //"OR 1" OPERATOR SET HIGH
-//  DDRD |= (1 << SHR_CLOCK);
-//  DDRD |= (1 << SHR_DATA);
