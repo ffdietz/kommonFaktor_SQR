@@ -14,7 +14,7 @@ class StepRegister
     void keepOutputValue(byte value);
     byte output;
     byte shifter = 1 << 0;
-    byte keepValueOutput;
+    int8_t keepValueOutput;
 };
 
 #endif

@@ -5,7 +5,7 @@
 typedef void (*funcPointer)(void);
 //function pointer
 funcPointer menuFunction;
-bool setMenuMode = false;
+bool setMenuFunction = false;
 char * dataOut;
 
 //Structure describes current menu and submenu state
@@ -17,12 +17,12 @@ struct menuIndexSelector
 
 // Menu Labels
 //menu 0
-const char * MN000 = "SQR_";
+const char * MN000 = "MUX_SQR";
 //menu 1
 const char * MN100 = "BPM ";
 const char*  MN101;
 //menu 2
-const char * MN200 = "POSITION ";
+const char * MN200 = "STEP ";
 const char * MN201;
 //menu 3
 const char * MN300 = "STEPS ";
@@ -76,9 +76,9 @@ void fn101(void);
 void fn201(void);
 void fn301(void);
 void fn401(void);
-void fn402(void);
-void fn403(void);
-void fn404(void);
+// void fn402(void);
+// void fn403(void);
+// void fn404(void);
 void fn501(void);
 void fn502(void);
 void fn503(void);
@@ -88,12 +88,14 @@ const funcPointer menuFn[] = {
   fn101, 
   fn201, 
   fn301, 
-  fn401, fn402, fn403, fn404, 
-  fn501, fn502, fn503, fn504, 
+  fn401, 
+  // fn402, fn403, fn404, 
+  fn501, 
+  // fn502, fn503, fn504, 
 };
 
 bool menuIsSetMode(){
-  return setMenuMode;
+  return setMenuFunction;
 }
 
 void clearMenu()
@@ -123,8 +125,8 @@ int setMenuFnIndex(uint8_t menu, uint8_t submenu)
 
 void selectMenuIndex(int variation)
 {
-  if(!setMenuMode){
-    indexSelector.menu = constrain(indexSelector.menu + variation, 1, MENU_LENGTH[0] - 1);
+  if(!setMenuFunction){
+    indexSelector.menu = constrain(indexSelector.menu + variation, 1, MENU_LENGTH[0]);
   }
   else {
     indexSelector.subMenu = constrain(indexSelector.subMenu + variation, 1, MENU_LENGTH[indexSelector.menu]);
@@ -135,7 +137,7 @@ void selectMenuIndex(int variation)
 
 void menu()
 {
-  if(!setMenuMode){
+  if(!setMenuFunction){
     display.print(MENU[0], 0, 0);
     display.print(MENU[indexSelector.menu], 0, 1);
   } else {
@@ -146,8 +148,14 @@ void menu()
   menuFunction();
 }
 
+void menuPaused(bool paused)
+{
+  if(paused) display.print("PAUSED", 10, 0);
+  else display.print("      ", 10, 0);
+}
+
 void fn101() {
-  if(setMenuMode) {
+  if(setMenuFunction) {
     sequencer.setSpeed(encoder.getDirection());
     display.print(sequencer.getSpeed(), 0, 1);
   } else {
@@ -156,7 +164,7 @@ void fn101() {
 }
 
 void fn201() {
-  if(setMenuMode) {
+  if(setMenuFunction) {
     sequencer.pauseSequence();
     sequencer.setManualStep(encoder.getDirection());
 
@@ -181,7 +189,7 @@ void fn301() {
 
 void fn401() {
   static int subMenu = 0;
-  if(setMenuMode) {
+  if(setMenuFunction) {
     subMenu += encoder.getDirection();
     subMenu = constrain(subMenu, 0, MENU_LENGTH[indexSelector.menu]);
 
@@ -190,33 +198,40 @@ void fn401() {
   }
 }
 
-void fn402() {
-  display.print("402");
-}
+// void fn402() {
+//   display.print("402");
+// }
 
-void fn403() {
-  display.print("403");
-}
+// void fn403() {
+//   display.print("403");
+// }
 
-void fn404() {
-  display.print("404");
-}
+// void fn404() {
+//   display.print("404");
+// }
 
 void fn501() {
-  display.print("501");
+  static int subMenu = 0;
+  if(setMenuFunction) {
+    subMenu += encoder.getDirection();
+    subMenu = constrain(subMenu, 0, MENU_LENGTH[indexSelector.menu]);
+
+    sequencer.setSequenceMode(subMenu);
+    display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, subMenu) + 1], 0, 1);
+  }
 }
 
-void fn502() {
-  display.print("502");
-}
+// void fn502() {
+//   display.print("502");
+// }
 
-void fn503() {
-  display.print("503");
-}
+// void fn503() {
+//   display.print("503");
+// }
 
-void fn504() {
-  display.print("504");
-}
+// void fn504() {
+//   display.print("504");
+// }
 
   // void printPause() {
   //   if(!display.blinking) display.print("                ", mainTitle.x, pause.y );

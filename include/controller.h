@@ -11,15 +11,13 @@ class Controller
     void check();
     void toggleActive();
     int  pinRead();
-    bool active;
-    bool isTrigged;
+    bool active = false;
+    bool isTrigged = false;
 
   // private:
     int input_pin;
-    int lastPosition;
     int lastState;
     int currentState;
-    
 };
 
 #endif

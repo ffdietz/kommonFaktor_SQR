@@ -2,15 +2,15 @@
 #include "pinout.h"
 
 // constructor
-Sequencer::Sequencer(uint8_t steps, float speed)
+Sequencer::Sequencer(uint8_t _steps, float _speed)
 {
-  this->stepsLength = steps - 1;
-  this->speed = speed;
+  speed = _speed;
+  stepsLength = _steps - 1;
 
   speedInMillis = speedToMillis(speed);
-  paused = false;
   clockOutValue = true;
   lastChange = 0;
+  paused = false;
 
   if(sequenceMode == ASCEND) stepPosition = 0;
   if(sequenceMode == DESCEND) stepPosition = stepsLength;
@@ -52,12 +52,12 @@ bool  Sequencer::internalClock()
   {
     lastChange =  currentMillis;
     digitalWrite(CLOCK_OUT, LOW);
-    // clockOutValue = HIGH;
 
     return true;
   }
-  // clockOutValue =  LOW;
+
   digitalWrite(CLOCK_OUT, HIGH);
+
   return false;
 }
 void Sequencer::clockOut()
@@ -112,9 +112,12 @@ byte Sequencer::getStatesAndPosition()
   byte states = getStepsState();
   byte position = getCurrentPosition();
 
+  // Serial.print("  states ");
+  //   Serial.print(states);
+  // Serial.print("  position ");
+  //   Serial.print(position);
+
   states ^= (1 << position);
-  
-  Serial.print("  sequencer.getCurrentStep ");  Serial.print(getCurrentPosition());
 
   return states;
 }
