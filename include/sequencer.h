@@ -21,11 +21,12 @@ class Sequencer {
     void playSequence();
 
     //Clock methods
-    uint8_t  clockOutValue = LOW;
+    uint8_t  clockOutState = LOW;
+    bool externalClock = false;
     bool internalClock();
     bool externalClock();
     void updateClock();
-    void clockOut();
+    void clockOutput();
 
     //Steps methods
     void changeStep();
