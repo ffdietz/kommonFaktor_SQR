@@ -7,22 +7,35 @@ bool updateDisplay = false;
 
 void debugger()
 {
-  Serial.print("  indexSelector.menu ");        Serial.print(indexSelector.menu);
-  Serial.print("  indexSelector.subMenu ");     Serial.print(indexSelector.subMenu);
-  // Serial.print("  sequencer.getCurrentStep ");     Serial.print(sequencer.getCurrentPosition());
-  // Serial.print("  encoderSetButton ");          Serial.print(encoderSetButton.isTrigged);
-  Serial.print("  getStatesAndPosition ");        printByte(sequencer.getStatesAndPosition());
-  // Serial.print("  sequenceMode ");              Serial.print(sequencer.sequenceMode);
-  // Serial.print("  sequencer.currentBytePosition ");   Serial.print(sequencer.currentBytePosition);
+  // serial("", );
+  serial("indexSelector.menu ", indexSelector.menu );
+  serial("indexSelector.subMenu ", indexSelector.subMenu );
+  // serial("pauseButton.active ", pauseButton.active );
+  // serial("sequencer.paused ", sequencer.paused ); 
+  // serial("sequencer.paused ", sequencer.clockOutState ); 
+  // serial("sequencer.isPaused() ", sequencer.isPaused() );
+  // serial("getStatesAndPosition ", sequencer.getStatesAndPosition());
+  // serial("sequencer.currentBytePosition ", sequencer.currentBytePosition );
+  // serial("lastState ", pauseButton.lastState);
+  // serial("current ", pauseButton.currentState);
+  // serial("trigged ", pauseButton.isTrigged);
+  // serial("active ", pauseButton.active);
+  // serial("analogRead ", analogRead(PAUSE_BUTTON));
+
+  Serial.print("  getStatesAndPosition ");
+    printByte(sequencer.getStatesAndPosition());
+
   Serial.println();
 }
 
 void print()
 {
+  menuPaused(pauseButton.active);
   menu();
 }
 
-void updateMultiplexer(){
+void updateMultiplexer()
+{
   if(sequencer.isStepChanged())
     mux.selector(sequencer.getCurrentPosition());
 }
@@ -35,10 +48,12 @@ void updateRegister()
 void updateSequence() 
 {
   sequencer.updateClock();
-  if(sequencer.internalClock() && !sequencer.paused)
+  if(sequencer.internalClock() && !pauseButton.active && !sequencer.paused)
   {
     sequencer.changeStep();
   }
+  
+  if(sequencer.isStepChanged()) sequencer.clockOutput();
 }
 void updateVariables() 
 {
@@ -55,7 +70,7 @@ void update()
 void checkEncoder()
 {
   if(encoder.newDataAvailable()){
-    if(!setMenuMode) selectMenuIndex(encoder.getDirection());
+    if(!setMenuFunction) selectMenuIndex(encoder.getDirection());
     else menuFunction();
     clearMenu();
     print();
@@ -66,7 +81,7 @@ void checkSetEncoder()
   encoderSetButton.check();
   if(encoderSetButton.isTrigged)
   {
-    setMenuMode = encoderSetButton.active;
+    setMenuFunction = encoderSetButton.active;
     clearMenu();
     print();
   }
@@ -79,11 +94,14 @@ void checkRegister()
   stepRegister.keepOutputValue(sequencer.getStatesAndPosition());
   byte currentActiveSteps = stepRegister.check();
   sequencer.setStepsState(currentActiveSteps);
+
 }
 void checkPause() 
 {
   pauseButton.check();
-  if(pauseButton.active)  sequencer.pauseSequence();
+  if(pauseButton.active){
+    sequencer.pauseSequence();
+  }
   else  sequencer.playSequence();
 }
 void check() 
@@ -106,16 +124,18 @@ bool running()
 
 void setup() 
 {
-  if(debug){
-    Serial.begin(9600);
-    Serial.println("serial connected");
-  }
   display.begin();
   encoder.begin();
   mux.begin();
   stepRegister.begin();
 
   menuInit();
+
+  if(debug){
+    Serial.begin(9600);
+    Serial.println("serial connected");
+    debugger();
+  }
 
 }
 

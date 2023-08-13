@@ -1,8 +1,8 @@
 //Track states of sequence
 #include <Arduino.h>
 
-#ifndef sequencer_h
-#define sequencer_h
+#ifndef SEQUENCER_H
+#define SEQUENCER_H
 
 class Sequencer {
   public:
@@ -15,13 +15,13 @@ class Sequencer {
     float getSpeed();
 
     //Pause methods
-    bool paused;
+    bool paused = false;
     bool isPaused();
     void pauseSequence();
     void playSequence();
 
     //Clock methods
-    int  clockOutValue;
+    uint8_t  clockOutValue = LOW;
     bool internalClock();
     bool externalClock();
     void updateClock();
@@ -32,18 +32,22 @@ class Sequencer {
     bool isStepChanged();
     byte getStepsQuantity();
     uint8_t getCurrentPosition();
-    byte getStatesAndPosition();
+    uint8_t getStatesAndPosition();
     void setStepsState(byte position);
     byte getStepsState();
     void setManualStep(int8_t variation);
 
-    //Step mode sequence
+    //Sequence progression
     enum Mode { ASCEND, DESCEND, RANDOM, CUSTOM };
     Mode sequenceMode = ASCEND;
     void setSequenceMode(int8_t variation);
     int  getSequenceMode();
 
-    byte stepsLength;
+    //Clock mode
+    // enum Factor { MULTIPLY, DIVIDER };
+    // Factor clockMode;
+
+    byte stepsLength = 0;
     
   // private:
     byte stepPosition = 0;

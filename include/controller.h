@@ -1,5 +1,5 @@
-#ifndef controller_h
-#define controller_h
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 
 class Controller
 {
@@ -11,15 +11,14 @@ class Controller
     void check();
     void toggleActive();
     int  pinRead();
-    bool active;
-    bool isTrigged;
+    bool isChanged();
+    bool active = false;
+    bool isTrigged = false;
 
   // private:
     int input_pin;
-    int lastPosition;
     int lastState;
     int currentState;
-    
 };
 
 #endif

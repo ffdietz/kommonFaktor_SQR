@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
-#ifndef stepRegister_h
-#define stepRegister_h
+#ifndef STEPREGISTER_H
+#define STEPREGISTER_H
 
 class StepRegister
 {
@@ -14,7 +14,7 @@ class StepRegister
     void keepOutputValue(byte value);
     byte output;
     byte shifter = 1 << 0;
-    byte keepValueOutput;
+    int8_t keepValueOutput;
 };
 
 #endif

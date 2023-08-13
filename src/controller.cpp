@@ -7,11 +7,22 @@
 Controller::Controller(uint8_t pin)
 {
   input_pin = pin;
-  if(input_pin != A6 || input_pin != A7) pinMode(input_pin, INPUT_PULLUP);
+  if(input_pin != A6 && input_pin != A7) pinMode(input_pin, INPUT_PULLUP);
   
   currentState = pinRead();
 
-  active = false;
+}
+
+int Controller::pinRead(){
+  if (input_pin == A6 || input_pin == A7) {
+    return analogRead(input_pin) == 0 ? HIGH : LOW;
+  } else {
+    return digitalRead(input_pin);
+  }
+}
+
+void Controller::toggleActive(){
+  active = !active;
 }
 
 void Controller::check()
@@ -19,23 +30,18 @@ void Controller::check()
   lastState = currentState;
   currentState = pinRead();
 
-  if(currentState == LOW && lastState == HIGH){
+  if(lastState == LOW && currentState == HIGH){
     isTrigged = true;
     toggleActive();
   }
-  else isTrigged = false;
-
-  // return isTrigged;
-}
-
-void Controller::toggleActive(){
-  active = !active;
-}
-
-int Controller::pinRead(){
-  if (input_pin == A6 || input_pin == A7) {
-    return analogRead(input_pin) < 200 ? LOW : HIGH;
-  } else {
-    return digitalRead(input_pin);
+  else {
+    isTrigged = false;
   }
+
+}
+
+bool Controller::isChanged()
+{
+  if(lastState != currentState) return true;
+  else return false;
 }
