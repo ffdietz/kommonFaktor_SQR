@@ -11,6 +11,7 @@ class Controller
     void check();
     void toggleActive();
     int  pinRead();
+    bool isChanged();
     bool active = false;
     bool isTrigged = false;
 

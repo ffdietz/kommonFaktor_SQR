@@ -39,3 +39,9 @@ void Controller::check()
   }
 
 }
+
+bool Controller::isChanged()
+{
+  if(lastState != currentState) return true;
+  else return false;
+}

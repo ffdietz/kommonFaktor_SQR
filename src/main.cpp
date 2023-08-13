@@ -8,11 +8,11 @@ bool updateDisplay = false;
 void debugger()
 {
   // serial("", );
-  // serial("indexSelector.menu ", indexSelector.menu );
-  // serial("indexSelector.subMenu ", indexSelector.subMenu );
+  serial("indexSelector.menu ", indexSelector.menu );
+  serial("indexSelector.subMenu ", indexSelector.subMenu );
   // serial("pauseButton.active ", pauseButton.active );
   // serial("sequencer.paused ", sequencer.paused ); 
-  serial("sequencer.paused ", sequencer.clockOutValue ); 
+  // serial("sequencer.paused ", sequencer.clockOutState ); 
   // serial("sequencer.isPaused() ", sequencer.isPaused() );
   // serial("getStatesAndPosition ", sequencer.getStatesAndPosition());
   // serial("sequencer.currentBytePosition ", sequencer.currentBytePosition );
@@ -52,8 +52,8 @@ void updateSequence()
   {
     sequencer.changeStep();
   }
-
-  sequencer.clockOut();
+  
+  if(sequencer.isStepChanged()) sequencer.clockOutput();
 }
 void updateVariables() 
 {
