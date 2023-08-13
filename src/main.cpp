@@ -12,17 +12,18 @@ void debugger()
   // serial("indexSelector.subMenu ", indexSelector.subMenu );
   // serial("pauseButton.active ", pauseButton.active );
   // serial("sequencer.paused ", sequencer.paused ); 
+  serial("sequencer.paused ", sequencer.clockOutValue ); 
   // serial("sequencer.isPaused() ", sequencer.isPaused() );
   // serial("getStatesAndPosition ", sequencer.getStatesAndPosition());
   // serial("sequencer.currentBytePosition ", sequencer.currentBytePosition );
-  serial("lastState ", pauseButton.lastState);
-  serial("current ", pauseButton.currentState);
-  serial("trigged ", pauseButton.isTrigged);
-  serial("active ", pauseButton.active);
-  serial("analogRead ", analogRead(PAUSE_BUTTON));
+  // serial("lastState ", pauseButton.lastState);
+  // serial("current ", pauseButton.currentState);
+  // serial("trigged ", pauseButton.isTrigged);
+  // serial("active ", pauseButton.active);
+  // serial("analogRead ", analogRead(PAUSE_BUTTON));
 
-  // Serial.print("  getStatesAndPosition ");
-    // printByte(sequencer.getStatesAndPosition());
+  Serial.print("  getStatesAndPosition ");
+    printByte(sequencer.getStatesAndPosition());
 
   Serial.println();
 }
@@ -51,6 +52,8 @@ void updateSequence()
   {
     sequencer.changeStep();
   }
+
+  sequencer.clockOut();
 }
 void updateVariables() 
 {

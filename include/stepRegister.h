@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
-#ifndef stepRegister_h
-#define stepRegister_h
+#ifndef STEPREGISTER_H
+#define STEPREGISTER_H
 
 class StepRegister
 {

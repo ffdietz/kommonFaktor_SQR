@@ -1,8 +1,8 @@
 //Track states of sequence
 #include <Arduino.h>
 
-#ifndef sequencer_h
-#define sequencer_h
+#ifndef SEQUENCER_H
+#define SEQUENCER_H
 
 class Sequencer {
   public:
@@ -21,7 +21,7 @@ class Sequencer {
     void playSequence();
 
     //Clock methods
-    int  clockOutValue = LOW;
+    uint8_t  clockOutValue = LOW;
     bool internalClock();
     bool externalClock();
     void updateClock();

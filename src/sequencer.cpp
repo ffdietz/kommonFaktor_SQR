@@ -46,23 +46,25 @@ void  Sequencer::pauseSequence(){
 void  Sequencer::updateClock(){
   currentMillis = millis();
 }
+void Sequencer::clockOut()
+{
+  digitalWrite(CLOCK_OUT, clockOutValue);
+}
 bool  Sequencer::internalClock()
 {
   if (currentMillis - lastChange >= speedInMillis)
   {
     lastChange =  currentMillis;
-    digitalWrite(CLOCK_OUT, LOW);
+
+    clockOutValue = HIGH;
 
     return true;
   }
 
-  digitalWrite(CLOCK_OUT, HIGH);
+  if(paused)clockOutValue = HIGH;
+  else clockOutValue = LOW;
 
   return false;
-}
-void Sequencer::clockOut()
-{
-  digitalWrite(CLOCK_OUT, clockOutValue);
 }
 
 // steps methods

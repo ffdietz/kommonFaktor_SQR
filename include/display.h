@@ -2,8 +2,8 @@
 
 #include "pinout.h"
 
-#ifndef display_h
-#define display_h
+#ifndef DISPLAY_H
+#define DISPLAY_H
 
 #ifdef PROTOTYPE_BOARD_PINOUT
   #include <ShiftedLCD.h>
