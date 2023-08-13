@@ -8,13 +8,14 @@ Sequencer::Sequencer(uint8_t _steps, float _speed)
   stepsLength = _steps - 1;
 
   speedInMillis = speedToMillis(speed);
-  clockOutValue = true;
+  clockOutState = true;
   lastChange = 0;
   paused = false;
 
   if(sequenceMode == ASCEND) stepPosition = 0;
   if(sequenceMode == DESCEND) stepPosition = stepsLength;
   
+  pinMode(CLOCK_IN, INPUT);
   pinMode(CLOCK_OUT, OUTPUT);
 
 }
@@ -46,25 +47,31 @@ void  Sequencer::pauseSequence(){
 void  Sequencer::updateClock(){
   currentMillis = millis();
 }
-void Sequencer::clockOut()
+void Sequencer::clockOutput()
 {
-  digitalWrite(CLOCK_OUT, clockOutValue);
+  digitalWrite(CLOCK_OUT, clockOutState);
 }
 bool  Sequencer::internalClock()
 {
   if (currentMillis - lastChange >= speedInMillis)
   {
     lastChange =  currentMillis;
-
-    clockOutValue = HIGH;
+    clockOutState = HIGH;
 
     return true;
   }
 
-  if(paused)clockOutValue = HIGH;
-  else clockOutValue = LOW;
+  if(paused)clockOutState = HIGH;
+  else clockOutState = LOW;
 
   return false;
+}
+
+bool Sequencer::externalClock()
+{
+  // CREATE CONTROLLER OBJECT TO READ CLOCK INPUT 
+  static uint8_t extClock = digitalRead(CLOCK_IN);
+  if(extClock == HIGH) externalClock = true;
 }
 
 // steps methods
@@ -100,7 +107,6 @@ uint8_t  Sequencer::getCurrentPosition()
 {
   return stepPosition;
 }
-
 byte  Sequencer::getStepsState()
 {
   return stepStates;
