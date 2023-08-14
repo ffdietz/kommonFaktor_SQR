@@ -53,7 +53,7 @@ void Sequencer::clockOutput()
 }
 bool  Sequencer::internalClock()
 {
-  if (currentMillis - lastChange >= speedInMillis)
+  if ((currentMillis - lastChange) >= (speedInMillis * internalClockFactor))
   {
     lastChange =  currentMillis;
     clockOutState = HIGH;
@@ -67,12 +67,33 @@ bool  Sequencer::internalClock()
   return false;
 }
 
-bool Sequencer::externalClock()
+void Sequencer::setInternalClockFactor(int factor)
 {
-  // CREATE CONTROLLER OBJECT TO READ CLOCK INPUT 
-  static uint8_t extClock = digitalRead(CLOCK_IN);
-  if(extClock == HIGH) externalClock = true;
+  switch(factor)
+  {
+    case 0:   internalClockFactor = 64;   break;
+    case 1:   internalClockFactor = 32;   break;
+    case 2:   internalClockFactor = 16;   break;
+    case 3:   internalClockFactor = 8;    break;
+    case 4:   internalClockFactor = 4;    break;
+    case 5:   internalClockFactor = 2;    break;
+    case 6:   internalClockFactor = 1;      break;
+    case 7:   internalClockFactor = 1/2;      break;
+    case 8:   internalClockFactor = 1/4;      break;
+    case 9:   internalClockFactor = 1/8;      break;
+    case 10:  internalClockFactor = 1/16;     break;
+    case 11:  internalClockFactor = 1/32;     break;
+    case 12:  internalClockFactor = 1/64;     break;
+  }
 }
+
+// bool Sequencer::externalClock()
+// {
+//   // CREATE CONTROLLER OBJECT TO READ CLOCK INPUT 
+//   // static uint8_t extClock = digitalRead(CLOCK_IN);
+//   // if(extClock == HIGH) externalClock = true;
+//   return false; 
+// }
 
 // steps methods
 void  Sequencer::changeStep()

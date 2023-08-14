@@ -30,14 +30,12 @@ const char * MN302 = "INVERT";
 const char * MN303 = "RANDOM";
 const char * MN304 = "CUSTOM";
 //menu 4
-const char * MN400 = "STEPS ";
+const char * MN400 = "CLOCK ";
+//Submenus of menu 4
+const char * MN401 = "IN";
+const char * MN402 = "OUT";
 //menu 5
-const char * MN500 = "CLOCK ";
-//Submenus of menu 5
-const char * MN501 = "INTERNAL";
-const char * MN502 = "EXTERNAL";
-const char * MN503 = "DIVIDED";
-const char * MN504 = "MULTIPLIED";
+const char * MN500 = "STEPS ";
 
 
 const char* MENU[] = 
@@ -53,12 +51,18 @@ const char* MENU[] =
 const char* SUBMENU[] = 
 {
   MN301, MN302, MN303, MN304,
-  MN501, MN502, MN503, MN504,
+  MN401, MN402
+};
+
+const char* FACTOR[] = 
+{
+  "/64", "/32", "/16", "/8", "/4", "/2", "1",
+  "*2", "*4", "*8", "*16", "*32", "*64"
 };
 
 const uint8_t MENU_LENGTH[] =
 {
-  5, // items in menu 1
+  6, // items in menu 1
   1, // items in submenu 1
   1, // items in submenu 2
   1, // items in submenu 3
@@ -71,13 +75,14 @@ void fn201(void);
 void fn301(void);
 void fn401(void);
 void fn501(void);
+void fn502(void);
 
 const funcPointer menuFn[] = {
   fn101, 
   fn201, 
   fn301, 
   fn401, 
-  fn501, 
+  fn501, fn502, 
 };
 
 bool menuIsSetMode(){
@@ -103,7 +108,9 @@ void menuInit()
 int setMenuFnIndex(uint8_t menu, uint8_t submenu)
 {
   uint8_t indexOutput = 0;
-  for(byte i = 0 ; i < (menu - 1) ; i++ ) indexOutput += MENU_LENGTH[i + 1];
+  for(byte i = 0 ; i < (menu - 1) ; i++ ) 
+    indexOutput += MENU_LENGTH[i + 1];
+
   indexOutput += submenu - 1;
 
   return indexOutput;
@@ -132,7 +139,7 @@ void menu()
     display.print(MENU[indexSelector.menu], 0, 1);
   } else {
     display.print(MENU[indexSelector.menu], 0, 0);
-    display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
+    // display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
   };
 
   menuFunction();
@@ -179,6 +186,20 @@ void fn301() {
 }
 
 void fn401() {
+  static int subMenu = 6;
+  if(setMenuFunction) {
+    subMenu += encoder.getDirection();
+    // SUBMENU[] labels range
+    subMenu = constrain(subMenu, 0, 12);
+    sequencer.setInternalClockFactor(subMenu);
+
+    display.print(SUBMENU[4], 0, 1);
+    display.print(" ");
+    display.print(FACTOR[subMenu]);
+  }
+}
+
+void fn501() {
   display.lcd->write(byte(1));
   display.lcd->write(byte(1));
   display.lcd->write(byte(1));
@@ -189,15 +210,16 @@ void fn401() {
   display.lcd->write(byte(1));
 }
 
-void fn501() {
+void fn502() {
   static int subMenu = 0;
   if(setMenuFunction) {
     subMenu += encoder.getDirection();
     // SUBMENU[] labels range
-    subMenu = constrain(subMenu, 4, 7);
+    subMenu = constrain(subMenu, 6, 7);
 
     // sequencer.setSequenceMode(subMenu);
-    display.print(SUBMENU[subMenu], 0, 1);
+    display.print(SUBMENU[5], 0, 1);
+    display.print(SUBMENU[subMenu]);
   }
 }
 
