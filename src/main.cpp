@@ -91,6 +91,7 @@ void checkRegister()
   // wrong logic in getStepStates + currentPosition to setStepsState
   // check is saving 0 in all states when no input
   // only when serial.print stepregister works as expected
+  // affects BPMs over 99
   stepRegister.keepOutputValue(sequencer.getStatesAndPosition());
   byte currentActiveSteps = stepRegister.check();
   sequencer.setStepsState(currentActiveSteps);

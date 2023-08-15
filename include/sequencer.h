@@ -22,9 +22,11 @@ class Sequencer {
 
     //Clock methods
     uint8_t  clockOutState = LOW;
-    bool externalClock = false;
+    // bool externalClock = false;
     bool internalClock();
-    bool externalClock();
+    void setInternalClockFactor(int factor);
+    float internalClockFactor = 1;
+    // bool externalClock();
     void updateClock();
     void clockOutput();
 
