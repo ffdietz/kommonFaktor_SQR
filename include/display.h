@@ -1,5 +1,4 @@
 #include <Arduino.h>
-
 #include "pinout.h"
 
 #ifndef DISPLAY_H

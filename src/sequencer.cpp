@@ -141,11 +141,6 @@ byte Sequencer::getStatesAndPosition()
   byte states = getStepsState();
   byte position = getCurrentPosition();
 
-  // Serial.print("  states ");
-  //   Serial.print(states);
-  // Serial.print("  position ");
-  //   Serial.print(position);
-
   states ^= (1 << position);
 
   return states;

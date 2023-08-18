@@ -165,6 +165,10 @@ void fn201() {
     sequencer.pauseSequence();
     sequencer.setManualStep(encoder.getDirection());
 
+    mux.unmute();
+    mux.selector(sequencer.getCurrentPosition());
+
+
     display.print(sequencer.getCurrentPosition() + 1, 0, 1);
 
   } else {

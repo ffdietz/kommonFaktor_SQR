@@ -1,7 +1,7 @@
-#include <Arduino.h>
-
 #ifndef STEPREGISTER_H
 #define STEPREGISTER_H
+
+#include <Arduino.h>
 
 class StepRegister
 {
@@ -12,7 +12,7 @@ class StepRegister
     byte check();
     void write(byte value);
     void keepOutputValue(byte value);
-    byte output;
+    byte output = 0;
     byte shifter = 1 << 0;
     int8_t keepValueOutput;
 };

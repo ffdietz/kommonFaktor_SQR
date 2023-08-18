@@ -8,8 +8,9 @@ bool updateDisplay = false;
 void debugger()
 {
   // serial("", );
-  serial("indexSelector.menu ", indexSelector.menu );
-  serial("indexSelector.subMenu ", indexSelector.subMenu );
+  // serial("indexSelector.menu ", indexSelector.menu );
+  // serial("indexSelector.subMenu ", indexSelector.subMenu );
+  serial("stepRegister.check ", stepRegister.check() );
   // serial("pauseButton.active ", pauseButton.active );
   // serial("sequencer.paused ", sequencer.paused ); 
   // serial("sequencer.paused ", sequencer.clockOutState ); 
@@ -22,8 +23,8 @@ void debugger()
   // serial("active ", pauseButton.active);
   // serial("analogRead ", analogRead(PAUSE_BUTTON));
 
-  Serial.print("  getStatesAndPosition ");
-    printByte(sequencer.getStatesAndPosition());
+  // Serial.print(" getStatesAndPosition ");
+  //   printByte(sequencer.getStatesAndPosition());
 
   Serial.println();
 }
@@ -36,20 +37,32 @@ void print()
 
 void updateMultiplexer()
 {
-  if(sequencer.isStepChanged())
-    mux.selector(sequencer.getCurrentPosition());
-}
-void updateRegister()
-{
-  if(sequencer.isStepChanged()) {
-    stepRegister.write(sequencer.getStatesAndPosition());
+  if(!setMenuFunction) {
+    byte state = sequencer.getStepsState();
+    uint8_t position = sequencer.getCurrentPosition();
+
+    uint8_t stepOn = bitRead(state, position);
+
+    if(stepOn) {
+      mux.unmute();
+      mux.selector(sequencer.getCurrentPosition());
+    }
+    else mux.mute();
+
+  // if(muxOutput)  mux.unmute();
+  // else  mux.mute();}
   }
 }
+// void updateRegister()
+// {
+//   if(sequencer.isStepChanged()) {
+//     stepRegister.write(sequencer.getStatesAndPosition());
+//   }
+// }
 void updateSequence() 
 {
   sequencer.updateClock();
-  if(sequencer.internalClock() && !pauseButton.active && !sequencer.paused)
-  {
+  if(sequencer.internalClock() && !pauseButton.active && !sequencer.paused) {
     sequencer.changeStep();
   }
   
@@ -88,8 +101,6 @@ void checkSetEncoder()
 }
 void checkRegister()
 {
-  // wrong logic in getStepStates + currentPosition to setStepsState
-  // check is saving 0 in all states when no input
   // only when serial.print stepregister works as expected
   // affects BPMs over 99
   stepRegister.keepOutputValue(sequencer.getStatesAndPosition());
@@ -100,10 +111,10 @@ void checkRegister()
 void checkPause() 
 {
   pauseButton.check();
-  if(pauseButton.active){
+  if(pauseButton.active) 
     sequencer.pauseSequence();
-  }
-  else  sequencer.playSequence();
+  else 
+    sequencer.playSequence();
 }
 void check() 
 {
@@ -133,7 +144,7 @@ void setup()
   menuInit();
 
   if(debug){
-    Serial.begin(9600);
+    Serial.begin(115200);
     Serial.println("serial connected");
     debugger();
   }
