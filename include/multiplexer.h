@@ -9,6 +9,8 @@ class Multiplexer {
       pinMode(MUX_A, OUTPUT);
       pinMode(MUX_B, OUTPUT);
       pinMode(MUX_C, OUTPUT);
+
+      pinMode(MUX_INH, OUTPUT);
     }
 
   void selector(uint8_t channel){
@@ -16,6 +18,14 @@ class Multiplexer {
       digitalWrite(MUX_B, channel / 2 & 1);
       digitalWrite(MUX_C, channel / 4 & 1);
     }
+
+  void mute(){
+    digitalWrite(MUX_INH, HIGH);
+  }
+
+  void unmute(){
+    digitalWrite(MUX_INH, LOW);
+  }
 
 };
 

@@ -42,6 +42,8 @@
   #define MUX_A         A0
   #define MUX_B         10
   #define MUX_C         12
+  #define MUX_INH       A5
+  
 
   #define CLOCK_OUT     A2
   #define CLOCK_IN      A6

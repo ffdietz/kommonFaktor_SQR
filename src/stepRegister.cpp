@@ -1,13 +1,15 @@
 #include <Arduino.h>
 #include <SPI.h>
+#include "avdweb_Switch.h"
 
 #include "pinout.h"
 #include "stepRegister.h"
 
 StepRegister::StepRegister()
+//  : stepInput(BTNS_INPUT, INPUT, HIGH)
 {
-  pinMode(REGISTER_LATCH_BTNS, OUTPUT);   //latch
-  pinMode(BTNS_INPUT, INPUT);  //Input from buttons
+  pinMode(REGISTER_LATCH_BTNS, OUTPUT);
+  pinMode(BTNS_INPUT, INPUT);
 }
 
 void StepRegister::begin(){
@@ -30,8 +32,8 @@ void StepRegister::keepOutputValue(byte value){
 byte StepRegister::check()
 {
   output = 0;
-  static int prevState = LOW;
-  static int currentState = LOW;
+  int prevState = LOW;
+  int currentState;
   
   for(int j = 0; j < 8; j++)
   {
@@ -46,6 +48,7 @@ byte StepRegister::check()
     {
       output ^= (1 << j);   // toggle bit in position j
     }
+
     shifter <<= 1;
   }
   shifter |= 1;
