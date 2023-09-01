@@ -39,9 +39,9 @@
   #define ENCODER_B     2
   #define ENCODER_SET   A7
 
-  #define MUX_A         A0
+  #define MUX_A         12
   #define MUX_B         10
-  #define MUX_C         12
+  #define MUX_C         A0
   #define MUX_INH       A5
   
 
@@ -63,6 +63,9 @@
 
   #define ENCODER_MIN -1000
   #define ENCODER_MAX 1000
+
+  #define ALL_ON  true
+  #define ALL_OFF false
 
 
 #endif

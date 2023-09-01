@@ -2,7 +2,7 @@
 #include "pinout.h"
 
 // constructor
-Sequencer::Sequencer(uint8_t _steps, float _speed)
+Sequencer::Sequencer(uint8_t _steps, float _speed, bool initialState)
 {
   speed = _speed;
   stepsLength = _steps - 1;
@@ -14,6 +14,10 @@ Sequencer::Sequencer(uint8_t _steps, float _speed)
 
   if(sequenceMode == ASCEND) stepPosition = 0;
   if(sequenceMode == DESCEND) stepPosition = stepsLength;
+
+  if(initialState) stepStates = 255;
+  else stepStates = 0;
+
   
   pinMode(CLOCK_IN, INPUT);
   pinMode(CLOCK_OUT, OUTPUT);
@@ -124,7 +128,7 @@ bool  Sequencer::isStepChanged()
   if(lastPosition != stepPosition) return true;
   return false;
 }
-uint8_t  Sequencer::getCurrentPosition()
+int  Sequencer::getCurrentPosition()
 {
   return stepPosition;
 }
@@ -132,12 +136,11 @@ byte  Sequencer::getStepsState()
 {
   return stepStates;
 }
-void  Sequencer::setStepsState(byte state)
-{
+void  Sequencer::setStepsState(byte state){
   stepStates ^= state;
 }
-byte Sequencer::getStatesAndPosition()
-{
+
+byte Sequencer::getStatesAndPosition(){
   byte states = getStepsState();
   byte position = getCurrentPosition();
 
@@ -145,15 +148,15 @@ byte Sequencer::getStatesAndPosition()
 
   return states;
 }
-void  Sequencer::setManualStep(int8_t variation)
-{
+
+void  Sequencer::setManualStep(int8_t variation){
   lastPosition = stepPosition;
   stepPosition = (stepPosition + variation) % (stepsLength + 1);
+  Serial.println(stepPosition);
 }
 
 // Step mode methods
-void  Sequencer::setSequenceMode(int8_t mode)
-{
+void  Sequencer::setSequenceMode(int8_t mode){
   switch(mode){
     case 0: sequenceMode = ASCEND;  break;
     case 1: sequenceMode = DESCEND; break;
@@ -161,7 +164,7 @@ void  Sequencer::setSequenceMode(int8_t mode)
     case 3: sequenceMode = CUSTOM;  break;
   }
 }
-int   Sequencer::getSequenceMode()
-{
+
+int   Sequencer::getSequenceMode(){
   return sequenceMode;
 }

@@ -168,7 +168,6 @@ void fn201() {
     mux.unmute();
     mux.selector(sequencer.getCurrentPosition());
 
-
     display.print(sequencer.getCurrentPosition() + 1, 0, 1);
 
   } else {

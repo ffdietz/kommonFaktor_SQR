@@ -15,10 +15,14 @@ int serialInput()
 {
   static int input = 0;
   
-    if (Serial.available() > 0) {
+    if (Serial.available()) {
       input = Serial.parseInt();
+      Serial.print("serial input: ");
+      Serial.println(input);
+      return input;
     }
-  return input;
+
+    return ;
 }
 
 #endif
