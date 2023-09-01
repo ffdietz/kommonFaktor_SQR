@@ -6,7 +6,7 @@
 
 class Sequencer {
   public:
-    Sequencer(uint8_t steps, float speed);
+    Sequencer(uint8_t steps, float speed, bool initialState);
 
     //Speed methods
     float speed; // in BPM
@@ -34,7 +34,7 @@ class Sequencer {
     void changeStep();
     bool isStepChanged();
     byte getStepsQuantity();
-    uint8_t getCurrentPosition();
+    int getCurrentPosition();
     uint8_t getStatesAndPosition();
     void setStepsState(byte position);
     byte getStepsState();

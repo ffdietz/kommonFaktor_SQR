@@ -7,11 +7,14 @@ bool updateDisplay = false;
 
 void debugger()
 {
-  // serial("", );
   // serial("indexSelector.menu ", indexSelector.menu );
   // serial("indexSelector.subMenu ", indexSelector.subMenu );
-  serial("stepRegister.check ", stepRegister.check() );
-  // serial("pauseButton.active ", pauseButton.active );
+
+  // serial("currentPosition", sequencer.getCurrentPosition() );
+  // serial("currentPosition", sequencer.getCurrentPosition()    & 1);
+  // Serial.print(sequencer.getCurrentPosition()/2  & 1);
+  // Serial.print(" ");
+  // Serial.print(sequencer.getCurrentPosition()/4  & 1);
   // serial("sequencer.paused ", sequencer.paused ); 
   // serial("sequencer.paused ", sequencer.clockOutState ); 
   // serial("sequencer.isPaused() ", sequencer.isPaused() );
@@ -26,7 +29,7 @@ void debugger()
   // Serial.print(" getStatesAndPosition ");
   //   printByte(sequencer.getStatesAndPosition());
 
-  Serial.println();
+  // Serial.println();
 }
 
 void print()
@@ -39,18 +42,17 @@ void updateMultiplexer()
 {
   if(!setMenuFunction) {
     byte state = sequencer.getStepsState();
-    uint8_t position = sequencer.getCurrentPosition();
+    int position = sequencer.getCurrentPosition();
 
-    uint8_t stepOn = bitRead(state, position);
+    bool stepOn = bitRead(state, position);
 
-    if(stepOn) {
+
+    if (stepOn) {
       mux.unmute();
-      mux.selector(sequencer.getCurrentPosition());
     }
     else mux.mute();
 
-  // if(muxOutput)  mux.unmute();
-  // else  mux.mute();}
+    mux.selector(sequencer.getCurrentPosition());
   }
 }
 // void updateRegister()
@@ -64,6 +66,8 @@ void updateSequence()
   sequencer.updateClock();
   if(sequencer.internalClock() && !pauseButton.active && !sequencer.paused) {
     sequencer.changeStep();
+    serial("currentPosition", sequencer.getCurrentPosition() -1);
+    Serial.println();
   }
   
   if(sequencer.isStepChanged()) sequencer.clockOutput();
@@ -103,6 +107,7 @@ void checkRegister()
 {
   // only when serial.print stepregister works as expected
   // affects BPMs over 99
+
   stepRegister.keepOutputValue(sequencer.getStatesAndPosition());
   byte currentActiveSteps = stepRegister.check();
   sequencer.setStepsState(currentActiveSteps);

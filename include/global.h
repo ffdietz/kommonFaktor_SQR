@@ -9,12 +9,12 @@
 #include "stepRegister.h"
 #include "multiplexer.h"
 
-Sequencer     sequencer(8, 90.0);
+Sequencer     sequencer(8, 99.0, ALL_ON);
 Encoder       encoder{ENCODER_A, ENCODER_B, ENCODER_MIN, ENCODER_MAX, 0};
 Controller    encoderSetButton(ENCODER_SET);
 Controller    pauseButton(PAUSE_BUTTON);
+Multiplexer   mux;
 Display       display;
 StepRegister  stepRegister;
-Multiplexer   mux;
 
 #endif
