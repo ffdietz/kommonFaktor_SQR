@@ -32,7 +32,6 @@
 #elif defined(METRIC_BOARD_PINOUT)
   #define REGISTER_SCK         13            // to 74HC595 SH_CP [PIN 11]
   #define REGISTER_MOSI        11           // to 74HC595 DS    [PIN 14]
-  #define REGISTER_LATCH_LCD   10      // to 74HC595 ST_CP [PIN 12]
   #define REGISTER_LATCH_BTNS  A3 // to 74HC595 ST_CP [PIN 12]
 
   #define ENCODER_A     3
@@ -58,14 +57,14 @@
   #define LCD_D6        8
   #define LCD_D7        9
 
-  #define LCD_CHARS 16
-  #define LCD_LINES 2
+  #define LCD_CHARS     16
+  #define LCD_LINES     2
 
-  #define ENCODER_MIN -1000
-  #define ENCODER_MAX 1000
+  #define ENCODER_MIN   -500
+  #define ENCODER_MAX   500
 
-  #define ALL_ON  true
-  #define ALL_OFF false
+  #define ALL_ON        true
+  #define ALL_OFF       false
 
 
 #endif

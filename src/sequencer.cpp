@@ -152,7 +152,7 @@ byte Sequencer::getStatesAndPosition(){
 void  Sequencer::setManualStep(int8_t variation){
   lastPosition = stepPosition;
   stepPosition = (stepPosition + variation) % (stepsLength + 1);
-  Serial.println(stepPosition);
+
 }
 
 // Step mode methods

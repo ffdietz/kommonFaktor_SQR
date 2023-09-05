@@ -10,21 +10,11 @@ void debugger()
   // serial("indexSelector.menu ", indexSelector.menu );
   // serial("indexSelector.subMenu ", indexSelector.subMenu );
 
-  // serial("currentPosition", sequencer.getCurrentPosition() );
-  // serial("currentPosition", sequencer.getCurrentPosition()    & 1);
-  // Serial.print(sequencer.getCurrentPosition()/2  & 1);
-  // Serial.print(" ");
-  // Serial.print(sequencer.getCurrentPosition()/4  & 1);
+  // serial("currentPosition", stepButtonPanel.currentState );
   // serial("sequencer.paused ", sequencer.paused ); 
-  // serial("sequencer.paused ", sequencer.clockOutState ); 
   // serial("sequencer.isPaused() ", sequencer.isPaused() );
   // serial("getStatesAndPosition ", sequencer.getStatesAndPosition());
   // serial("sequencer.currentBytePosition ", sequencer.currentBytePosition );
-  // serial("lastState ", pauseButton.lastState);
-  // serial("current ", pauseButton.currentState);
-  // serial("trigged ", pauseButton.isTrigged);
-  // serial("active ", pauseButton.active);
-  // serial("analogRead ", analogRead(PAUSE_BUTTON));
 
   // Serial.print(" getStatesAndPosition ");
   //   printByte(sequencer.getStatesAndPosition());
@@ -66,8 +56,6 @@ void updateSequence()
   sequencer.updateClock();
   if(sequencer.internalClock() && !pauseButton.active && !sequencer.paused) {
     sequencer.changeStep();
-    serial("currentPosition", sequencer.getCurrentPosition() -1);
-    Serial.println();
   }
   
   if(sequencer.isStepChanged()) sequencer.clockOutput();
@@ -107,9 +95,8 @@ void checkRegister()
 {
   // only when serial.print stepregister works as expected
   // affects BPMs over 99
-
-  stepRegister.keepOutputValue(sequencer.getStatesAndPosition());
-  byte currentActiveSteps = stepRegister.check();
+  stepButtonPanel.keepOutputValue(sequencer.getStatesAndPosition());
+  byte currentActiveSteps = stepButtonPanel.check();
   sequencer.setStepsState(currentActiveSteps);
 
 }
@@ -135,6 +122,8 @@ bool running()
   check();
   update();
   print();
+  
+  checkRegister();
 
   return true;
 }
@@ -144,7 +133,7 @@ void setup()
   display.begin();
   encoder.begin();
   mux.begin();
-  stepRegister.begin();
+  stepButtonPanel.begin();
 
   menuInit();
 
