@@ -6,7 +6,6 @@ typedef void (*funcPointer)(void);
 //function pointer
 funcPointer menuFunction;
 bool setMenuFunction = false;
-char * dataOut;
 
 //Structure describes current menu and submenu state
 struct menuIndexSelector

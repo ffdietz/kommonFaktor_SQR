@@ -13,9 +13,9 @@ public:
   Encoder(
     uint8_t aPin,
     uint8_t bPin,
-    int16_t minValue,
-    int16_t maxValue,
-    int16_t initalValue,
+    int16_t minValue = ENCODER_MIN,
+    int16_t maxValue = ENCODER_MAX,
+    int16_t initalValue = 0,
     uint8_t type = FULL_PULSE
     ):encoder{aPin, bPin, minValue, maxValue, initalValue, type}{}
 

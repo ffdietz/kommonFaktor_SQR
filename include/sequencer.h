@@ -7,6 +7,7 @@
 class Sequencer {
   public:
     Sequencer(uint8_t steps, float speed, bool initialState);
+    void begin();
 
     //Speed methods
     float speed; // in BPM
@@ -21,7 +22,7 @@ class Sequencer {
     void playSequence();
 
     //Clock methods
-    uint8_t  clockOutState = LOW;
+    uint8_t  clockOut = LOW;
     // bool externalClock = false;
     bool internalClock();
     void setInternalClockFactor(int factor);
@@ -33,8 +34,7 @@ class Sequencer {
     //Steps methods
     void changeStep();
     bool isStepChanged();
-    byte getStepsQuantity();
-    int getCurrentPosition();
+    uint8_t getCurrentPosition();
     uint8_t getStatesAndPosition();
     void setStepsState(byte position);
     byte getStepsState();
@@ -46,17 +46,12 @@ class Sequencer {
     void setSequenceMode(int8_t variation);
     int  getSequenceMode();
 
-    //Clock mode
-    // enum Factor { MULTIPLY, DIVIDER };
-    // Factor clockMode;
-
     byte stepsLength = 0;
-    
+
   // private:
-    byte stepPosition = 0;
-    byte lastPosition = 0;
-    byte stepStates = 0;
-    uint8_t currentBytePosition = 1 << 0;
+    uint8_t stepPosition = 0;
+    uint8_t lastPosition = 0;
+    uint8_t stepStates = 0;
     long speedInMillis = 0;
     long currentMillis = 0;
     long lastChange = 0;

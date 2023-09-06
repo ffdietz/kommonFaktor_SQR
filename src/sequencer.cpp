@@ -7,21 +7,21 @@ Sequencer::Sequencer(uint8_t _steps, float _speed, bool initialState)
   speed = _speed;
   stepsLength = _steps - 1;
 
-  speedInMillis = speedToMillis(speed);
-  clockOutState = true;
-  lastChange = 0;
-  paused = false;
-
-  if(sequenceMode == ASCEND) stepPosition = 0;
-  if(sequenceMode == DESCEND) stepPosition = stepsLength;
-
   if(initialState) stepStates = 255;
   else stepStates = 0;
 
-  
+}
+
+void Sequencer::begin(){
   pinMode(CLOCK_IN, INPUT);
   pinMode(CLOCK_OUT, OUTPUT);
 
+  speedInMillis = speedToMillis(speed);
+
+  if(sequenceMode == ASCEND) stepPosition = 0;
+  if(sequenceMode == DESCEND) stepPosition = stepsLength;
+  
+  currentMillis = millis();
 }
 
 // speed methods
@@ -51,27 +51,26 @@ void  Sequencer::pauseSequence(){
 void  Sequencer::updateClock(){
   currentMillis = millis();
 }
-void Sequencer::clockOutput()
+void  Sequencer::clockOutput()
 {
-  digitalWrite(CLOCK_OUT, clockOutState);
+  digitalWrite(CLOCK_OUT, clockOut);
 }
 bool  Sequencer::internalClock()
 {
   if ((currentMillis - lastChange) >= (speedInMillis * internalClockFactor))
   {
     lastChange =  currentMillis;
-    clockOutState = HIGH;
+    clockOut = HIGH;
 
     return true;
   }
 
-  if(paused)clockOutState = HIGH;
-  else clockOutState = LOW;
+  if(paused) clockOut = HIGH;
+  else clockOut = LOW;
 
   return false;
 }
-
-void Sequencer::setInternalClockFactor(int factor)
+void  Sequencer::setInternalClockFactor(int factor)
 {
   switch(factor)
   {
@@ -100,9 +99,8 @@ void Sequencer::setInternalClockFactor(int factor)
 // }
 
 // steps methods
-void  Sequencer::changeStep()
+void    Sequencer::changeStep()
 {
-  currentBytePosition =  0;
   lastPosition = stepPosition;
   switch(sequenceMode){
     case ASCEND:
@@ -123,26 +121,25 @@ void  Sequencer::changeStep()
   }
 
 }
-bool  Sequencer::isStepChanged()
+bool    Sequencer::isStepChanged()
 {
   if(lastPosition != stepPosition) return true;
   return false;
 }
-int  Sequencer::getCurrentPosition()
+uint8_t Sequencer::getCurrentPosition()
 {
   return stepPosition;
 }
-byte  Sequencer::getStepsState()
+uint8_t Sequencer::getStepsState()
 {
   return stepStates;
 }
-void  Sequencer::setStepsState(byte state){
+void    Sequencer::setStepsState(uint8_t state){
   stepStates ^= state;
 }
-
-byte Sequencer::getStatesAndPosition(){
-  byte states = getStepsState();
-  byte position = getCurrentPosition();
+uint8_t Sequencer::getStatesAndPosition(){
+  uint8_t states = getStepsState();
+  uint8_t position = getCurrentPosition();
 
   states ^= (1 << position);
 
@@ -152,7 +149,7 @@ byte Sequencer::getStatesAndPosition(){
 void  Sequencer::setManualStep(int8_t variation){
   lastPosition = stepPosition;
   stepPosition = (stepPosition + variation) % (stepsLength + 1);
-  Serial.println(stepPosition);
+
 }
 
 // Step mode methods

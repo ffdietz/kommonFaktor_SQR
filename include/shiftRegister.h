@@ -1,20 +1,20 @@
-#ifndef STEPREGISTER_H
-#define STEPREGISTER_H
+#ifndef SHIFTREGISTER_H
+#define SHIFTREGISTER_H
 
 #include <Arduino.h>
 
-class StepRegister
+class ShiftRegister
 {
   public:
-    StepRegister();
-    void begin();
+    ShiftRegister();
 
+    void begin();
     byte check();
     void write(byte value);
     void keepOutputValue(byte value);
-    byte output = 0;
-    byte shifter = 1 << 0;
     int8_t keepValueOutput;
+    uint8_t output = 0;
+    uint8_t shifter = 1 << 0;
 };
 
 #endif
