@@ -9,12 +9,12 @@
 #include "shiftRegister.h"
 #include "multiplexer.h"
 
-Sequencer       sequencer(8, 99.0, ALL_ON);
+Sequencer       sequencer(8, 200.0, ALL_OFF);
+ShiftRegister   stepButtonPanel;
 Encoder         encoder(ENCODER_A, ENCODER_B);
 Controller      encoderSetButton(ENCODER_SET);
 Controller      pauseButton(PAUSE_BUTTON);
 Display         display;
 Multiplexer     mux;
-ShiftRegister   stepButtonPanel;
 
 #endif

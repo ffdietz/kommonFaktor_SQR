@@ -19,10 +19,9 @@ int serialInput()
       input = Serial.parseInt();
       Serial.print("serial input: ");
       Serial.println(input);
-      return input;
     }
 
-    return ;
+    return input;
 }
 
 #endif
