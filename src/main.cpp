@@ -2,23 +2,16 @@
 #include "menu.h"
 #include "utils.h"
 
-bool debug =  false;
+bool debug =  true;
 bool updateDisplay = false;
 
 void debugger()
 {
-  // serial("indexSelector.menu ", indexSelector.menu );
-  // serial("indexSelector.subMenu ", indexSelector.subMenu );
+  // serial("getStatesAndPosition ", sequencer.getStatesAndPosition());
+  // serial("stepButtonPanel.check ", stepButtonPanel.check());
+  // Serial.print(" getStatesAndPosition "); printByte(sequencer.getStatesAndPosition());
 
-  serial("getStatesAndPosition ", sequencer.getStatesAndPosition());
-  serial("stepButtonPanel.check ", stepButtonPanel.check());
-  // serial("sequencer.paused ", sequencer.paused ); 
-  // serial("sequencer.isPaused() ", sequencer.isPaused() );
-
-  Serial.print(" getStatesAndPosition ");
-    printByte(sequencer.getStatesAndPosition());
-
-  Serial.println();
+  // Serial.println();
 }
 
 void print()

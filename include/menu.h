@@ -24,8 +24,8 @@ const char * MN200 = "STEP ";
 //menu 3
 const char * MN300 = "SEQUENCE ";
 //Submenus of menu 4
-const char * MN301 = "LINEAR";
-const char * MN302 = "INVERT";
+const char * MN301 = "ASCEND";
+const char * MN302 = "DESCEND";
 const char * MN303 = "RANDOM";
 const char * MN304 = "CUSTOM";
 //menu 4
@@ -138,7 +138,6 @@ void menu()
     display.print(MENU[indexSelector.menu], 0, 1);
   } else {
     display.print(MENU[indexSelector.menu], 0, 0);
-    // display.print(SUBMENU[setMenuFnIndex(indexSelector.menu, indexSelector.subMenu)], 0, 1);
   };
 
   menuFunction();

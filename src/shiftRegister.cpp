@@ -30,8 +30,13 @@ void ShiftRegister::keepOutputValue(byte value){
 }
 
 byte ShiftRegister::check(){
-  output &= 0;
-  int currentState;
+  static uint8_t prevOut = 0;
+  static uint8_t currentState;
+  static uint8_t prevState = LOW;
+  static uint32_t lastChange = 0;
+  const  uint32_t debounceDelay = 8;
+
+  output = 0;
 
   for (int j = 0; j < 8; j++){
     digitalWrite(REGISTER_LATCH_BTNS, LOW);
@@ -41,15 +46,42 @@ byte ShiftRegister::check(){
 
     currentState = digitalRead(BTNS_INPUT);
 
-    if(currentState){
-      // int a = (1 << j);
-      // output = output | a;
-      output ^= (1 << j); // toggle bit in position j
+    if(currentState == HIGH && prevState == LOW) {
+      if(millis() - lastChange >= debounceDelay ) {
+        output ^= (1 << j);
+      }
+      lastChange = millis();
     }
+    prevState = currentState;
     shifter <<= 1;
   }
-
   shifter |= 1;
+
+  prevOut = output;
 
   return output;
 }
+
+// byte ShiftRegister::check(){
+//   output = 0;
+//   int currentState;
+
+//   for (int j = 0; j < 8; j++){
+//     digitalWrite(REGISTER_LATCH_BTNS, LOW);
+//       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, keepValueOutput);
+//       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, shifter);
+//     digitalWrite(REGISTER_LATCH_BTNS, HIGH);
+
+//     currentState = digitalRead(BTNS_INPUT);
+
+//     if(currentState){
+//       output ^= (1 << j); // toggle bit in position j
+//     }
+//     shifter <<= 1;
+//   }
+
+//   shifter |= 1;
+
+//   return output;
+// }
+
