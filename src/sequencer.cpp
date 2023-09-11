@@ -2,8 +2,7 @@
 #include "pinout.h"
 
 // constructor
-Sequencer::Sequencer(uint8_t _steps, float _speed, bool initialState)
-{
+Sequencer::Sequencer(uint8_t _steps, float _speed, bool initialState){
   speed = _speed;
   stepsLength = _steps - 1;
 
@@ -29,9 +28,11 @@ void  Sequencer::setSpeed(float variation){
   speed += variation;
   speedInMillis = speedToMillis(speed);
 }
+
 int   Sequencer::speedToMillis(float speed){
  return ( 60000 / speed );
 }
+
 float Sequencer::getSpeed(){
   return speed;
 }
@@ -40,9 +41,11 @@ float Sequencer::getSpeed(){
 bool  Sequencer::isPaused(){
   return paused;
 }
+
 void  Sequencer::playSequence(){
   paused = false;
 }
+
 void  Sequencer::pauseSequence(){
   paused = true;
 }
@@ -51,12 +54,12 @@ void  Sequencer::pauseSequence(){
 void  Sequencer::updateClock(){
   currentMillis = millis();
 }
-void  Sequencer::clockOutput()
-{
+
+void  Sequencer::clockOutput(){
   digitalWrite(CLOCK_OUT, clockOut);
 }
-bool  Sequencer::internalClock()
-{
+
+bool  Sequencer::internalClock(){
   if ((currentMillis - lastChange) >= (speedInMillis * internalClockFactor))
   {
     lastChange =  currentMillis;
@@ -70,8 +73,8 @@ bool  Sequencer::internalClock()
 
   return false;
 }
-void  Sequencer::setInternalClockFactor(int factor)
-{
+
+void  Sequencer::setInternalClockFactor(int factor){
   switch(factor)
   {
     case 0:   internalClockFactor = 64;   break;
@@ -99,8 +102,7 @@ void  Sequencer::setInternalClockFactor(int factor)
 // }
 
 // steps methods
-void    Sequencer::changeStep()
-{
+void    Sequencer::changeStep(){
   lastPosition = stepPosition;
   switch(sequenceMode){
     case ASCEND:
@@ -121,22 +123,24 @@ void    Sequencer::changeStep()
   }
 
 }
-bool    Sequencer::isStepChanged()
-{
+
+bool    Sequencer::isStepChanged(){
   if(lastPosition != stepPosition) return true;
   return false;
 }
-uint8_t Sequencer::getCurrentPosition()
-{
+
+uint8_t Sequencer::getCurrentPosition(){
   return stepPosition;
 }
-uint8_t Sequencer::getStepsState()
-{
+
+uint8_t Sequencer::getStepsState(){
   return stepStates;
 }
+
 void    Sequencer::setStepsState(uint8_t state){
   stepStates ^= state;
 }
+
 uint8_t Sequencer::getStatesAndPosition(){
   uint8_t states = getStepsState();
   uint8_t position = getCurrentPosition();
