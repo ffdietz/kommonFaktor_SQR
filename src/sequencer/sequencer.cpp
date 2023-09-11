@@ -77,19 +77,19 @@ bool  Sequencer::internalClock(){
 void  Sequencer::setInternalClockFactor(int factor){
   switch(factor)
   {
-    case 0:   internalClockFactor = 64;   break;
-    case 1:   internalClockFactor = 32;   break;
-    case 2:   internalClockFactor = 16;   break;
-    case 3:   internalClockFactor = 8;    break;
-    case 4:   internalClockFactor = 4;    break;
-    case 5:   internalClockFactor = 2;    break;
-    case 6:   internalClockFactor = 1;      break;
-    case 7:   internalClockFactor = 1/2;      break;
-    case 8:   internalClockFactor = 1/4;      break;
-    case 9:   internalClockFactor = 1/8;      break;
-    case 10:  internalClockFactor = 1/16;     break;
-    case 11:  internalClockFactor = 1/32;     break;
-    case 12:  internalClockFactor = 1/64;     break;
+    case 0:   internalClockFactor = 64;         break;
+    case 1:   internalClockFactor = 32;         break;
+    case 2:   internalClockFactor = 16;         break;
+    case 3:   internalClockFactor = 8;          break;
+    case 4:   internalClockFactor = 4;          break;
+    case 5:   internalClockFactor = 2;          break;
+    case 6:   internalClockFactor = 1;          break;
+    case 7:   internalClockFactor = 0.5;        break;
+    case 8:   internalClockFactor = 0.25;       break;
+    case 9:   internalClockFactor = 0.125;      break;
+    case 10:  internalClockFactor = 0.0625;     break;
+    case 11:  internalClockFactor = 0.03125;    break;
+    case 12:  internalClockFactor = 0.015625;   break;
   }
 }
 
