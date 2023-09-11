@@ -36,8 +36,8 @@ class Sequencer {
     bool isStepChanged();
     uint8_t getCurrentPosition();
     uint8_t getStatesAndPosition();
-    void setStepsState(byte position);
-    byte getStepsState();
+    void    setStepsState(byte position);
+    uint8_t getStepsState();
     void setManualStep(int8_t variation);
 
     //Sequence progression
@@ -46,15 +46,14 @@ class Sequencer {
     void setSequenceMode(int8_t variation);
     int  getSequenceMode();
 
-    byte stepsLength = 0;
 
   // private:
+    uint8_t stepsLength = 0;
     uint8_t stepPosition = 0;
     uint8_t lastPosition = 0;
     uint8_t stepStates = 0;
-    long speedInMillis = 0;
-    long currentMillis = 0;
-    long lastChange = 0;
+    uint32_t speedInMillis = 0;
+    uint32_t currentMillis = 0;
 };
 
 #endif

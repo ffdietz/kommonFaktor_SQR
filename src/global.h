@@ -9,7 +9,7 @@
 #include <shiftRegister/shiftRegister.h>
 #include <multiplexer/multiplexer.h>
 
-Sequencer       sequencer(8, 200.0, ALL_OFF);
+Sequencer       sequencer(8, 100.0, ALL_OFF);
 Encoder         encoder(ENCODER_A, ENCODER_B);
 Controller      encoderSetButton(ENCODER_SET);
 Controller      pauseButton(PAUSE_BUTTON);
