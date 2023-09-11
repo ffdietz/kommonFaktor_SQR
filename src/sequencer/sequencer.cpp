@@ -19,8 +19,8 @@ void Sequencer::begin(){
 
   if(sequenceMode == ASCEND) stepPosition = 0;
   if(sequenceMode == DESCEND) stepPosition = stepsLength;
-  
-  currentMillis = millis();
+
+currentMillis = millis();
 }
 
 // speed methods
@@ -59,37 +59,43 @@ void  Sequencer::clockOutput(){
   digitalWrite(CLOCK_OUT, clockOut);
 }
 
-bool  Sequencer::internalClock(){
-  if ((currentMillis - lastChange) >= (speedInMillis * internalClockFactor))
-  {
-    lastChange =  currentMillis;
-    clockOut = HIGH;
+bool Sequencer::internalClock() {
+  static bool outputFlag = false;
+  static uint32_t lastChange = 0;
+  uint32_t totalPeriodMillis = speedInMillis * internalClockFactor;
 
-    return true;
+  if ((currentMillis - lastChange) >= totalPeriodMillis) {
+    lastChange = currentMillis;
+    outputFlag = true;
   }
+  else outputFlag  = false;
+  
+  if ((currentMillis - lastChange) >= (totalPeriodMillis * .2)) {
+    clockOut = LOW;
+  }
+  else  clockOut = HIGH;
 
-  if(paused) clockOut = HIGH;
-  else clockOut = LOW;
+  if (paused) clockOut = HIGH;
 
-  return false;
+  return outputFlag;
 }
 
 void  Sequencer::setInternalClockFactor(int factor){
   switch(factor)
   {
-    case 0:   internalClockFactor = 64;         break;
-    case 1:   internalClockFactor = 32;         break;
-    case 2:   internalClockFactor = 16;         break;
-    case 3:   internalClockFactor = 8;          break;
-    case 4:   internalClockFactor = 4;          break;
-    case 5:   internalClockFactor = 2;          break;
-    case 6:   internalClockFactor = 1;          break;
-    case 7:   internalClockFactor = 0.5;        break;
-    case 8:   internalClockFactor = 0.25;       break;
-    case 9:   internalClockFactor = 0.125;      break;
-    case 10:  internalClockFactor = 0.0625;     break;
-    case 11:  internalClockFactor = 0.03125;    break;
-    case 12:  internalClockFactor = 0.015625;   break;
+    case 0:   internalClockFactor = 64;       break;
+    case 1:   internalClockFactor = 32;       break;
+    case 2:   internalClockFactor = 16;       break;
+    case 3:   internalClockFactor = 8;        break;
+    case 4:   internalClockFactor = 4;        break;
+    case 5:   internalClockFactor = 2;        break;
+    case 6:   internalClockFactor = 1;        break;
+    case 7:   internalClockFactor = .5;       break;
+    case 8:   internalClockFactor = .25;      break;
+    case 9:   internalClockFactor = .125;     break;
+    case 10:  internalClockFactor = .0625;    break;
+    case 11:  internalClockFactor = .03125;   break;
+    case 12:  internalClockFactor = .015625;  break;
   }
 }
 

@@ -1,12 +1,13 @@
-#include "global.h"
+#include <global.h>
 #include <menu/menu.h>
 #include <utils.h>
 
 // IMPROVEMENTS
-// led clock duty
 // funcion ALL_ON ALL_OFF
-// custom sequence from steps panel
+// menu class
 // Encoder library
+// Switch library for set button and pause button
+// custom sequence from steps panel
 
 bool debug =  true;
 
@@ -23,8 +24,8 @@ void print()
 {
   menuPaused(pauseButton.active);
   menu();
-
-  if(sequencer.isStepChanged()) sequencer.clockOutput();
+  
+  sequencer.clockOutput();
 }
 
 void updateMultiplexer()
