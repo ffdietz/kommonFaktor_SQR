@@ -30,7 +30,7 @@ void ShiftRegister::keepOutputValue(byte value){
 }
 
 byte ShiftRegister::check(){
-  static uint8_t prevOut = 0;
+  // static uint8_t prevOut = 0;
   static uint8_t currentState;
   static uint8_t prevState = LOW;
   static uint32_t lastChange = 0;
@@ -57,7 +57,7 @@ byte ShiftRegister::check(){
   }
   shifter |= 1;
 
-  prevOut = output;
+  // prevOut = output;
 
   return output;
 }

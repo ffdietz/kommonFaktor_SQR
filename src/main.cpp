@@ -1,9 +1,14 @@
 #include "global.h"
-#include "menu.h"
-#include "utils.h"
+#include <menu/menu.h>
+#include <utils.h>
+
+// IMPROVEMENTS
+// led clock duty
+// funcion ALL_ON ALL_OFF
+// custom sequence from steps panel
+// Encoder library
 
 bool debug =  true;
-bool updateDisplay = false;
 
 void debugger()
 {
@@ -30,10 +35,10 @@ void updateMultiplexer()
 
     bool stepOn = bitRead(state, position);
 
-    if (stepOn) mux.unmute();
-    else        mux.mute();
+    if (stepOn) multiplexer.unmute();
+    else        multiplexer.mute();
 
-    mux.selector(sequencer.getCurrentPosition());
+    multiplexer.selector(sequencer.getCurrentPosition());
   }
 }
 void updateSequence() 
@@ -113,7 +118,7 @@ void setup()
   stepButtonPanel.begin();
   display.begin();
   encoder.begin();
-  mux.begin();
+  multiplexer.begin();
 
   menuInit();
 
