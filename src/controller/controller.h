@@ -9,16 +9,19 @@ class Controller
     void begin();
     void update();
     void check();
-    void toggleActive();
     int  pinRead();
     bool isChanged();
-    bool active = false;
-    bool isTrigged = false;
+    bool isSinglePushed;
+    bool isDoublePushed;
+    bool singlePressLatch;
+    bool doublePressLatch;
+    uint32_t doublePushInterval;
 
   // private:
     int input_pin;
     int lastState;
     int currentState;
+    uint32_t lastPressTime;
 };
 
 #endif

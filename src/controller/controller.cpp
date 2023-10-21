@@ -9,6 +9,12 @@ Controller::Controller(uint8_t pin)
   input_pin = pin;
   if(input_pin != A6 && input_pin != A7) pinMode(input_pin, INPUT_PULLUP);
   
+  lastPressTime = 0;
+  singlePressLatch = false;
+  doublePressLatch = false;
+  isSinglePushed = false;
+  isDoublePushed = false;
+  doublePushInterval = 600;
   currentState = pinRead();
 
 }
@@ -21,23 +27,28 @@ int Controller::pinRead(){
   }
 }
 
-void Controller::toggleActive(){
-  active = !active;
-}
-
 void Controller::check()
 {
-  lastState = currentState;
+  uint32_t currentTime;
   currentState = pinRead();
 
-  if(lastState == LOW && currentState == HIGH){
-    isTrigged = true;
-    toggleActive();
+  if (lastState == LOW && currentState == HIGH) {
+    currentTime = millis();
+    if (currentTime - lastPressTime <= doublePushInterval) {
+      isSinglePushed = false;
+      isDoublePushed = true;
+      doublePressLatch = !doublePressLatch;
+    } else {
+      isDoublePushed = false;
+      isSinglePushed = true;
+      singlePressLatch = !singlePressLatch;
+      lastPressTime = currentTime;
+    }
+  } else {
+    isSinglePushed = false;
+    isDoublePushed = false;
   }
-  else {
-    isTrigged = false;
-  }
-
+  lastState = currentState;
 }
 
 bool Controller::isChanged()
