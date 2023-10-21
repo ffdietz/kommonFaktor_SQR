@@ -45,6 +45,7 @@ class Sequencer {
     Mode sequenceMode = ASCEND;
     void setSequenceMode(int8_t variation);
     int  getSequenceMode();
+    void resetSequence(bool reset);
 
 
   // private:

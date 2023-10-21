@@ -2,13 +2,12 @@
 #include "pinout.h"
 
 // constructor
-Sequencer::Sequencer(uint8_t _steps, float _speed, bool initialState){
+Sequencer::Sequencer(uint8_t steps, float _speed, bool initialState){
   speed = _speed;
-  stepsLength = _steps - 1;
+  stepsLength = steps - 1;
 
   if(initialState) stepStates = 255;
   else stepStates = 0;
-
 }
 
 void Sequencer::begin(){
@@ -159,7 +158,6 @@ uint8_t Sequencer::getStatesAndPosition(){
 void  Sequencer::setManualStep(int8_t variation){
   lastPosition = stepPosition;
   stepPosition = (stepPosition + variation) % (stepsLength + 1);
-
 }
 
 // Step mode methods
@@ -174,4 +172,9 @@ void  Sequencer::setSequenceMode(int8_t mode){
 
 int   Sequencer::getSequenceMode(){
   return sequenceMode;
+}
+
+void  Sequencer::resetSequence(bool reset){
+  if(reset) stepStates = 255;
+  if(!reset) stepStates = 0;
 }

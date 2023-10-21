@@ -6,23 +6,23 @@ ShiftRegister::ShiftRegister()
 {
   pinMode(REGISTER_MOSI, OUTPUT);
   pinMode(REGISTER_SCK, OUTPUT);
-  pinMode(REGISTER_LATCH_BTNS, OUTPUT);
+  pinMode(REGISTER_LATCH, OUTPUT);
 
   pinMode(BTNS_INPUT, INPUT);
 }
 
 void ShiftRegister::begin(){
-  digitalWrite(REGISTER_LATCH_BTNS, LOW);
+  digitalWrite(REGISTER_LATCH, LOW);
     shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, 0);
     shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, 0);
-  digitalWrite(REGISTER_LATCH_BTNS, HIGH);
+  digitalWrite(REGISTER_LATCH, HIGH);
 }
 
 void ShiftRegister::write(byte value){
-  digitalWrite(REGISTER_LATCH_BTNS, LOW);
+  digitalWrite(REGISTER_LATCH, LOW);
     shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, value);
     shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, 0);
-  digitalWrite(REGISTER_LATCH_BTNS, HIGH);
+  digitalWrite(REGISTER_LATCH, HIGH);
 }
 
 void ShiftRegister::keepOutputValue(byte value){
@@ -39,10 +39,10 @@ byte ShiftRegister::check(){
   output = 0;
 
   for (int j = 0; j < 8; j++){
-    digitalWrite(REGISTER_LATCH_BTNS, LOW);
+    digitalWrite(REGISTER_LATCH, LOW);
       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, keepValueOutput);
       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, shifter);
-    digitalWrite(REGISTER_LATCH_BTNS, HIGH);
+    digitalWrite(REGISTER_LATCH, HIGH);
 
     currentState = digitalRead(BTNS_INPUT);
 
@@ -67,10 +67,10 @@ byte ShiftRegister::check(){
 //   int currentState;
 
 //   for (int j = 0; j < 8; j++){
-//     digitalWrite(REGISTER_LATCH_BTNS, LOW);
+//     digitalWrite(REGISTER_LATCH, LOW);
 //       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, keepValueOutput);
 //       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, shifter);
-//     digitalWrite(REGISTER_LATCH_BTNS, HIGH);
+//     digitalWrite(REGISTER_LATCH, HIGH);
 
 //     currentState = digitalRead(BTNS_INPUT);
 

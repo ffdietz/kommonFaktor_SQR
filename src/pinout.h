@@ -30,9 +30,9 @@
   #define ENCODER_MAX 1000
 
 #elif defined(METRIC_BOARD_PINOUT)
-  #define REGISTER_SCK         13
-  #define REGISTER_MOSI        11
-  #define REGISTER_LATCH_BTNS  A3
+  #define REGISTER_SCK    13
+  #define REGISTER_MOSI   11
+  #define REGISTER_LATCH  A3
 
   #define ENCODER_A     3
   #define ENCODER_B     2

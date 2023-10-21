@@ -85,32 +85,3 @@ void Display::print(int data, uint8_t x, uint8_t y) {
   lcd->setCursor(x, y);
   print(data);
 }
-
-// void Display::blink(const char * data) {
-
-//   char space[strlen(data)];           // create a char array with the size of data input
-//   memset(space, ' ', strlen(data));   // fill the array with ' ' (spaces) to cover the last print
-
-//   if (millis() - lastBlink > blinkTime){
-//     blinkState = !blinkState;
-//     lastBlink = millis();
-//   }
-
-//   blinkState ? lcd->print(data) : lcd->print(space);
-
-// }
-
-// void Display::blink(const char * data, uint8_t x, uint8_t y) {
-//   lcd->setCursor(x, y);
-//   blink(data);
-// }
-
-// void Display::blink(int data) {
-//   blink(data);
-// }
-
-// void Display::blink(float data) {
-//   char result[4];              // Buffer big enough for 000.00 format
-//   dtostrf(data, 3, 1, result); // Leave room for too large numbers!
-//   blink(result);
-// }
