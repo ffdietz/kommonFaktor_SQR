@@ -12,12 +12,15 @@ class Menu {
     void begin();
     void print();
     void pause(bool paused);
-    void selectMenuIndex(int variation);
+    void escape();
+
     uint8_t setFnIndex(uint8_t menu, uint8_t submenu);
-    bool setMenuFunction;
+    void selectMenuIndex(int variation);
+    bool setFunction;
+    bool selectFunction;
 
     using funcPointer = void(*)();
-    funcPointer menuFunction;
+    funcPointer functionSelected;
     funcPointer menuFn[6];
 
     struct menuIndexSelector {
@@ -25,46 +28,28 @@ class Menu {
         uint8_t subMenu;
     } indexSelector;
 
-    const char * MN000 = "MUX_SQR";
-    const char * MN100 = "BPM ";
-    const char * MN200 = "STEP ";
-    const char * MN300 = "SEQUENCE ";
-    const char * MN301 = "ASCEND";
-    const char * MN302 = "DESCEND";
-    const char * MN303 = "RANDOM";
-    const char * MN304 = "CUSTOM";
-    const char * MN305 = "RESET";
-    const char * MN400 = "CLOCK ";
-    const char * MN401 = "IN";
-    const char * MN402 = "OUT";
-    const char * MN500 = "STEPS ";
-
     const char* MENU[6] = { 
-      MN000, 
-      MN100, 
-      MN200, 
-      MN300, 
-      MN400, 
-      MN500 
+      "MUX_SQR", 
+      "BPM ", 
+      "CURRENT STEP ", 
+      "SEQUENCE ", 
+      "CLOCK FACTOR", 
+      "RESET STEPS " 
     };
 
-    const char* SUBMENU[7] = { 
-      MN301, 
-      MN302, 
-      MN303, 
-      MN304, 
-      MN305, 
-      MN401, 
-      MN402 
+    const char* SUBMENU[8] = { 
+      "ASCEND", "DESCEND", "RANDOM", "CUSTOM", 
+      "IN", "OUT", 
+      "ALL ON", "ALL OFF", 
     };
 
     const uint8_t MENU_LENGTH[6] = { 
-      6, 
-      1, 
-      1, 
-      1, 
-      1, 
-      1 
+      5, 
+      1, //BPM
+      1, //CURRENT STEP
+      1, //SEQUENCE
+      1, //CLOCK
+      1, //RESET
     };
 
     const char* FACTOR[13] = { 
