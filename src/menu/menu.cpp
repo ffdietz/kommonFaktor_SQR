@@ -11,17 +11,8 @@ Menu::Menu()
   menuFn[4] = fn501;
   menuFn[5] = fn502;
   
-  setMenuFunction = false;
-}
-
-bool Menu::isSetMode() 
-{
-  return setMenuFunction;
-}
-
-void Menu::clear() 
-{
-  display.clear();
+  setFunction = false;
+  selectFunction = false;
 }
 
 void Menu::begin() 
@@ -29,9 +20,25 @@ void Menu::begin()
   indexSelector.menu = 1;
   indexSelector.subMenu = 1;
 
-  menuFunction = *menuFn[0];
+  functionSelected = *menuFn[0];
 
   clear();
+}
+
+void Menu::clear() 
+{
+  display.clear();
+}
+
+void Menu::pause(bool paused)
+{
+  if(paused) display.print("PAUSED", 10, 0);
+  else display.print("      ", 10, 0);
+}
+
+bool Menu::isSetMode() 
+{
+  return setFunction;
 }
 
 uint8_t Menu::setFnIndex(uint8_t menu, uint8_t submenu) 
@@ -48,27 +55,27 @@ uint8_t Menu::setFnIndex(uint8_t menu, uint8_t submenu)
 
 void Menu::selectMenuIndex(int variation)
 {
-  if(setMenuFunction){
+  if(setFunction){
     indexSelector.subMenu = constrain(
       indexSelector.subMenu + variation, 
-    1, 
+      1, 
       MENU_LENGTH[indexSelector.menu] - 1
     );
   }
   else {
     indexSelector.menu = constrain(
       indexSelector.menu + variation, 
-    1, 
+      1, 
       MENU_LENGTH[0]
     );
   }
 
-  menuFunction = *menuFn[setFnIndex(indexSelector.menu, indexSelector.subMenu)];
+  functionSelected = *menuFn[setFnIndex(indexSelector.menu, indexSelector.subMenu)];
 }
 
 void Menu::print()
 {
-  if(!setMenuFunction)
+  if(!setFunction)
   {
     display.print(MENU[0], 0, 0);
     display.print(MENU[indexSelector.menu], 0, 1);
@@ -76,11 +83,12 @@ void Menu::print()
     display.print(MENU[indexSelector.menu], 0, 0);
   };
 
-  menuFunction();
+  functionSelected();
 }
 
-void Menu::pause(bool paused)
+void Menu:: escape()
 {
-  if(paused) display.print("PAUSED", 10, 0);
-  else display.print("      ", 10, 0);
+  selectFunction = false;
+  setFunction = false;
+  clear();
 }

@@ -1,5 +1,3 @@
-#include <Arduino.h>
-
 #include "controller.h"
 #include "pinout.h"
 
@@ -10,11 +8,11 @@ Controller::Controller(uint8_t pin)
   if(input_pin != A6 && input_pin != A7) pinMode(input_pin, INPUT_PULLUP);
   
   lastPressTime = 0;
-  singlePressLatch = false;
-  doublePressLatch = false;
+  singlePressActive = false;
+  doublePressActive = false;
   isSinglePushed = false;
   isDoublePushed = false;
-  doublePushInterval = 600;
+  doublePushInterval = 300;
   currentState = pinRead();
 
 }
@@ -34,16 +32,17 @@ void Controller::check()
 
   if (lastState == LOW && currentState == HIGH) {
     currentTime = millis();
-    if (currentTime - lastPressTime <= doublePushInterval) {
-      isSinglePushed = false;
-      isDoublePushed = true;
-      doublePressLatch = !doublePressLatch;
-    } else {
-      isDoublePushed = false;
-      isSinglePushed = true;
-      singlePressLatch = !singlePressLatch;
-      lastPressTime = currentTime;
-    }
+      if(currentTime - lastPressTime <= doublePushInterval) 
+      {
+        isSinglePushed = false;
+        isDoublePushed = true;
+        doublePressActive = !doublePressActive;
+      } else {
+        isDoublePushed = false;
+        isSinglePushed = true;
+        singlePressActive = !singlePressActive;
+        lastPressTime = currentTime;
+      }
   } else {
     isSinglePushed = false;
     isDoublePushed = false;

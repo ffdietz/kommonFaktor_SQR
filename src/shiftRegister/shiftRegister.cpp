@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include "pinout.h"
 #include "shiftRegister.h"
 
@@ -62,26 +61,4 @@ byte ShiftRegister::check(){
   return output;
 }
 
-// byte ShiftRegister::check(){
-//   output = 0;
-//   int currentState;
-
-//   for (int j = 0; j < 8; j++){
-//     digitalWrite(REGISTER_LATCH, LOW);
-//       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, keepValueOutput);
-//       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, shifter);
-//     digitalWrite(REGISTER_LATCH, HIGH);
-
-//     currentState = digitalRead(BTNS_INPUT);
-
-//     if(currentState){
-//       output ^= (1 << j); // toggle bit in position j
-//     }
-//     shifter <<= 1;
-//   }
-
-//   shifter |= 1;
-
-//   return output;
-// }
 

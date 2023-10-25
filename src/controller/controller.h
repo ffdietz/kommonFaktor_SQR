@@ -1,5 +1,7 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#ifndef CONTROLLER_H_
+#define CONTROLLER_H_
+#include <Arduino.h>
+
 
 class Controller
 {
@@ -13,8 +15,8 @@ class Controller
     bool isChanged();
     bool isSinglePushed;
     bool isDoublePushed;
-    bool singlePressLatch;
-    bool doublePressLatch;
+    bool singlePressActive;
+    bool doublePressActive;
     uint32_t doublePushInterval;
 
   // private:
