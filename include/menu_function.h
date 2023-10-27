@@ -5,6 +5,8 @@ void fn101() {
   if(menu.setFunction) {
     sequencer.setSpeed(encoder.getDirection());
     display.print(sequencer.getSpeed(), 0, 1);
+    
+    if(menu.selectFunction) menu.escape();
   } else {
     display.print(sequencer.getSpeed());
   }
@@ -19,6 +21,8 @@ void fn201() {
     multiplexer.selector(sequencer.getCurrentPosition());
 
     display.print(sequencer.getCurrentPosition() + 1, 0, 1);
+    
+    if(menu.selectFunction) menu.escape();
 
   } else {
     sequencer.playSequence();
@@ -45,12 +49,12 @@ void fn401() {
   if(menu.setFunction) {
     subMenu += encoder.getDirection();
     subMenu = constrain(subMenu, 0, 12);
-
+    
     if(menu.selectFunction){
       sequencer.setInternalClockFactor(subMenu);
       menu.escape();
     }
-
+    
     display.print(menu.SUBMENU[4], 0, 1);
     display.print(" ");
     display.print(menu.FACTOR[subMenu]);
@@ -61,8 +65,7 @@ void fn401() {
 //RESET STEPS
 void fn501() {
   static int subMenu = 0;
-  if(menu.setFunction) 
-  {
+  if(menu.setFunction) {
     subMenu += encoder.getDirection();
     subMenu = constrain(subMenu, 6, 7);
     if(menu.selectFunction){
