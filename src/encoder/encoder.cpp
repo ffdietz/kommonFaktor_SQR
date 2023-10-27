@@ -1,4 +1,51 @@
 #include "encoder.h"
+
+bool Encoder::begin()
+{
+  NewEncoder::EncoderState state;
+  if (!encoder.begin()) return false;
+
+  newValueAvailable = false;
+  encoder.getState(state);
+  encoderValue = state.currentValue;
+  encoder.attachCallback(callBack, this);
+  return true;
+}
+
+bool Encoder::newDataAvailable()
+{
+  noInterrupts();
+  bool temp = newValueAvailable;
+  newValueAvailable = false;
+  interrupts();
+  return temp;
+}
+
+uint8_t Encoder::getPosition()
+{
+  int16_t temp;
+  noInterrupts();
+  temp = encoderValue;
+  interrupts();
+  return temp;
+}
+
+int8_t Encoder::getDirection()
+{
+  int16_t direction;
+  int16_t value;
+  noInterrupts();
+  value = encoderValue;
+  interrupts();
+  
+  if (value != prevEncoderValue) {
+    direction = value - prevEncoderValue;
+    prevEncoderValue = value;
+    return direction < 0 ? -1 : 1;
+  } 
+  return 0;
+}
+
 // Static class callback function. Common to all instances. Uses the uPtr parameter to select the proper
 // instance. Then, calls the instance function.
 // Be careful, the callback executes in interrupt contexts.
@@ -22,16 +69,3 @@ void ESP_ISR Encoder::handleEncoder(const volatile NewEncoder::EncoderState *sta
   }
 }
 
-// Pins 2 and 3 should work for many processors, including Uno. See README for meaning of constructor arguments.
-// Use FULL_PULSE for encoders that produce one complete quadrature pulse per detnet, such as: https://www.adafruit.com/product/377
-// Use HALF_PULSE for endoders that produce one complete quadrature pulse for every two detents, such as: https://www.mouser.com/ProductDetail/alps/ec11e15244g1/?qs=YMSFtX0bdJDiV4LBO61anw==&countrycode=US&currencycode=USD
-
-
-// void encoderRun()
-// {
-//   if (encoder.newDataAvailable())
-//   {
-//     Serial.print("myObject: ");
-//     Serial.println(encoder.getData());
-//   }
-// }

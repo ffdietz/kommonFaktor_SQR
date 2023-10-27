@@ -1,4 +1,5 @@
 #include "pinout.h"
+
 #include "sequencer/sequencer.h"
 #include "encoder/encoder.h"
 #include "controller/controller.h"

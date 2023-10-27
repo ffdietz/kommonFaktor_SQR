@@ -1,8 +1,7 @@
+#ifndef DISPLAY_H_
+#define DISPLAY_H_
 #include <Arduino.h>
 #include "pinout.h"
-
-#ifndef DISPLAY_H
-#define DISPLAY_H
 
 #ifdef PROTOTYPE_BOARD_PINOUT
   #include <ShiftedLCD.h>

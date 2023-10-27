@@ -10,9 +10,6 @@ Menu::Menu()
   menuFn[3] = fn401;
   menuFn[4] = fn501;
   menuFn[5] = fn502;
-  
-  setFunction = false;
-  selectFunction = false;
 }
 
 void Menu::begin() 
@@ -21,6 +18,9 @@ void Menu::begin()
   indexSelector.subMenu = 1;
 
   functionSelected = *menuFn[0];
+
+  setFunction = false;
+  selectFunction = false;
 
   clear();
 }
@@ -35,7 +35,7 @@ void Menu::pause(bool paused)
   static bool isChanged = false;
 
   if(paused){
-     display.print("PAUSED", 10, 0);
+     display.print(PAUSE, 10, 0);
      isChanged = true;
   }
   else if (!paused && isChanged) {

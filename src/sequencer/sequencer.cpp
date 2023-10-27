@@ -1,7 +1,6 @@
 #include "sequencer.h"
 #include "pinout.h"
 
-// constructor
 Sequencer::Sequencer(uint8_t steps, float _speed, bool initialState){
   speed = _speed;
   stepsLength = steps - 1;

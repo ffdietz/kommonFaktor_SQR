@@ -1,12 +1,13 @@
 #include "global.h"
 
-// IMPROVEMENTS
+// TASKS
 // (done) menu class
 // (done) Switch library for set button double press
 // (done) funcion ALL_ON ALL_OFF
 // (done) improve menu class to submenu and subsubmenu vector
 // (done)improve scape when double press
 
+// clock input
 // custom sequence from steps panel
 // Encoder library
 
@@ -22,12 +23,9 @@ void debugger()
   Serial.print(menu.setFunction);
   Serial.print(" single ");
   Serial.print(encoderSetButton.isSinglePushed);
-  Serial.print(encoderSetButton.singlePressActive);
   Serial.print(" double ");
   Serial.print(encoderSetButton.isDoublePushed);
-  Serial.print(encoderSetButton.doublePressActive);
-  // Serial.print(" doubleLatch ");
-  // Serial.print(encoderSetButton.doublePressActive);
+
   Serial.println();
 }
 
