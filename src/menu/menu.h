@@ -37,10 +37,10 @@ class Menu {
       "RESET STEPS " 
     };
 
-    const char* SUBMENU[8] = { 
+    const char* SUBMENU[9] = { 
       "ASCEND", "DESCEND", "RANDOM", "CUSTOM", 
       "IN", "OUT", 
-      "ALL ON", "ALL OFF", 
+      "ALL ON", "ALL OFF", "RETURN", 
     };
 
     const uint8_t MENU_LENGTH[6] = { 

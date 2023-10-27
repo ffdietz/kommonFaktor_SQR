@@ -5,7 +5,7 @@ void fn101() {
   if(menu.setFunction) {
     sequencer.setSpeed(encoder.getDirection());
     display.print(sequencer.getSpeed(), 0, 1);
-    
+
     if(menu.selectFunction) menu.escape();
   } else {
     display.print(sequencer.getSpeed());
@@ -37,8 +37,12 @@ void fn301() {
     // SUBMENU[] labels range
     subMenu = constrain(subMenu, 0, 3);
 
-    sequencer.setSequenceMode(subMenu);
     display.print(menu.SUBMENU[subMenu], 0, 1);
+
+    if(menu.selectFunction){
+      sequencer.setSequenceMode(subMenu);
+      menu.escape();
+    }
   } else {
     display.print(menu.SUBMENU[subMenu]);
   }
@@ -67,11 +71,11 @@ void fn501() {
   static int subMenu = 0;
   if(menu.setFunction) {
     subMenu += encoder.getDirection();
-    subMenu = constrain(subMenu, 6, 7);
+    subMenu = constrain(subMenu, 6, 8);
     if(menu.selectFunction){
       if(subMenu == 6) sequencer.resetSequence(ALL_ON);
       if(subMenu == 7) sequencer.resetSequence(ALL_OFF);
-      
+      if(subMenu == 8) menu.escape();
       menu.escape();
     }
     display.print(menu.SUBMENU[subMenu], 0, 1);
