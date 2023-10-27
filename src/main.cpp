@@ -5,8 +5,8 @@
 // (done) Switch library for set button double press
 // (done) funcion ALL_ON ALL_OFF
 // (done) improve menu class to submenu and subsubmenu vector
+// (done)improve scape when double press
 
-// improve scape when no double press
 // custom sequence from steps panel
 // Encoder library
 
@@ -89,6 +89,7 @@ void checkSetEncoder()
     menu.selectFunction = true;
     menu.clear();
     print();
+    menu.escape();
   } 
   else if(encoderSetButton.isSinglePushed)
   {

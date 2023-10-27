@@ -24,8 +24,8 @@ class Menu {
     funcPointer menuFn[6];
 
     struct menuIndexSelector {
-        uint8_t menu;
-        uint8_t subMenu;
+      uint8_t menu;
+      uint8_t subMenu;
     } indexSelector;
 
     const char* MENU[6] = { 
@@ -44,7 +44,7 @@ class Menu {
     };
 
     const uint8_t MENU_LENGTH[6] = { 
-      5, 
+      5, //ROOT
       1, //BPM
       1, //CURRENT STEP
       1, //SEQUENCE
