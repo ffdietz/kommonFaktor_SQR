@@ -5,17 +5,17 @@
 class Menu {
   public:
     Menu();
-    bool isSetMode();
     void clear();
     void begin();
     void print();
     void escape();
     void pause(bool paused);
+    bool isSetMode();
 
     uint8_t setFnIndex(uint8_t menu, uint8_t submenu);
     void selectMenuIndex(int variation);
-    bool setFunction;
     bool selectFunction;
+    bool setFunction;
 
     using funcPointer = void(*)();
     funcPointer functionSelected;
@@ -37,12 +37,6 @@ class Menu {
       "RESET STEPS " 
     };
 
-    const char* SUBMENU[9] = { 
-      "ASCEND", "DESCEND", "RANDOM", "CUSTOM", 
-      "IN", "OUT", 
-      "ALL ON", "ALL OFF", "RETURN", 
-    };
-
     const uint8_t MENU_LENGTH[6] = { 
       5, //ROOT
       1, //BPM
@@ -50,6 +44,12 @@ class Menu {
       1, //SEQUENCE
       1, //CLOCK
       1, //RESET
+    };
+
+    const char* SUBMENU[9] = { 
+      "ASCEND", "DESCEND", "RANDOM", "CUSTOM", 
+      "IN", "OUT", 
+      "ALL ON", "ALL OFF", "RETURN", 
     };
 
     const char* FACTOR[13] = { 

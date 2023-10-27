@@ -2,7 +2,6 @@
 #define SEQUENCER_H_
 #include <Arduino.h>
 
-
 class Sequencer {
   public:
     Sequencer(uint8_t steps, float speed, bool initialState);
@@ -21,21 +20,21 @@ class Sequencer {
     void playSequence();
 
     //Clock methods
-    uint8_t  clockOut = LOW;
-    // bool externalClock = false;
     bool internalClock();
-    void setInternalClockFactor(int factor);
-    float internalClockFactor = 1;
-    // bool externalClock();
+    bool externalClock();
     void updateClock();
     void clockOutput();
+    void setInternalClockFactor(int factor);
+    bool externalClock = false;
+    float internalClockFactor = 1;
+    uint8_t clockOut = LOW;
 
     //Steps methods
     void changeStep();
     bool isStepChanged();
     uint8_t getCurrentPosition();
     uint8_t getStatesAndPosition();
-    void    setStepsState(byte position);
+    void setStepsState(byte position);
     uint8_t getStepsState();
     void setManualStep(int8_t variation);
 
