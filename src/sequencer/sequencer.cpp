@@ -65,18 +65,27 @@ bool Sequencer::internalClock() {
   if ((currentMillis - lastChange) >= totalPeriodMillis) {
     lastChange = currentMillis;
     outputFlag = true;
+  } else {
+    outputFlag  = false; 
   }
-  else outputFlag  = false;
   
   if ((currentMillis - lastChange) >= (totalPeriodMillis * .2)) {
     clockOut = LOW;
+  } else {
+    clockOut = HIGH; 
   }
-  else  clockOut = HIGH;
 
   if (paused) clockOut = HIGH;
 
   return outputFlag;
 }
+// bool Sequencer::externalClock()
+// {
+//   // CREATE CONTROLLER OBJECT TO READ CLOCK INPUT 
+//   // static uint8_t extClock = digitalRead(CLOCK_IN);
+//   // if(extClock == HIGH) externalClock = true;
+//   return false; 
+// }
 
 void  Sequencer::setInternalClockFactor(int factor){
   switch(factor)
@@ -96,14 +105,6 @@ void  Sequencer::setInternalClockFactor(int factor){
     case 12:  internalClockFactor = .015625;  break;
   }
 }
-
-// bool Sequencer::externalClock()
-// {
-//   // CREATE CONTROLLER OBJECT TO READ CLOCK INPUT 
-//   // static uint8_t extClock = digitalRead(CLOCK_IN);
-//   // if(extClock == HIGH) externalClock = true;
-//   return false; 
-// }
 
 // steps methods
 void    Sequencer::changeStep(){

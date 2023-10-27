@@ -60,15 +60,14 @@ void Display::print(const char * data) {
   lcd->print(data);
 }
 
+void Display::print(int data) {
+  lcd->print(data);
+}
+
 void Display::print(float data) {
   char result[4];                 // Buffer big enough for 000.0 lenght float
   dtostrf(data, 3, 1, result);    // Leave room for too large numbers ['000' '.' '0']
   lcd->print(result);
-}
-
-void Display::print(int data) 
-{
-  lcd->print(data);
 }
 
 void Display::print(const char * data, uint8_t x, uint8_t y) {

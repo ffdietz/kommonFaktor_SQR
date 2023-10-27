@@ -5,7 +5,7 @@
 // (done) Switch library for set button double press
 // (done) funcion ALL_ON ALL_OFF
 // (done) improve menu class to submenu and subsubmenu vector
-// (done)improve scape when double press
+// (done) improve escape when double press
 
 // clock input
 // custom sequence from steps panel
@@ -45,7 +45,7 @@ void updateMultiplexer()
 
     bool stepOn = bitRead(state, position);
 
-    if (stepOn) multiplexer.unmute();
+    if(stepOn) multiplexer.unmute();
     else        multiplexer.mute();
 
     multiplexer.selector(sequencer.getCurrentPosition());
@@ -57,6 +57,7 @@ void updateSequence()
   if(sequencer.internalClock() && !pauseButton.singlePressActive && !sequencer.paused) {
     sequencer.changeStep();
   }
+
 }
 void updateVariables() 
 {
@@ -137,7 +138,6 @@ void setup()
   encoder.begin();
   multiplexer.begin();
   stepButtonPanel.begin();
-
   menu.begin();
 
   check();
@@ -147,7 +147,6 @@ void setup()
     Serial.begin(115200);
     Serial.println("serial connected");
   }
-
 }
 
 void loop() 
