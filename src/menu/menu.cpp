@@ -32,8 +32,16 @@ void Menu::clear()
 
 void Menu::pause(bool paused)
 {
-  if(paused) display.print("PAUSED", 10, 0);
-  else display.print("      ", 10, 0);
+  static bool isChanged = false;
+
+  if(paused){
+     display.print("PAUSED", 10, 0);
+     isChanged = true;
+  }
+  else if (!paused && isChanged) {
+    display.print("      ", 10, 0);
+    isChanged = false;
+  }
 }
 
 bool Menu::isSetMode() 
@@ -47,7 +55,6 @@ uint8_t Menu::setFnIndex(uint8_t menu, uint8_t submenu)
   for (byte i = 0; i < (menu - 1); i++) {
       indexOutput += MENU_LENGTH[i + 1];
   }
-
   indexOutput += submenu - 1;
 
   return indexOutput;
