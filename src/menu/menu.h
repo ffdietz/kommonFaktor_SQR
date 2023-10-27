@@ -1,18 +1,16 @@
 #ifndef MENU_H_
 #define MENU_H_
-
-#include "display/display.h"
+#include <Arduino.h>
 
 class Menu {
   public:
     Menu();
-
     bool isSetMode();
     void clear();
     void begin();
     void print();
-    void pause(bool paused);
     void escape();
+    void pause(bool paused);
 
     uint8_t setFnIndex(uint8_t menu, uint8_t submenu);
     void selectMenuIndex(int variation);
@@ -27,6 +25,8 @@ class Menu {
       uint8_t menu;
       uint8_t subMenu;
     } indexSelector;
+
+    const char* PAUSE = "PAUSED";
 
     const char* MENU[6] = { 
       "MUX_SQR", 

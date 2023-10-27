@@ -1,8 +1,7 @@
-//Track states of sequence
+#ifndef SEQUENCER_H_
+#define SEQUENCER_H_
 #include <Arduino.h>
 
-#ifndef SEQUENCER_H
-#define SEQUENCER_H
 
 class Sequencer {
   public:
@@ -47,8 +46,7 @@ class Sequencer {
     int  getSequenceMode();
     void resetSequence(bool reset);
 
-
-  // private:
+  private:
     uint8_t stepsLength = 0;
     uint8_t stepPosition = 0;
     uint8_t lastPosition = 0;

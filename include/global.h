@@ -1,5 +1,5 @@
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#ifndef GLOBAL_H_
+#define GLOBAL_H_
 
 #include "sequencer/sequencer.h"
 #include "encoder/encoder.h"

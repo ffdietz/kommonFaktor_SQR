@@ -23,7 +23,6 @@ void fn201() {
     display.print(sequencer.getCurrentPosition() + 1, 0, 1);
     
     if(menu.selectFunction) menu.escape();
-
   } else {
     sequencer.playSequence();
     display.print(sequencer.getCurrentPosition() + 1);

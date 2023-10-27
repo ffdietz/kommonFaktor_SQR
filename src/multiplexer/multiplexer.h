@@ -1,5 +1,5 @@
-#ifndef MUX_H
-#define MUX_H
+#ifndef MUX_H_
+#define MUX_H_
 
 class Multiplexer {
   public:
