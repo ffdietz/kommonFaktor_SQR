@@ -20,7 +20,7 @@ void debugger()
   Serial.print(" submenu ");
   Serial.print(menu.indexSelector.subMenu);
   Serial.print(" menuFn ");
-  Serial.print(menu.setFunction);
+  Serial.print(menu.selectFunction);
   Serial.print(" single ");
   Serial.print(encoderSetButton.isSinglePushed);
   Serial.print(" double ");
@@ -39,7 +39,7 @@ void print()
 
 void updateMultiplexer()
 {
-  if(!menu.setFunction) {
+  if(!menu.selectFunction) {
     byte state = sequencer.getStepsState();
     int position = sequencer.getCurrentPosition();
 
@@ -72,7 +72,7 @@ void update()
 void checkEncoder()
 {
   if(encoder.newDataAvailable()){
-    if(!menu.setFunction) menu.selectMenuIndex(encoder.getDirection());
+    if(!menu.selectFunction) menu.selectMenuIndex(encoder.getDirection());
     else menu.functionSelected();
     
     menu.clear();
@@ -84,14 +84,14 @@ void checkSetEncoder()
   encoderSetButton.check();
   if(encoderSetButton.isDoublePushed)
   {
-    menu.selectFunction = true;
+    menu.setFunction = true;
     menu.clear();
     print();
     menu.escape();
   } 
   else if(encoderSetButton.isSinglePushed)
   {
-    menu.setFunction = true;
+    menu.selectFunction = true;
     menu.clear();
     print();
   }

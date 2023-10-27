@@ -19,8 +19,8 @@ void Menu::begin()
 
   functionSelected = *menuFn[0];
 
-  setFunction = false;
   selectFunction = false;
+  setFunction = false;
 
   clear();
 }
@@ -46,7 +46,7 @@ void Menu::pause(bool paused)
 
 bool Menu::isSetMode() 
 {
-  return setFunction;
+  return selectFunction;
 }
 
 uint8_t Menu::setFnIndex(uint8_t menu, uint8_t submenu) 
@@ -62,7 +62,7 @@ uint8_t Menu::setFnIndex(uint8_t menu, uint8_t submenu)
 
 void Menu::selectMenuIndex(int variation)
 {
-  if(setFunction){
+  if(selectFunction){
     indexSelector.subMenu = constrain(
       indexSelector.subMenu + variation, 
       1, 
@@ -82,7 +82,7 @@ void Menu::selectMenuIndex(int variation)
 
 void Menu::print()
 {
-  if(!setFunction)
+  if(!selectFunction)
   {
     display.print(MENU[0], 0, 0);
     display.print(MENU[indexSelector.menu], 0, 1);
@@ -95,7 +95,7 @@ void Menu::print()
 
 void Menu:: escape()
 {
-  selectFunction = false;
   setFunction = false;
+  selectFunction = false;
   clear();
 }

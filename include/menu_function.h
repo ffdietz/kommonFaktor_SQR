@@ -2,18 +2,18 @@
 
 //BPM
 void fn101() {
-  if(menu.setFunction) {
+  if(menu.selectFunction) {
     sequencer.setSpeed(encoder.getDirection());
     display.print(sequencer.getSpeed(), 0, 1);
 
-    if(menu.selectFunction) menu.escape();
+    if(menu.setFunction) menu.escape();
   } else {
     display.print(sequencer.getSpeed());
   }
 }
 // CURRENT STEP
 void fn201() {
-  if(menu.setFunction) {
+  if(menu.selectFunction) {
     sequencer.pauseSequence();
     sequencer.setManualStep(encoder.getDirection());
 
@@ -22,7 +22,7 @@ void fn201() {
 
     display.print(sequencer.getCurrentPosition() + 1, 0, 1);
     
-    if(menu.selectFunction) menu.escape();
+    if(menu.setFunction) menu.escape();
   } else {
     sequencer.playSequence();
     display.print(sequencer.getCurrentPosition() + 1);
@@ -31,14 +31,14 @@ void fn201() {
 // SEQUENCE
 void fn301() {
   static int subMenu = 0;
-  if(menu.setFunction) {
+  if(menu.selectFunction) {
     subMenu += encoder.getDirection();
     // SUBMENU[] labels range
     subMenu = constrain(subMenu, 0, 3);
 
     display.print(menu.SUBMENU[subMenu], 0, 1);
 
-    if(menu.selectFunction){
+    if(menu.setFunction){
       sequencer.setSequenceMode(subMenu);
       menu.escape();
     }
@@ -49,11 +49,11 @@ void fn301() {
 // CLOCK
 void fn401() {
   static int subMenu = 6;
-  if(menu.setFunction) {
+  if(menu.selectFunction) {
     subMenu += encoder.getDirection();
     subMenu = constrain(subMenu, 0, 12);
     
-    if(menu.selectFunction){
+    if(menu.setFunction){
       sequencer.setInternalClockFactor(subMenu);
       menu.escape();
     }
@@ -68,10 +68,10 @@ void fn401() {
 //RESET STEPS
 void fn501() {
   static int subMenu = 0;
-  if(menu.setFunction) {
+  if(menu.selectFunction) {
     subMenu += encoder.getDirection();
     subMenu = constrain(subMenu, 6, 8);
-    if(menu.selectFunction){
+    if(menu.setFunction){
       if(subMenu == 6) sequencer.resetSequence(ALL_ON);
       if(subMenu == 7) sequencer.resetSequence(ALL_OFF);
       if(subMenu == 8) menu.escape();

@@ -14,8 +14,8 @@ class Menu {
 
     uint8_t setFnIndex(uint8_t menu, uint8_t submenu);
     void selectMenuIndex(int variation);
-    bool setFunction;
     bool selectFunction;
+    bool setFunction;
 
     using funcPointer = void(*)();
     funcPointer functionSelected;
