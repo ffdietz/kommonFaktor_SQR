@@ -17,9 +17,8 @@ public:
   LiquidCrystal *lcd;
   void begin();
   void clear();
-  void clearLine(uint8_t x, uint8_t y);
-  void clearField();
-
+  void pause(uint8_t x, uint8_t y);
+  
   void print(const char * data);
   void print(const char * data, uint8_t x, uint8_t y);
   void print(float data);
