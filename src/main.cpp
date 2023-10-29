@@ -1,15 +1,9 @@
 #include "global.h"
 
 // TASKS
-// (done) menu class
-// (done) Switch library for set button double press
-// (done) funcion ALL_ON ALL_OFF
-// (done) improve menu class to submenu and subsubmenu vector
-// (done) improve escape when double press
-
 // clock input
 // custom sequence from steps panel
-// Encoder library
+// Encoder library with acceleration
 
 bool debug =  true;
 
@@ -34,7 +28,7 @@ void print()
   menu.pause(pauseButton.singlePressActive);
   menu.print();
   
-  sequencer.clockOutput();
+  clock.output();
 }
 
 void updateMultiplexer()
@@ -53,8 +47,8 @@ void updateMultiplexer()
 }
 void updateSequence() 
 {
-  sequencer.updateClock();
-  if(sequencer.internalClock() && !pauseButton.singlePressActive && !sequencer.paused) {
+  clock.update();
+  if(clock.internal() && !pauseButton.singlePressActive && !clock.paused) {
     sequencer.changeStep();
   }
 
@@ -97,7 +91,6 @@ void checkSetEncoder()
     print();
   }
 }
-
 void checkRegister()
 {
   stepButtonPanel.keepOutputValue(sequencer.getStatesAndPosition());
@@ -109,9 +102,9 @@ void checkPause()
 {
   pauseButton.check();
   if(pauseButton.isSinglePushed) 
-    sequencer.pauseSequence();
+    clock.pause();
   else 
-    sequencer.playSequence();
+    clock.play();
 }
 void check() 
 {
@@ -139,6 +132,7 @@ void setup()
   multiplexer.begin();
   stepButtonPanel.begin();
   menu.begin();
+  clock.begin();
 
   check();
   update();
