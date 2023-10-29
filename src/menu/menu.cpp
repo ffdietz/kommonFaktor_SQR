@@ -35,11 +35,11 @@ void Menu::pause(bool paused)
   static bool isChanged = false;
 
   if(paused){
-     display.print(PAUSE, 10, 0);
-     isChanged = true;
+    display.pause(15, 0);
+    isChanged = true;
   }
   else if (!paused && isChanged) {
-    display.print("      ", 10, 0);
+    display.print(" ", 15, 0);
     isChanged = false;
   }
 }

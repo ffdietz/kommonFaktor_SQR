@@ -46,7 +46,7 @@ void fn301() {
     display.print(menu.SUBMENU[subMenu]);
   }
 }
-// CLOCK
+// CLOCK FACTOR
 void fn401() {
   static int subMenu = 6;
   if(menu.selectFunction) {

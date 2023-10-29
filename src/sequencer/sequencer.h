@@ -25,7 +25,7 @@ class Sequencer {
     void updateClock();
     void clockOutput();
     void setInternalClockFactor(int factor);
-    bool externalClock = false;
+    bool externalClockInput = false;
     float internalClockFactor = 1;
     uint8_t clockOut = LOW;
 

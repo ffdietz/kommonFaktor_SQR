@@ -45,7 +45,7 @@ void updateMultiplexer()
 
     bool stepOn = bitRead(state, position);
 
-    if (stepOn) multiplexer.unmute();
+    if(stepOn) multiplexer.unmute();
     else        multiplexer.mute();
 
     multiplexer.selector(sequencer.getCurrentPosition());
@@ -57,6 +57,7 @@ void updateSequence()
   if(sequencer.internalClock() && !pauseButton.singlePressActive && !sequencer.paused) {
     sequencer.changeStep();
   }
+
 }
 void updateVariables() 
 {

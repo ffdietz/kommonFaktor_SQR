@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef UTILS_H_
+#define UTILS_H_
 
 #define serial(label, value) Serial.print(label); Serial.print(value); Serial.print(" ")
 
