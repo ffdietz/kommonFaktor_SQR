@@ -6,7 +6,6 @@ class Sequencer {
   public:
     Sequencer(uint8_t steps, bool initialState);
     void begin();
-
     //Steps methods
     void changeStep();
     bool isStepChanged();
@@ -15,14 +14,12 @@ class Sequencer {
     void setStepsState(byte position);
     uint8_t getStepsState();
     void setManualStep(int8_t variation);
-
     //Sequence progression
     enum Mode { ASCEND, DESCEND, RANDOM, CUSTOM };
     Mode sequenceMode = ASCEND;
     void setSequenceMode(int8_t variation);
     int  getSequenceMode();
     void resetSequence(bool reset);
-
   private:
     uint8_t stepsLength = 0;
     uint8_t stepPosition = 0;

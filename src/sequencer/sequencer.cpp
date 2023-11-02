@@ -19,7 +19,7 @@ void Sequencer::begin(){
 }
 
 // steps methods
-void    Sequencer::changeStep(){
+void Sequencer::changeStep(){
   lastPosition = stepPosition;
   switch(sequenceMode){
     case ASCEND:
@@ -41,7 +41,7 @@ void    Sequencer::changeStep(){
 
 }
 
-bool    Sequencer::isStepChanged(){
+bool Sequencer::isStepChanged(){
   if(lastPosition != stepPosition) return true;
   return false;
 }
@@ -54,7 +54,7 @@ uint8_t Sequencer::getStepsState(){
   return stepStates;
 }
 
-void    Sequencer::setStepsState(uint8_t state){
+void Sequencer::setStepsState(uint8_t state){
   stepStates ^= state;
 }
 
@@ -67,13 +67,13 @@ uint8_t Sequencer::getStatesAndPosition(){
   return states;
 }
 
-void  Sequencer::setManualStep(int8_t variation){
+void Sequencer::setManualStep(int8_t variation){
   lastPosition = stepPosition;
   stepPosition = (stepPosition + variation) % (stepsLength + 1);
 }
 
 // Step mode methods
-void  Sequencer::setSequenceMode(int8_t mode){
+void Sequencer::setSequenceMode(int8_t mode){
   switch(mode){
     case 0: sequenceMode = ASCEND;  break;
     case 1: sequenceMode = DESCEND; break;
@@ -82,11 +82,11 @@ void  Sequencer::setSequenceMode(int8_t mode){
   }
 }
 
-int   Sequencer::getSequenceMode(){
+int Sequencer::getSequenceMode(){
   return sequenceMode;
 }
 
-void  Sequencer::resetSequence(bool reset){
+void Sequencer::resetSequence(bool reset){
   if(reset) stepStates = 255;
   if(!reset) stepStates = 0;
 }

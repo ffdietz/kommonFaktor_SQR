@@ -9,16 +9,10 @@ bool debug =  true;
 
 void debugger()
 {
-  Serial.print("menu ");
-  Serial.print(menu.indexSelector.menu);
-  Serial.print(" submenu ");
-  Serial.print(menu.indexSelector.subMenu);
-  Serial.print(" menuFn ");
-  Serial.print(menu.selectFunction);
-  Serial.print(" single ");
-  Serial.print(encoderSetButton.isSinglePushed);
-  Serial.print(" double ");
-  Serial.print(encoderSetButton.isDoublePushed);
+  // Serial.print(" external ");
+  // Serial.print(clock.external());
+  // Serial.print(" externalClockInput ");
+  // Serial.print(clock.externalClockInput);
 
   Serial.println();
 }
@@ -27,8 +21,6 @@ void print()
 {
   menu.pause(pauseButton.singlePressActive);
   menu.print();
-  
-  clock.output();
 }
 
 void updateMultiplexer()
@@ -48,10 +40,12 @@ void updateMultiplexer()
 void updateSequence() 
 {
   clock.update();
-  if(clock.internal() && !pauseButton.singlePressActive && !clock.paused) {
+  if(clock.flag
+    && !clock.paused
+    && !pauseButton.singlePressActive ) {
     sequencer.changeStep();
   }
-
+  clock.output();
 }
 void updateVariables() 
 {
@@ -98,6 +92,10 @@ void checkRegister()
   sequencer.setStepsState(currentActiveSteps);
 
 }
+void checkClock(){
+  clock.check();
+}
+
 void checkPause() 
 {
   pauseButton.check();
@@ -109,6 +107,7 @@ void checkPause()
 void check() 
 {
   checkPause();
+  checkClock();
   checkRegister();
   checkSetEncoder();
   checkEncoder();

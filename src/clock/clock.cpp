@@ -39,40 +39,68 @@ void  Clock::pause(){
 }
 
 // clock methods
+void Clock::check() {
+    const uint32_t debounceTime = 6500;
+    static uint32_t lastChange = 0;
+    static uint32_t timePassed = 0;
+    bool currentState = external();
+
+    if (currentState == HIGH) lastChange = millis();
+    
+    timePassed = millis() - lastChange;
+
+    if (timePassed < debounceTime) {
+        externalClockInput = true;
+    } else {
+        externalClockInput = false;
+    }
+}
 void  Clock::update(){
-  currentMillis = millis();
+  if(paused) clockOut = HIGH;
+  else {
+    if(externalClockInput) flag = external();
+    else {
+      flag = internal();
+    }
+  }
 }
 
-void  Clock::output(){
-  digitalWrite(CLOCK_OUT, clockOut);
+bool Clock::external()
+{
+  static bool lastState = LOW;
+  bool currentState = analogRead(CLOCK_IN) == 0 ? LOW : HIGH;;
+
+  if(lastState == LOW && currentState == HIGH)
+  {
+    lastState = currentState;
+    return true;
+  }
+  else {
+    lastState = currentState;
+    return false;
+  }
 }
 
-bool Clock::internal() {
-  static bool outputFlag = false;
+bool Clock::internal(){
   static uint32_t lastChange = 0;
   uint32_t totalPeriodMillis = speedInMillis * internalClockFactor;
 
-  if ((currentMillis - lastChange) >= totalPeriodMillis) {
-    lastChange = currentMillis;
-    outputFlag = true;
-  } else {
-    outputFlag  = false; 
-  }
-  
-  if ((currentMillis - lastChange) >= (totalPeriodMillis * .2)) {
+  currentMillis = millis();
+  if(currentMillis - lastChange >= totalPeriodMillis * .2) {
     clockOut = LOW;
   } else {
     clockOut = HIGH; 
   }
 
-  if (paused) clockOut = HIGH;
-
-  return outputFlag;
+  if (currentMillis - lastChange >= totalPeriodMillis) {
+    lastChange = currentMillis;
+    return true;
+  } else {
+    return false;
+  }
 }
-bool Clock::external()
-{
-  // CREATE CONTROLLER OBJECT TO READ CLOCK INPUT 
-  return false; 
+void  Clock::output(){
+  digitalWrite(CLOCK_OUT, clockOut);
 }
 
 void  Clock::setInternalFactor(int factor){

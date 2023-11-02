@@ -93,7 +93,7 @@ void Menu::print()
   functionSelected();
 }
 
-void Menu:: escape()
+void Menu::escape()
 {
   setFunction = false;
   selectFunction = false;
