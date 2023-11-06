@@ -28,15 +28,6 @@ class Menu {
 
     const char* PAUSE = "PAUSED";
 
-    const char* MENU[6] = { 
-      "MUX_SQR", 
-      "BPM ", 
-      "CURRENT STEP ", 
-      "SEQUENCE ", 
-      "CLOCK FACTOR", 
-      "RESET STEPS " 
-    };
-
     const uint8_t MENU_LENGTH[6] = { 
       5, //ROOT
       1, //BPM
@@ -44,6 +35,15 @@ class Menu {
       1, //SEQUENCE
       1, //CLOCK
       1, //RESET
+    };
+
+    const char* MENU[6] = { 
+      "MUX_SQR", 
+      "BPM ", 
+      "CURRENT STEP ", 
+      "SEQUENCE ", 
+      "CLOCK FACTOR", 
+      "RESET STEPS " 
     };
 
     const char* SUBMENU[9] = { 

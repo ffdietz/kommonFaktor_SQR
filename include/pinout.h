@@ -47,7 +47,7 @@
   #define CLOCK_IN      A6
 
   #define PAUSE_BUTTON  A1
-  #define BTNS_INPUT    A4
+  #define STEPS_INPUT   A4
   
   #define LCD_RS        4
   #define LCD_EN        5

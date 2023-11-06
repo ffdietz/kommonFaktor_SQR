@@ -1,4 +1,5 @@
 #include "global.h"
+#include "utils.h"
 
 // TASKS
 // clock input
@@ -9,10 +10,8 @@ bool debug =  true;
 
 void debugger()
 {
-  // Serial.print(" external ");
-  // Serial.print(clock.external());
-  // Serial.print(" externalClockInput ");
-  // Serial.print(clock.externalClockInput);
+  serial(" analogRead ", analogRead(ENCODER_SET));
+  serial(" pinRead ", encoderSetButton.pinRead() );
 
   Serial.println();
 }
@@ -21,6 +20,7 @@ void print()
 {
   menu.pause(pauseButton.singlePressActive);
   menu.print();
+  menu.functionSelected();
 }
 
 void updateMultiplexer()
@@ -31,8 +31,10 @@ void updateMultiplexer()
 
     bool stepOn = bitRead(state, position);
 
-    if(stepOn) multiplexer.unmute();
-    else        multiplexer.mute();
+    if(stepOn) 
+      multiplexer.unmute();
+    else
+      multiplexer.mute();
 
     multiplexer.selector(sequencer.getCurrentPosition());
   }
@@ -40,12 +42,14 @@ void updateMultiplexer()
 void updateSequence() 
 {
   clock.update();
-  if(clock.flag
+  if(
+    clock.flag
     && !clock.paused
-    && !pauseButton.singlePressActive ) {
+    && !pauseButton.singlePressActive 
+  ) {
     sequencer.changeStep();
   }
-  clock.output();
+  if(!clock.externalClockInput && !clock.paused) clock.output();
 }
 void updateVariables() 
 {
@@ -75,14 +79,16 @@ void checkSetEncoder()
   {
     menu.setFunction = true;
     menu.clear();
-    print();
+    menu.print();
+    menu.functionSelected();
     menu.escape();
   } 
-  else if(encoderSetButton.isSinglePushed)
+  if(encoderSetButton.isSinglePushed)
   {
     menu.selectFunction = true;
     menu.clear();
-    print();
+    menu.print();
+    menu.functionSelected();
   }
 }
 void checkRegister()
@@ -92,14 +98,14 @@ void checkRegister()
   sequencer.setStepsState(currentActiveSteps);
 
 }
-void checkClock(){
+void checkClock()
+{
   clock.check();
 }
-
 void checkPause() 
 {
   pauseButton.check();
-  if(pauseButton.isSinglePushed) 
+  if(pauseButton.singlePressActive) 
     clock.pause();
   else 
     clock.play();
@@ -107,10 +113,10 @@ void checkPause()
 void check() 
 {
   checkPause();
-  checkClock();
-  checkRegister();
   checkSetEncoder();
   checkEncoder();
+  checkClock();
+  checkRegister();
 }
 
 bool running() 
@@ -126,12 +132,12 @@ bool running()
 void setup() 
 {
   sequencer.begin();
+  clock.begin();
   display.begin();
   encoder.begin();
   multiplexer.begin();
   stepButtonPanel.begin();
   menu.begin();
-  clock.begin();
 
   check();
   update();

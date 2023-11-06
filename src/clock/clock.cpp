@@ -40,35 +40,33 @@ void  Clock::pause(){
 
 // clock methods
 void Clock::check() {
-    const uint32_t debounceTime = 6500;
-    static uint32_t lastChange = 0;
-    static uint32_t timePassed = 0;
-    bool currentState = external();
+  const uint32_t debounceTime = 5000;
+  static uint32_t lastChange = 0;
+  static uint32_t timePassed = 0;
+  bool currentState = external();
 
-    if (currentState == HIGH) lastChange = millis();
-    
-    timePassed = millis() - lastChange;
+  if (currentState == HIGH) lastChange = millis();
 
-    if (timePassed < debounceTime) {
-        externalClockInput = true;
-    } else {
-        externalClockInput = false;
-    }
+  timePassed = millis() - lastChange;
+
+  if (timePassed < debounceTime) {
+    externalClockInput = true;
+  } else {
+    externalClockInput = false;
+  }
 }
 void  Clock::update(){
-  if(paused) clockOut = HIGH;
-  else {
-    if(externalClockInput) flag = external();
-    else {
-      flag = internal();
-    }
+  if(externalClockInput){
+    flag = external();
+  } else {
+    flag = internal();
   }
 }
 
 bool Clock::external()
 {
   static bool lastState = LOW;
-  bool currentState = analogRead(CLOCK_IN) == 0 ? LOW : HIGH;;
+  bool currentState = analogRead(CLOCK_IN) > 0 ? HIGH : LOW;
 
   if(lastState == LOW && currentState == HIGH)
   {
@@ -92,6 +90,8 @@ bool Clock::internal(){
     clockOut = HIGH; 
   }
 
+  if(paused) clockOut = HIGH;
+
   if (currentMillis - lastChange >= totalPeriodMillis) {
     lastChange = currentMillis;
     return true;
@@ -100,6 +100,7 @@ bool Clock::internal(){
   }
 }
 void  Clock::output(){
+  if(paused) clockOut = HIGH;
   digitalWrite(CLOCK_OUT, clockOut);
 }
 

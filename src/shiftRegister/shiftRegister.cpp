@@ -7,7 +7,7 @@ ShiftRegister::ShiftRegister()
   pinMode(REGISTER_SCK, OUTPUT);
   pinMode(REGISTER_LATCH, OUTPUT);
 
-  pinMode(BTNS_INPUT, INPUT);
+  pinMode(STEPS_INPUT, INPUT);
 }
 
 void ShiftRegister::begin(){
@@ -35,7 +35,7 @@ byte ShiftRegister::check(){
       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, shifter);
     digitalWrite(REGISTER_LATCH, HIGH);
 
-    currentState = digitalRead(BTNS_INPUT);
+    currentState = digitalRead(STEPS_INPUT);
 
     if(currentState == HIGH && prevState == LOW) {
       if(millis() - lastChange >= debounceDelay ) {
