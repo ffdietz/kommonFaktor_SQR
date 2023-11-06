@@ -3,18 +3,18 @@
 //BPM
 void fn101() {
   if(menu.selectFunction) {
-    sequencer.setSpeed(encoder.getDirection());
-    display.print(sequencer.getSpeed(), 0, 1);
+    clock.setSpeed(encoder.getDirection());
+    display.print(clock.getSpeed(), 0, 1);
 
     if(menu.setFunction) menu.escape();
   } else {
-    display.print(sequencer.getSpeed());
+    display.print(clock.getSpeed());
   }
 }
 // CURRENT STEP
 void fn201() {
   if(menu.selectFunction) {
-    sequencer.pauseSequence();
+    clock.pause();
     sequencer.setManualStep(encoder.getDirection());
 
     multiplexer.unmute();
@@ -24,7 +24,7 @@ void fn201() {
     
     if(menu.setFunction) menu.escape();
   } else {
-    sequencer.playSequence();
+    clock.play();
     display.print(sequencer.getCurrentPosition() + 1);
   }
 }
@@ -54,7 +54,7 @@ void fn401() {
     subMenu = constrain(subMenu, 0, 12);
     
     if(menu.setFunction){
-      sequencer.setInternalClockFactor(subMenu);
+      clock.setInternalFactor(subMenu);
       menu.escape();
     }
     

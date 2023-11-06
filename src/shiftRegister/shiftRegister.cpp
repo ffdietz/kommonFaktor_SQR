@@ -7,7 +7,7 @@ ShiftRegister::ShiftRegister()
   pinMode(REGISTER_SCK, OUTPUT);
   pinMode(REGISTER_LATCH, OUTPUT);
 
-  pinMode(BTNS_INPUT, INPUT);
+  pinMode(STEPS_INPUT, INPUT);
 }
 
 void ShiftRegister::begin(){
@@ -17,19 +17,11 @@ void ShiftRegister::begin(){
   digitalWrite(REGISTER_LATCH, HIGH);
 }
 
-void ShiftRegister::write(byte value){
-  digitalWrite(REGISTER_LATCH, LOW);
-    shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, value);
-    shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, 0);
-  digitalWrite(REGISTER_LATCH, HIGH);
-}
-
 void ShiftRegister::keepOutputValue(byte value){
   keepValueOutput = value;
 }
 
 byte ShiftRegister::check(){
-  // static uint8_t prevOut = 0;
   static uint8_t currentState;
   static uint8_t prevState = LOW;
   static uint32_t lastChange = 0;
@@ -43,7 +35,7 @@ byte ShiftRegister::check(){
       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, shifter);
     digitalWrite(REGISTER_LATCH, HIGH);
 
-    currentState = digitalRead(BTNS_INPUT);
+    currentState = digitalRead(STEPS_INPUT);
 
     if(currentState == HIGH && prevState == LOW) {
       if(millis() - lastChange >= debounceDelay ) {
@@ -55,8 +47,6 @@ byte ShiftRegister::check(){
     shifter <<= 1;
   }
   shifter |= 1;
-
-  // prevOut = output;
 
   return output;
 }

@@ -8,7 +8,9 @@
 #include "shiftRegister/shiftRegister.h"
 #include "multiplexer/multiplexer.h"
 #include "menu/menu.h"
+#include "clock/clock.h"
 
+extern Clock          clock;
 extern Sequencer      sequencer;
 extern Encoder        encoder;
 extern Controller     encoderSetButton;

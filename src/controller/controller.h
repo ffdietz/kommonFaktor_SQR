@@ -11,14 +11,13 @@ class Controller
     void begin();
     void update();
     void check();
-    int  pinRead();
+    bool pinRead();
     bool isChanged();
     bool isSinglePushed;
     bool isDoublePushed;
     bool singlePressActive;
     bool doublePressActive;
     uint32_t doublePushInterval;
-
   // private:
     int input_pin;
     int lastState;

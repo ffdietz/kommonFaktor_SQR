@@ -1,6 +1,5 @@
-#ifndef SHIFTREGISTER_H
-#define SHIFTREGISTER_H
-
+#ifndef SHIFTREGISTER_H_
+#define SHIFTREGISTER_H_
 #include <Arduino.h>
 
 class ShiftRegister
@@ -10,7 +9,6 @@ class ShiftRegister
 
     void begin();
     byte check();
-    void write(byte value);
     void keepOutputValue(byte value);
     int8_t keepValueOutput;
     uint8_t output = 0;

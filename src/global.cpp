@@ -7,8 +7,10 @@
 #include "shiftRegister/shiftRegister.h"
 #include "multiplexer/multiplexer.h"
 #include "menu/menu.h"
+#include "clock/clock.h"
 
-Sequencer       sequencer(8, 200.0, ALL_OFF);
+Clock           clock(100.0);
+Sequencer       sequencer(8, ALL_OFF);
 Encoder         encoder(ENCODER_A, ENCODER_B);
 Controller      encoderSetButton(ENCODER_SET);
 Controller      pauseButton(PAUSE_BUTTON);

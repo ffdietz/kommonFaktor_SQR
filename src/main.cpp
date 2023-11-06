@@ -1,30 +1,17 @@
 #include "global.h"
+#include "utils.h"
 
 // TASKS
-// (done) menu class
-// (done) Switch library for set button double press
-// (done) funcion ALL_ON ALL_OFF
-// (done) improve menu class to submenu and subsubmenu vector
-// (done) improve escape when double press
-
 // clock input
 // custom sequence from steps panel
-// Encoder library
+// Encoder library with acceleration
 
 bool debug =  true;
 
 void debugger()
 {
-  Serial.print("menu ");
-  Serial.print(menu.indexSelector.menu);
-  Serial.print(" submenu ");
-  Serial.print(menu.indexSelector.subMenu);
-  Serial.print(" menuFn ");
-  Serial.print(menu.selectFunction);
-  Serial.print(" single ");
-  Serial.print(encoderSetButton.isSinglePushed);
-  Serial.print(" double ");
-  Serial.print(encoderSetButton.isDoublePushed);
+  serial(" analogRead ", analogRead(ENCODER_SET));
+  serial(" pinRead ", encoderSetButton.pinRead() );
 
   Serial.println();
 }
@@ -33,8 +20,7 @@ void print()
 {
   menu.pause(pauseButton.singlePressActive);
   menu.print();
-  
-  sequencer.clockOutput();
+  menu.functionSelected();
 }
 
 void updateMultiplexer()
@@ -45,19 +31,25 @@ void updateMultiplexer()
 
     bool stepOn = bitRead(state, position);
 
-    if(stepOn) multiplexer.unmute();
-    else        multiplexer.mute();
+    if(stepOn) 
+      multiplexer.unmute();
+    else
+      multiplexer.mute();
 
     multiplexer.selector(sequencer.getCurrentPosition());
   }
 }
 void updateSequence() 
 {
-  sequencer.updateClock();
-  if(sequencer.internalClock() && !pauseButton.singlePressActive && !sequencer.paused) {
+  clock.update();
+  if(
+    clock.flag
+    && !clock.paused
+    && !pauseButton.singlePressActive 
+  ) {
     sequencer.changeStep();
   }
-
+  if(!clock.externalClockInput && !clock.paused) clock.output();
 }
 void updateVariables() 
 {
@@ -87,17 +79,18 @@ void checkSetEncoder()
   {
     menu.setFunction = true;
     menu.clear();
-    print();
+    menu.print();
+    menu.functionSelected();
     menu.escape();
   } 
-  else if(encoderSetButton.isSinglePushed)
+  if(encoderSetButton.isSinglePushed)
   {
     menu.selectFunction = true;
     menu.clear();
-    print();
+    menu.print();
+    menu.functionSelected();
   }
 }
-
 void checkRegister()
 {
   stepButtonPanel.keepOutputValue(sequencer.getStatesAndPosition());
@@ -105,20 +98,25 @@ void checkRegister()
   sequencer.setStepsState(currentActiveSteps);
 
 }
+void checkClock()
+{
+  clock.check();
+}
 void checkPause() 
 {
   pauseButton.check();
-  if(pauseButton.isSinglePushed) 
-    sequencer.pauseSequence();
+  if(pauseButton.singlePressActive) 
+    clock.pause();
   else 
-    sequencer.playSequence();
+    clock.play();
 }
 void check() 
 {
   checkPause();
-  checkRegister();
   checkSetEncoder();
   checkEncoder();
+  checkClock();
+  checkRegister();
 }
 
 bool running() 
@@ -134,6 +132,7 @@ bool running()
 void setup() 
 {
   sequencer.begin();
+  clock.begin();
   display.begin();
   encoder.begin();
   multiplexer.begin();
