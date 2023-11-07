@@ -10,9 +10,13 @@ bool debug =  true;
 
 void debugger()
 {
-  serial(" analogRead ", analogRead(ENCODER_SET));
-  serial(" pinRead ", encoderSetButton.pinRead() );
 
+  serial(" clock.external ", clock.speedInMillis);
+  serial(" externalClockFlag ", clock.externalClockFlag);
+  // serial(" externalClockInput ", clock.externalClockInput);
+  // // serial(" currentStep ", sequencer.getCurrentPosition());
+  serial(" flag ", clock.flag);
+  // serial(" analogRead ", analogRead(CLOCK_IN));
   Serial.println();
 }
 
@@ -49,7 +53,7 @@ void updateSequence()
   ) {
     sequencer.changeStep();
   }
-  if(!clock.externalClockInput && !clock.paused) clock.output();
+
 }
 void updateVariables() 
 {

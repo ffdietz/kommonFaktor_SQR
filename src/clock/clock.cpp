@@ -1,26 +1,32 @@
 #include "clock.h"
 #include "pinout.h"
+#include "utils.h"
 
 Clock::Clock(float _speed)
 {
+  internalSpeed = _speed;
   speed = _speed;
 }
 
 void Clock:: begin(){
-  speedInMillis = speedToMillis(speed);
+  speedInMillis = bpmToMillis(speed);
   currentMillis = millis();
 }
-
 // speed methods
-void  Clock::setSpeed(float variation){
+void  Clock::setSpeedInBpm(float variation){
   speed += variation;
-  speedInMillis = speedToMillis(speed);
+  speedInMillis = bpmToMillis(speed);
 }
-
-int   Clock::speedToMillis(float speed){
- return ( 60000 / speed );
+void  Clock::setSpeedInMillis(int millis){
+  speedInMillis = millis;
+  speed = millisToBpm(millis);
 }
-
+int   Clock::bpmToMillis(float bpm){
+ return ( 60000 / bpm );
+}
+float   Clock::millisToBpm(int millis){
+ return ( 60000 / millis );
+}
 float Clock::getSpeed(){
   return speed;
 }
@@ -40,64 +46,74 @@ void  Clock::pause(){
 
 // clock methods
 void Clock::check() {
-  const uint32_t debounceTime = 5000;
   static uint32_t lastChange = 0;
-  static uint32_t timePassed = 0;
+  const uint8_t numReadings = 10;
+  static uint32_t readings[numReadings];
+  static uint8_t index = 0;
+
+  static bool lastState = LOW;
   bool currentState = external();
 
-  if (currentState == HIGH) lastChange = millis();
+  if (lastState == LOW && currentState == HIGH) {
+    externalClockPeriod = millis() - lastChange;
+    lastChange = millis();
 
-  timePassed = millis() - lastChange;
-
-  if (timePassed < debounceTime) {
-    externalClockInput = true;
-  } else {
-    externalClockInput = false;
+    readings[index] = externalClockPeriod;
+    index = (index + 1) % numReadings;
   }
+
+  uint32_t sum = 0;
+  for (int i = 0; i < numReadings; i++) {
+    sum += readings[i];
+  }
+  externalClockPeriodAverage = sum / numReadings;
+
+  if (abs(externalClockPeriod - externalClockPeriodAverage) < 5) {
+    externalClockPeriod = externalClockPeriodAverage;
+  }
+
+  if (millis() - lastChange > 3500) {
+    externalClockFlag = false; // Assuming 1000 ms is the threshold for disconnection
+  } else {
+    externalClockFlag = true;
+  }
+
+  lastState = currentState;
 }
+
 void  Clock::update(){
-  if(externalClockInput){
-    flag = external();
-  } else {
-    flag = internal();
+  if(externalClockFlag){
+    setSpeedInMillis(externalClockPeriod);
   }
+
+  currentMillis = millis();
+  internal();
 }
 
-bool Clock::external()
-{
-  static bool lastState = LOW;
-  bool currentState = analogRead(CLOCK_IN) > 0 ? HIGH : LOW;
-
-  if(lastState == LOW && currentState == HIGH)
-  {
-    lastState = currentState;
-    return true;
-  }
-  else {
-    lastState = currentState;
-    return false;
-  }
+bool Clock::external() {
+  return analogRead(CLOCK_IN) > 0 ? HIGH : LOW;
 }
 
-bool Clock::internal(){
+void Clock::internal(){
   static uint32_t lastChange = 0;
   uint32_t totalPeriodMillis = speedInMillis * internalClockFactor;
 
-  currentMillis = millis();
-  if(currentMillis - lastChange >= totalPeriodMillis * .2) {
-    clockOut = LOW;
+  // if(!externalClockFlag){
+    if(currentMillis - lastChange >= totalPeriodMillis * .2) {
+      clockOut = LOW;
+    } else {
+      clockOut = HIGH; 
+    }
+  // }
+
+  if (currentMillis - lastChange >= totalPeriodMillis) {
+    flag = true;
+    lastChange = currentMillis;
   } else {
-    clockOut = HIGH; 
+    flag = false;
   }
 
   if(paused) clockOut = HIGH;
-
-  if (currentMillis - lastChange >= totalPeriodMillis) {
-    lastChange = currentMillis;
-    return true;
-  } else {
-    return false;
-  }
 }
 void  Clock::output(){
   if(paused) clockOut = HIGH;
