@@ -6,39 +6,28 @@
 Controller::Controller(uint8_t pin)
 {
   input_pin = pin;
-  if(input_pin != A6 && input_pin != A7) pinMode(input_pin, INPUT_PULLUP);
+  if(input_pin != A6 && input_pin != A7) 
+    pinMode(input_pin, INPUT_PULLUP);
   
   lastPressTime = 0;
   singlePressActive = false;
   doublePressActive = false;
   isSinglePushed = false;
   isDoublePushed = false;
-  doublePushInterval = 500;
+  doublePushInterval = 400;
   currentState = pinRead();
 
 }
 bool Controller::pinRead() {
-  const int readings = 100;
-  const uint32_t debounceTime = 200;
-  uint32_t lastChange = 0;
-  int total = 0;
+  int read;
 
-  if(millis() - lastChange > debounceTime)
-  {
-    if (input_pin == A6 || input_pin == A7){
-      for (int i = 0; i < readings; i++){
-        total += analogRead(input_pin);
-      }
-    } else {
-      for (int i = 0; i < readings; i++) {
-        total += digitalRead(input_pin);
-      }
-    }
-    lastChange = millis();
+  if (input_pin == A6 || input_pin == A7){
+    read = analogRead(input_pin) > 690 ? HIGH : LOW;
+  } else {
+    read = digitalRead(input_pin);
   }
-  int average = total / readings;
 
-  return average > 0 ? HIGH : LOW;
+  return read;
 }
 
 void Controller::check()
@@ -48,17 +37,17 @@ void Controller::check()
 
   if (lastState == LOW && currentState == HIGH) {
     currentTime = millis();
-      if(currentTime - lastPressTime <= doublePushInterval) 
-      {
-        isSinglePushed = false;
-        isDoublePushed = true;
-        doublePressActive = !doublePressActive;
-      } else {
-        isDoublePushed = false;
-        isSinglePushed = true;
-        singlePressActive = !singlePressActive;
-        lastPressTime = currentTime;
-      }
+    if(currentTime - lastPressTime <= doublePushInterval) 
+    {
+      doublePressActive = !doublePressActive;
+      isSinglePushed = false;
+      isDoublePushed = true;
+    } else {
+      singlePressActive = !singlePressActive;
+      isSinglePushed = true;
+      isDoublePushed = false;
+      lastPressTime = currentTime;
+    }
   } else {
     isSinglePushed = false;
     isDoublePushed = false;
