@@ -47,9 +47,6 @@ void  Clock::pause(){
 // clock methods
 void Clock::check() {
   static uint32_t lastChange = 0;
-  const uint8_t numReadings = 10;
-  static uint32_t readings[numReadings];
-  static uint8_t index = 0;
 
   static bool lastState = LOW;
   bool currentState = external();
@@ -57,23 +54,10 @@ void Clock::check() {
   if (lastState == LOW && currentState == HIGH) {
     externalClockPeriod = millis() - lastChange;
     lastChange = millis();
-
-    readings[index] = externalClockPeriod;
-    index = (index + 1) % numReadings;
   }
 
-  uint32_t sum = 0;
-  for (int i = 0; i < numReadings; i++) {
-    sum += readings[i];
-  }
-  externalClockPeriodAverage = sum / numReadings;
-
-  if (abs(externalClockPeriod - externalClockPeriodAverage) < 5) {
-    externalClockPeriod = externalClockPeriodAverage;
-  }
-
-  if (millis() - lastChange > 3500) {
-    externalClockFlag = false; // Assuming 1000 ms is the threshold for disconnection
+  if (externalClockPeriod > 3500) {
+    externalClockFlag = false;
   } else {
     externalClockFlag = true;
   }
@@ -85,13 +69,12 @@ void  Clock::update(){
   if(externalClockFlag){
     setSpeedInMillis(externalClockPeriod);
   }
-
   currentMillis = millis();
   internal();
 }
 
 bool Clock::external() {
-  return analogRead(CLOCK_IN) > 0 ? HIGH : LOW;
+  return analogRead(CLOCK_IN) > 690 ? HIGH : LOW;
 }
 
 void Clock::internal(){
