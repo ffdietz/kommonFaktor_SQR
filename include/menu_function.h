@@ -3,7 +3,7 @@
 //BPM
 void fn101() {
   if(menu.selectFunction) {
-    clock.setSpeed(encoder.getDirection());
+    clock.setSpeedInBpm(encoder.getDirection());
     display.print(clock.getSpeed(), 0, 1);
 
     if(menu.setFunction) menu.escape();

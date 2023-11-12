@@ -8,8 +8,12 @@ class Clock {
     void begin();
     // Speed methods
     float speed;
-    int speedToMillis(float speed);
-    void setSpeed(float variation);
+    float internalSpeed;
+    uint32_t externalClockPeriodAverage = 0;
+    int bpmToMillis(float bpm);
+    float millisToBpm(int millis);
+    void setSpeedInBpm(float variation);
+    void setSpeedInMillis(int speed);
     float getSpeed();
     //Pause methods
     bool paused = false;
@@ -21,11 +25,12 @@ class Clock {
     void check();
     void update();
     void output();
-    bool internal();
+    void internal();
     bool external();
     // Clock Factor
     void setInternalFactor(int factor);
-    bool externalClockInput = false;
+    bool externalClockFlag = false;
+    int externalClockPeriod = 0;
     float internalClockFactor = 1;
     uint8_t clockOut = LOW;
 
