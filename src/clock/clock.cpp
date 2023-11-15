@@ -59,7 +59,7 @@ void Clock::check() {
     lastChange = millis();
   }
 
-  if (externalClockPeriod > 3500) {
+  if(millis() - lastChange > 3500) {
     externalClockFlag = false;
   } else {
     externalClockFlag = true;
@@ -71,10 +71,10 @@ void Clock::check() {
 void  Clock::update(){
   if(externalClockFlag){
     setSpeedInMillis(externalClockPeriod);
-  } 
+  } else setSpeedInMillis(internalSpeed);
+  
   currentMillis = millis();
   internal();
-
 }
 
 bool Clock::external() {
@@ -85,13 +85,13 @@ void Clock::internal(){
   static uint32_t lastChange = 0;
   uint32_t totalPeriodMillis = speedInMillis * internalClockFactor;
 
-  // if(!externalClockFlag){
+  if(!externalClockFlag){
     if(currentMillis - lastChange >= totalPeriodMillis * .2) {
       clockOut = LOW;
     } else {
       clockOut = HIGH; 
     }
-  // }
+  }
 
   if (currentMillis - lastChange >= totalPeriodMillis) {
     flag = true;
