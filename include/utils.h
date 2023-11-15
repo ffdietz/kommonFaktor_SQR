@@ -3,7 +3,7 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
-#define serial(label, value) Serial.print(label); Serial.print(value); Serial.print("  ");
+#define serial(label, value) Serial.print(label); Serial.print(value); Serial.print(" ");
 
 // void printByte(byte b)
 // {

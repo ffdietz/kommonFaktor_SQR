@@ -2,6 +2,8 @@
 #include "pinout.h"
 #include "utils.h"
 
+#define EXTERNAL_READ_TRESHOLD 620
+
 Clock::Clock(float _speed)
 {
   internalSpeed = _speed;
@@ -11,6 +13,7 @@ Clock::Clock(float _speed)
 void Clock:: begin(){
   speedInMillis = bpmToMillis(speed);
   currentMillis = millis();
+  check();
 }
 // speed methods
 void  Clock::setSpeedInBpm(float variation){
@@ -68,13 +71,14 @@ void Clock::check() {
 void  Clock::update(){
   if(externalClockFlag){
     setSpeedInMillis(externalClockPeriod);
-  }
+  } 
   currentMillis = millis();
   internal();
+
 }
 
 bool Clock::external() {
-  return analogRead(CLOCK_IN) > 690 ? HIGH : LOW;
+  return analogRead(CLOCK_IN) > EXTERNAL_READ_TRESHOLD ? HIGH : LOW;
 }
 
 void Clock::internal(){
@@ -96,7 +100,6 @@ void Clock::internal(){
     flag = false;
   }
 
-  if(paused) clockOut = HIGH;
 }
 void  Clock::output(){
   if(paused) clockOut = HIGH;

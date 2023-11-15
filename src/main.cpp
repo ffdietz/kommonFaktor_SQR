@@ -3,6 +3,7 @@
 
 // TASKS
 // clock input
+
 // custom sequence from steps panel
 // Encoder library with acceleration
 
@@ -10,13 +11,16 @@ bool debug =  true;
 
 void debugger()
 {
-  // serial(" ENCODER_SET(A7) ", analogRead(ENCODER_SET));
-  serial(" external(A6) ", clock.external());
-  serial(" externalClockFlag ", clock.externalClockFlag);
-  serial(" setButton(A7) ", encoderSetButton.pinRead());
-  serial(" singlePressActive ", encoderSetButton.singlePressActive);
-  serial(" doublePressActive ", encoderSetButton.doublePressActive);
-  // serial(" CLOCK_IN(A6) ", analogRead(CLOCK_IN));
+  serial(" externalPeriod ", clock.externalClockPeriod);
+  serial(" externalFlag ", clock.externalClockFlag);
+  serial(" externalClock ", clock.external());
+  serial(" single ", encoderSetButton.singlePressActive);
+  serial(" double ", encoderSetButton.doublePressActive);
+  serial(" setBtn.pinRead ", encoderSetButton.pinRead());
+  serial(" pauseBtn.pinRead ", pauseButton.pinRead());
+  serial(" PAUSE_BUTTON(A1) ", digitalRead(PAUSE_BUTTON));
+  serial(" ENCODER_SET(A7) ", analogRead(ENCODER_SET));
+  serial(" CLOCK_IN(A6) ", analogRead(CLOCK_IN));
 
   Serial.println();
 }
@@ -70,7 +74,8 @@ void update()
 void checkEncoder()
 {
   if(encoder.newDataAvailable()){
-    if(!menu.selectFunction) menu.selectMenuIndex(encoder.getDirection());
+    if(!menu.selectFunction) 
+      menu.selectMenuIndex(encoder.getDirection());
     else menu.functionSelected();
     
     menu.clear();

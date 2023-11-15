@@ -19,7 +19,8 @@ class Controller
     bool doublePressActive;
     uint32_t doublePushInterval;
   // private:
-    int input_pin;
+    int inputPin;
+    bool isAnalogPin;
     int lastState;
     int currentState;
     uint32_t lastPressTime;
