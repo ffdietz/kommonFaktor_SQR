@@ -13,13 +13,14 @@ Controller::Controller(uint8_t pin)
   if(!isAnalogPin) pinMode(inputPin, INPUT_PULLUP);
   
   lastPressTime = 0;
-  singlePressActive = false;
-  doublePressActive = false;
   isSinglePushed = false;
   isDoublePushed = false;
-  doublePushInterval = 400;
-  currentState = pinRead();
+  singlePressActive = false;
+  doublePressActive = false;
 
+  doublePushInterval = 400;
+  
+  currentState = pinRead();
 }
 bool Controller::pinRead() {
   int currentRead;
