@@ -5,9 +5,12 @@
 
 Controller::Controller(uint8_t pin)
 {
-  input_pin = pin;
-  if(input_pin != A6 && input_pin != A7) 
-    pinMode(input_pin, INPUT_PULLUP);
+  inputPin = pin;
+  if(inputPin == A6 || inputPin == A7){
+    isAnalogPin = true;
+  } else isAnalogPin = false;
+
+  if(!isAnalogPin) pinMode(inputPin, INPUT_PULLUP);
   
   lastPressTime = 0;
   singlePressActive = false;
@@ -19,15 +22,10 @@ Controller::Controller(uint8_t pin)
 
 }
 bool Controller::pinRead() {
-  int read;
+  int currentRead;
+  currentRead = isAnalogPin ? analogRead(inputPin) : digitalRead(inputPin);
 
-  if (input_pin == A6 || input_pin == A7){
-    read = analogRead(input_pin) > 690 ? HIGH : LOW;
-  } else {
-    read = digitalRead(input_pin);
-  }
-
-  return read;
+  return !currentRead;
 }
 
 void Controller::check()
