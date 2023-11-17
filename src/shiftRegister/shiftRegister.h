@@ -10,6 +10,8 @@ class ShiftRegister
     void begin();
     byte check();
     void keepOutput(byte value);
+    
+  private:
     int8_t outputState;
 };
 

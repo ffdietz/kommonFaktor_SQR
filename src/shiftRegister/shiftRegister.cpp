@@ -46,7 +46,6 @@ byte ShiftRegister::check(){
     prevState = currentState;
     shifter <<= 1;
   }
-  // shifter |= 1;
 
   return output;
 }
