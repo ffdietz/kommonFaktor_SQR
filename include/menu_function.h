@@ -2,19 +2,33 @@
 
 //BPM
 void fn101() {
-  if(menu.selectFunction) {
-    clock.setSpeedInBpm(encoder.getDirection());
-    display.print(clock.getSpeed(), 0, 1);
-    
-    if(menu.setFunction) menu.escape();
+  if(!clock.externalClockFlag){
+    if(menu.selectFunction) {
+      clock.setSpeedInBpm(encoder.getDirection());
+      display.print(clock.getSpeed(), 0, 1);
+      
+      if(menu.setFunction) menu.escape();
+    } else {
+      display.print(clock.getSpeed());
+      display.print("[INT]", 11, 1);
+    }
   } else {
-    display.print(clock.getSpeed());
+    if(menu.selectFunction){
+      display.print("[EXT]", 0, 1);
+    } else {
+      display.print(clock.millisToBpm(clock.externalClockMillis));
+      display.print("[EXT]", 11, 1);
+    }
   }
 }
 // CURRENT STEP
 void fn201() {
   if(menu.selectFunction) {
     clock.pause();
+    // byte currentActiveSteps = stepButtonPanel.check();
+    // if(currentActiveSteps){
+    // sequencer.setManualStep(currentActiveSteps);
+    // } else 
     sequencer.setManualStep(encoder.getDirection());
 
     multiplexer.unmute();

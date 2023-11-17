@@ -2,44 +2,47 @@
 #include "pinout.h"
 #include "utils.h"
 
-#define EXTERNAL_READ_TRESHOLD 620
+#define READ_TRESHOLD 620
 
-Clock::Clock(float _speed)
+Clock::Clock(float _bpm)
 {
-  internalSpeed = _speed;
-  speed = _speed;
+  bpm = _bpm;
+  internalClockMillis = bpmToMillis(bpm);
 }
 
 void Clock:: begin(){
-  speedInMillis = bpmToMillis(speed);
   currentMillis = millis();
-  check();
+  // check();
 }
 // speed methods
-void  Clock::setSpeedInBpm(float variation){
-  speed += variation;
-  speedInMillis = bpmToMillis(speed);
+void Clock::setSpeedInBpm(float variation){
+  bpm += variation;
+  internalClockMillis = bpmToMillis(bpm);
 }
-void  Clock::setSpeedInMillis(int millis){
-  speedInMillis = millis;
-  speed = millisToBpm(millis);
+
+void Clock::setSpeedInMillis(int millis){
+  internalClockMillis = millis;
+  bpm = millisToBpm(internalClockMillis);
 }
-int   Clock::bpmToMillis(float bpm){
+
+uint32_t Clock::bpmToMillis(float bpm){
  return ( 60000 / bpm );
 }
-float   Clock::millisToBpm(int millis){
+
+float Clock::millisToBpm(int millis){
  return ( 60000 / millis );
 }
+
 float Clock::getSpeed(){
-  return speed;
+  return bpm;
 }
 
 // pause methods
-bool  Clock::isPaused(){
+bool Clock::isPaused(){
   return paused;
 }
 
-void  Clock::play(){
+void Clock::play(){
   paused = false;
 }
 
@@ -49,51 +52,69 @@ void  Clock::pause(){
 
 // clock methods
 void Clock::check() {
-  static uint32_t lastChange = 0;
+  external();
 
-  static bool lastState = LOW;
-  bool currentState = external();
-
-  if (lastState == LOW && currentState == HIGH) {
-    externalClockPeriod = millis() - lastChange;
-    lastChange = millis();
-  }
-
-  if(millis() - lastChange > 3500) {
-    externalClockFlag = false;
-  } else {
-    externalClockFlag = true;
-  }
-
-  lastState = currentState;
+  if(externalClockFlag)
+    clockMillis = externalClockMillis;
+    // setSpeedInMillis(externalClockMillis);
+  else 
+    clockMillis = internalClockMillis;
+    // setSpeedInMillis(internalClockMillis);
 }
 
 void  Clock::update(){
-  if(externalClockFlag){
-    setSpeedInMillis(externalClockPeriod);
-  } else setSpeedInMillis(internalSpeed);
-  
   currentMillis = millis();
   internal();
 }
 
-bool Clock::external() {
-  return analogRead(CLOCK_IN) > EXTERNAL_READ_TRESHOLD ? HIGH : LOW;
+void Clock::external() {
+  const int readings = 20;
+  static int index = 0;
+  static uint32_t externalReadings[readings] = {0};
+  static uint32_t lastChange = 0;
+  static bool lastState = LOW;
+  bool currentState = 
+    analogRead(CLOCK_IN) > READ_TRESHOLD 
+    ? HIGH : LOW;
+
+  if(lastState == LOW && currentState == HIGH){
+    uint32_t reading = millis() - lastChange;
+    externalReadings[index] = reading;
+    index = (index + 1) % readings;
+    
+    uint32_t sum = 0;
+    for (int i = 0; i < readings; i++) {
+      sum += externalReadings[i];
+    }
+    externalClockMillis = sum / readings;
+
+    serial(" externalClockMillis ", externalClockMillis);
+    Serial.println();
+
+    lastChange = millis();
+  }
+
+  if(millis() - lastChange > 3500){
+    externalClockFlag = false;
+  } else {
+    externalClockFlag = true;
+}
+  lastState = currentState;
 }
 
 void Clock::internal(){
   static uint32_t lastChange = 0;
-  uint32_t totalPeriodMillis = speedInMillis * internalClockFactor;
+  uint32_t millisPeriod = clockMillis * internalClockFactor;
 
   if(!externalClockFlag){
-    if(currentMillis - lastChange >= totalPeriodMillis * .2) {
+    if(currentMillis - lastChange >= millisPeriod * .2) {
       clockOut = LOW;
     } else {
       clockOut = HIGH; 
     }
   }
 
-  if (currentMillis - lastChange >= totalPeriodMillis) {
+  if (currentMillis - lastChange >= millisPeriod) {
     flag = true;
     lastChange = currentMillis;
   } else {
