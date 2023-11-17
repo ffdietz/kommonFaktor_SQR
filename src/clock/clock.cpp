@@ -68,6 +68,9 @@ void  Clock::update(){
 }
 
 void Clock::external() {
+  const int readings = 20;
+  static int index = 0;
+  static uint32_t externalReadings[readings] = {0};
   static uint32_t lastChange = 0;
   static bool lastState = LOW;
   bool currentState = 
@@ -75,7 +78,19 @@ void Clock::external() {
     ? HIGH : LOW;
 
   if(lastState == LOW && currentState == HIGH){
-    externalClockMillis = millis() - lastChange;
+    uint32_t reading = millis() - lastChange;
+    externalReadings[index] = reading;
+    index = (index + 1) % readings;
+    
+    uint32_t sum = 0;
+    for (int i = 0; i < readings; i++) {
+      sum += externalReadings[i];
+    }
+    externalClockMillis = sum / readings;
+
+    serial(" externalClockMillis ", externalClockMillis);
+    Serial.println();
+
     lastChange = millis();
   }
 
@@ -83,8 +98,7 @@ void Clock::external() {
     externalClockFlag = false;
   } else {
     externalClockFlag = true;
-  }
-
+}
   lastState = currentState;
 }
 

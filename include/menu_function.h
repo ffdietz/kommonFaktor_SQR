@@ -10,9 +10,15 @@ void fn101() {
       if(menu.setFunction) menu.escape();
     } else {
       display.print(clock.getSpeed());
+      display.print("[INT]", 11, 1);
     }
   } else {
-    display.print(clock.millisToBpm(clock.externalClockMillis));
+    if(menu.selectFunction){
+      display.print("[EXT]", 0, 1);
+    } else {
+      display.print(clock.millisToBpm(clock.externalClockMillis));
+      display.print("[EXT]", 11, 1);
+    }
   }
 }
 // CURRENT STEP

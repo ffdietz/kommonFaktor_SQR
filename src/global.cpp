@@ -9,7 +9,7 @@
 #include "menu/menu.h"
 #include "clock/clock.h"
 
-Clock           clock(10.0);
+Clock           clock(200.0);
 Sequencer       sequencer(8, ALL_OFF);
 Encoder         encoder(ENCODER_A, ENCODER_B);
 Controller      encoderSetButton(ENCODER_SET);
