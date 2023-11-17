@@ -2,8 +2,6 @@
 #include "utils.h"
 
 // TASKS
-// clock input
-
 // custom sequence from steps panel
 // Encoder library with acceleration
 
@@ -96,9 +94,9 @@ void checkSetEncoder()
 }
 void checkRegister()
 {
-  stepButtonPanel.keepOutputValue(sequencer.getStatesAndPosition());
-  byte currentActiveSteps = stepButtonPanel.check();
-  sequencer.setStepsState(currentActiveSteps);
+  stepButtonPanel.keepOutput(sequencer.getStepsAndPosition());
+  byte activeSteps = stepButtonPanel.check();
+  sequencer.setStepsState(activeSteps);
 
 }
 void checkClock()

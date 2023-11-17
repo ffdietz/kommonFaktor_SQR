@@ -58,7 +58,7 @@ void Sequencer::setStepsState(uint8_t state){
   stepStates ^= state;
 }
 
-uint8_t Sequencer::getStatesAndPosition(){
+uint8_t Sequencer::getStepsAndPosition(){
   uint8_t states = getStepsState();
   uint8_t position = getCurrentPosition();
 
