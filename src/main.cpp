@@ -3,6 +3,9 @@
 
 // TASKS
 // clock input
+// improve begin (BPM -1 when no clock input)
+
+// improve externalSpeed and flag for clock.internal
 
 // custom sequence from steps panel
 // Encoder library with acceleration
@@ -11,16 +14,17 @@ bool debug =  true;
 
 void debugger()
 {
-  serial(" externalPeriod ", clock.externalClockPeriod);
-  serial(" externalFlag ", clock.externalClockFlag);
-  serial(" externalClock ", clock.external());
-  serial(" single ", encoderSetButton.singlePressActive);
-  serial(" double ", encoderSetButton.doublePressActive);
-  serial(" setBtn.pinRead ", encoderSetButton.pinRead());
-  serial(" pauseBtn.pinRead ", pauseButton.pinRead());
-  serial(" PAUSE_BUTTON(A1) ", digitalRead(PAUSE_BUTTON));
-  serial(" ENCODER_SET(A7) ", analogRead(ENCODER_SET));
-  serial(" CLOCK_IN(A6) ", analogRead(CLOCK_IN));
+  // serial(" externalPeriod ", clock.externalSpeed);
+  // serial(" externalFlag ", clock.externalClockFlag);
+  // serial(" clock.getSpeed() ", clock.getSpeed());
+  // serial(" externalClock ", clock.external());
+  // serial(" single ", encoderSetButton.singlePressActive);
+  // serial(" double ", encoderSetButton.doublePressActive);
+  // serial(" setBtn.pinRead ", encoderSetButton.pinRead());
+  // serial(" pauseBtn.pinRead ", pauseButton.pinRead());
+  // serial(" PAUSE_BUTTON(A1) ", digitalRead(PAUSE_BUTTON));
+  // serial(" ENCODER_SET(A7) ", analogRead(ENCODER_SET));
+  // serial(" CLOCK_IN(A6) ", analogRead(CLOCK_IN));
 
   Serial.println();
 }
