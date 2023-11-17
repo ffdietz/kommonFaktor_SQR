@@ -10,7 +10,7 @@ class Sequencer {
     void changeStep();
     bool isStepChanged();
     uint8_t getCurrentPosition();
-    uint8_t getStatesAndPosition();
+    uint8_t getStepsAndPosition();
     void setStepsState(byte position);
     uint8_t getStepsState();
     void setManualStep(int8_t variation);

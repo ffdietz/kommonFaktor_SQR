@@ -9,10 +9,10 @@ class ShiftRegister
 
     void begin();
     byte check();
-    void keepOutputValue(byte value);
-    int8_t keepValueOutput;
-    uint8_t output = 0;
-    uint8_t shifter = 1 << 0;
+    void keepOutput(byte value);
+    
+  private:
+    int8_t outputState;
 };
 
 #endif
