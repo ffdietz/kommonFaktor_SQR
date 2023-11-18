@@ -1,10 +1,6 @@
 #include "global.h"
 #include "utils.h"
 
-// TASKS
-// custom sequence from steps panel
-// Encoder library with acceleration
-
 bool debug =  true;
 
 void debugger()

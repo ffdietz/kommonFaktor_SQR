@@ -9,28 +9,6 @@
   #include <LiquidCrystal.h>
 #endif
 
-// byte activedStep[] = {
-//   B11111,
-//   B11111,
-//   B11111,
-//   B11111,
-//   B11111,
-//   B11111,
-//   B11111,
-//   B11111
-// };
-
-// byte deactivedStep[] = {
-//   B11111,
-//   B10001,
-//   B10001,
-//   B10001,
-//   B10001,
-//   B10001,
-//   B10001,
-//   B11111
-// };
-
 byte pauseSymbol[] = {
     B11011,
     B11011,
@@ -54,9 +32,6 @@ Display::Display()
 void Display::begin() 
 {
   lcd->begin(LCD_CHARS, LCD_LINES);
-
-  // lcd->createChar(0, deactivedStep);
-  // lcd->createChar(1, activedStep);
   lcd->createChar(2, pauseSymbol);
 
   lcd->clear();
@@ -90,7 +65,7 @@ void Display::print(int data) {
 
 void Display::print(float data) {
   char result[4];                 // Buffer big enough for 000.0 lenght float
-  dtostrf(data, 3, 1, result);    // Leave room for too large numbers ['000' '.' '0']
+  dtostrf(data, 3, 1, result);    // Large numbers ['000' '.' '0']
   lcd->print(result);
 }
 

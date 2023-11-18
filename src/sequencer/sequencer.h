@@ -13,6 +13,7 @@ class Sequencer {
     uint8_t getStepsAndPosition();
     void setStepsState(byte position);
     uint8_t getStepsState();
+    bool setManual = false;
     void setManualStep(int8_t variation);
     //Sequence progression
     enum Mode { ASCEND, DESCEND, RANDOM, CUSTOM };

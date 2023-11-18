@@ -47,7 +47,7 @@ class Menu {
     };
 
     const char* SUBMENU[9] = { 
-      "ASCEND", "DESCEND", "RANDOM", "CUSTOM", 
+      "ASCEND", "DESCEND", "RANDOM", 
       "IN", "OUT", 
       "ALL ON", "ALL OFF", "RETURN", 
     };
