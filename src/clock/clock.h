@@ -9,13 +9,11 @@ class Clock {
     // Speed methods
     float bpm;
     uint32_t clockMillis = 0;
+    uint32_t currentMillis = 0;
     uint32_t internalClockMillis = 0;
     uint32_t externalClockMillis = 0;
-    bool externalClockFlag = false;
-    uint32_t _speedInMillis = 0;
-    uint32_t externalClockPeriodAverage = 0;
-    uint32_t currentMillis = 0;
     uint32_t bpmToMillis(float bpm);
+    bool externalClockFlag = false;
     float millisToBpm(int millis);
     void setSpeedInBpm(float variation);
     void setSpeedInMillis(int speed);

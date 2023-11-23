@@ -76,7 +76,7 @@ void checkEncoder()
 void checkSetEncoder() 
 {
   encoderSetButton.check();
-  if(encoderSetButton.isDoublePushed)
+  if(encoderSetButton.isDoublePressed)
   {
     menu.setFunction = true;
     menu.clear();
@@ -84,7 +84,7 @@ void checkSetEncoder()
     menu.functionSelected();
     menu.escape();
   } 
-  if(encoderSetButton.isSinglePushed)
+  if(encoderSetButton.isSinglePressed)
   {
     menu.selectFunction = true;
     menu.clear();
@@ -95,9 +95,10 @@ void checkSetEncoder()
 void checkRegister()
 {
   stepButtonPanel.keepOutput(sequencer.getStepsAndPosition());
-  byte activeSteps = stepButtonPanel.check();
-  sequencer.setStepsState(activeSteps);
-
+  if(!stepButtonPanel.lock){
+    byte activeSteps = stepButtonPanel.check();
+    sequencer.setStepsState(activeSteps);
+  }
 }
 void checkClock()
 {

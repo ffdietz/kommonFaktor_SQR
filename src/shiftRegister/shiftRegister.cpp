@@ -29,7 +29,7 @@ byte ShiftRegister::check(){
   uint8_t output = 0;
   uint8_t shifter = 1 << 0;
 
-  for (int j = 0; j < 8; j++){
+  for (uint8_t j = 0; j < 8; j++){
     digitalWrite(REGISTER_LATCH, LOW);
       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, outputState);
       shiftOut(REGISTER_MOSI, REGISTER_SCK, MSBFIRST, shifter);
@@ -39,15 +39,21 @@ byte ShiftRegister::check(){
 
     if(currentState == HIGH && prevState == LOW){
       if(millis() - lastChange >= debounceDelay ){
-        output ^= (1 << j);
+        keyPressed = j;
+        output ^= (1 << keyPressed);
       }
       lastChange = millis();
     }
     prevState = currentState;
     shifter <<= 1;
   }
-
   return output;
 }
 
+bool ShiftRegister::locked(){
+  return lock = true;
+}
+bool ShiftRegister::unlocked(){
+  return lock = false;
+}
 

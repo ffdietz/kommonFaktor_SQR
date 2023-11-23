@@ -9,17 +9,19 @@ class Sequencer {
     //Steps methods
     void changeStep();
     bool isStepChanged();
+    void setStepsState(byte position);
+    void setManualStep(int8_t variation);
+    void setCurrentPosition(uint8_t position);
     uint8_t getCurrentPosition();
     uint8_t getStepsAndPosition();
-    void setStepsState(byte position);
     uint8_t getStepsState();
-    void setManualStep(int8_t variation);
     //Sequence progression
     enum Mode { ASCEND, DESCEND, RANDOM, CUSTOM };
     Mode sequenceMode = ASCEND;
     void setSequenceMode(int8_t variation);
     int  getSequenceMode();
     void resetSequence(bool reset);
+    
   private:
     uint8_t stepsLength = 0;
     uint8_t stepPosition = 0;

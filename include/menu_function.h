@@ -1,4 +1,5 @@
 #include "global.h"
+#include "utils.h"
 
 //BPM
 void fn101() {
@@ -23,20 +24,30 @@ void fn101() {
 }
 // CURRENT STEP
 void fn201() {
+
   if(menu.selectFunction) {
     clock.pause();
-    // byte currentActiveSteps = stepButtonPanel.check();
-    // if(currentActiveSteps){
-    // sequencer.setManualStep(currentActiveSteps);
-    // } else 
-    sequencer.setManualStep(encoder.getDirection());
+    stepButtonPanel.locked();
+    stepButtonPanel.check();
+
+    static byte position = stepButtonPanel.keyPressed;
+
+    if(position) sequencer.setCurrentPosition(position);
+    else sequencer.setManualStep(encoder.getDirection());
 
     multiplexer.unmute();
     multiplexer.selector(sequencer.getCurrentPosition());
-
+    
+    serial(" position ", position);
+    Serial.println();
+    
+    stepButtonPanel.keepOutput(position);
     display.print(sequencer.getCurrentPosition() + 1, 0, 1);
     
-    if(menu.setFunction) menu.escape();
+    if(menu.setFunction){
+      stepButtonPanel.unlocked();
+      menu.escape();
+    }
   } else {
     clock.play();
     display.print(sequencer.getCurrentPosition() + 1);

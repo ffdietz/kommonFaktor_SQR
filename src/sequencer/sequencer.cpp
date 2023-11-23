@@ -67,6 +67,10 @@ uint8_t Sequencer::getStepsAndPosition(){
   return states;
 }
 
+void Sequencer::setCurrentPosition(uint8_t position){
+  stepPosition = position;
+}
+
 void Sequencer::setManualStep(int8_t variation){
   lastPosition = stepPosition;
   stepPosition = (stepPosition + variation) % (stepsLength + 1);
