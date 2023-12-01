@@ -1,10 +1,6 @@
 #include "global.h"
 #include "utils.h"
 
-// TASKS
-// custom sequence from steps panel
-// Encoder library with acceleration
-
 bool debug =  true;
 
 void debugger()
@@ -21,6 +17,7 @@ void print()
   menu.pause(pauseButton.singlePressActive);
   menu.print();
   menu.functionSelected();
+  clock.output();
 }
 
 void updateMultiplexer()

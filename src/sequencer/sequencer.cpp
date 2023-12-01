@@ -10,12 +10,8 @@ Sequencer::Sequencer(uint8_t steps, bool initialState){
 }
 
 void Sequencer::begin(){
-  pinMode(CLOCK_IN, INPUT);
-  pinMode(CLOCK_OUT, OUTPUT);
-
   if(sequenceMode == ASCEND) stepPosition = 0;
   if(sequenceMode == DESCEND) stepPosition = stepsLength;
-
 }
 
 // steps methods
@@ -67,7 +63,7 @@ uint8_t Sequencer::getStepsAndPosition(){
   return states;
 }
 
-void Sequencer::setCurrentPosition(uint8_t position){
+void Sequencer::setPosition(uint8_t position){
   stepPosition = position;
 }
 

@@ -2,10 +2,10 @@
 #include "pinout.h"
 #include "display.h"
 
-#ifdef PROTOTYPE_BOARD_PINOUT
+#ifdef PROTOTYPE_BOARD
   #include <ShiftedLCD.h>
   #include <SPI.h>
-#elif defined(METRIC_BOARD_PINOUT)
+#elif defined(METRIC_BOARD_V2)
   #include <LiquidCrystal.h>
 #endif
 
@@ -44,9 +44,9 @@ byte pauseSymbol[] = {
 
 Display::Display() 
 {
-  #ifdef PROTOTYPE_BOARD_PINOUT 
+  #ifdef PROTOTYPE_BOARD 
     lcd = new LiquidCrystal(SHIFT_REG_LATCH_LCD);
-  #elif defined(METRIC_BOARD_PINOUT) 
+  #elif defined(METRIC_BOARD_V2) 
     lcd = new LiquidCrystal(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
   #endif
 }

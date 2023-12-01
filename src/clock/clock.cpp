@@ -10,6 +10,9 @@ Clock::Clock(float _bpm)
   internalClockMillis = bpmToMillis(bpm);
 }
 void Clock:: begin(){
+  pinMode(CLOCK_IN, INPUT);
+  pinMode(CLOCK_OUT, OUTPUT);
+  
   currentMillis = millis();
 }
 // speed methods

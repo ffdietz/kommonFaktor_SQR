@@ -32,7 +32,7 @@ void fn201() {
 
     static byte position = stepButtonPanel.keyPressed;
 
-    if(position) sequencer.setCurrentPosition(position);
+    if(position) sequencer.setPosition(position);
     else sequencer.setManualStep(encoder.getDirection());
 
     multiplexer.unmute();
@@ -105,20 +105,3 @@ void fn501() {
     display.print(menu.SUBMENU[subMenu], 0, 1);
   }
 }
-
-
-void fn502() {
-  display.print(menu.SUBMENU[5], 0, 1);
-  display.print("502");
-}
-
-// void fn501() {
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-// }
