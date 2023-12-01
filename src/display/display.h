@@ -3,10 +3,10 @@
 #include <Arduino.h>
 #include "pinout.h"
 
-#ifdef PROTOTYPE_BOARD_PINOUT
+#ifdef PROTOTYPE_BOARD
   #include <ShiftedLCD.h>
   #include <SPI.h>
-#elif defined(METRIC_BOARD_PINOUT)
+#elif defined(METRIC_BOARD_V2)
   #include <LiquidCrystal.h>
 #endif
 

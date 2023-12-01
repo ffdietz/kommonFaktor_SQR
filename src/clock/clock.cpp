@@ -11,8 +11,10 @@ Clock::Clock(float _bpm)
 }
 
 void Clock:: begin(){
+  pinMode(CLOCK_IN, INPUT);
+  pinMode(CLOCK_OUT, OUTPUT);
+  
   currentMillis = millis();
-  // check();
 }
 // speed methods
 void Clock::setSpeedInBpm(float variation){
@@ -56,10 +58,8 @@ void Clock::check() {
 
   if(externalClockFlag)
     clockMillis = externalClockMillis;
-    // setSpeedInMillis(externalClockMillis);
   else 
     clockMillis = internalClockMillis;
-    // setSpeedInMillis(internalClockMillis);
 }
 
 void  Clock::update(){

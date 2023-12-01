@@ -21,6 +21,7 @@ void print()
   menu.pause(pauseButton.singlePressActive);
   menu.print();
   menu.functionSelected();
+  clock.output();
 }
 
 void updateMultiplexer()
