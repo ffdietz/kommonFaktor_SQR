@@ -5,7 +5,7 @@ Sequencer::Sequencer(uint8_t steps, bool initialState){
 
   stepsLength = steps - 1;
 
-  if(initialState) stepStates = 255;
+  if(initialState == ALL_ON) stepStates = 255;
   else stepStates = 0;
 }
 
@@ -34,7 +34,6 @@ void Sequencer::changeStep(){
       stepPosition = (stepPosition + 1) & stepsLength;
       break;
   }
-
 }
 
 bool Sequencer::isStepChanged(){
@@ -64,10 +63,11 @@ uint8_t Sequencer::getStepsAndPosition(){
 }
 
 void Sequencer::setPosition(uint8_t position){
+  lastPosition = stepPosition;
   stepPosition = position;
 }
 
-void Sequencer::setManualStep(int8_t variation){
+void Sequencer::setPositionVariation(int8_t variation){
   lastPosition = stepPosition;
   stepPosition = (stepPosition + variation) % (stepsLength + 1);
 }

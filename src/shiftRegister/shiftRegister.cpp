@@ -17,7 +17,7 @@ void ShiftRegister::begin(){
   digitalWrite(REGISTER_LATCH, HIGH);
 }
 
-void ShiftRegister::keepOutput(byte value){
+void ShiftRegister::output(byte value){
   outputState = value;
 }
 

@@ -91,7 +91,7 @@ void checkSetEncoder()
 }
 void checkRegister()
 {
-  stepButtonPanel.keepOutput(sequencer.getStepsAndPosition());
+  stepButtonPanel.output(sequencer.getStepsAndPosition());
   if(!stepButtonPanel.lock){
     byte activeSteps = stepButtonPanel.check();
     sequencer.setStepsState(activeSteps);

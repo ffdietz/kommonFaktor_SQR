@@ -24,24 +24,24 @@ void fn101() {
 }
 // CURRENT STEP
 void fn201() {
-
   if(menu.selectFunction) {
     clock.pause();
     stepButtonPanel.locked();
     stepButtonPanel.check();
 
-    static byte position = stepButtonPanel.keyPressed;
+    uint8_t position = stepButtonPanel.keyPressed;
+
+    serial(" position ", position);
+    Serial.println();
 
     if(position) sequencer.setPosition(position);
-    else sequencer.setManualStep(encoder.getDirection());
+    else sequencer.setPositionVariation(encoder.getDirection());
 
     multiplexer.unmute();
     multiplexer.selector(sequencer.getCurrentPosition());
     
-    serial(" position ", position);
-    Serial.println();
     
-    stepButtonPanel.keepOutput(position);
+    stepButtonPanel.output(1 << position);
     display.print(sequencer.getCurrentPosition() + 1, 0, 1);
     
     if(menu.setFunction){

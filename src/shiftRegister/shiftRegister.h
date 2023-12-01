@@ -9,7 +9,7 @@ class ShiftRegister
 
     void begin();
     byte check();
-    void keepOutput(byte value);
+    void output(byte value);
     bool locked();
     bool unlocked();
     bool lock = false;
