@@ -24,7 +24,7 @@ void updateMultiplexer()
 {
   if(!menu.selectFunction) {
     byte state = sequencer.getStepsState();
-    int position = sequencer.getCurrentPosition();
+    int position = sequencer.getPosition();
 
     bool stepOn = bitRead(state, position);
 
@@ -33,7 +33,7 @@ void updateMultiplexer()
     else
       multiplexer.mute();
 
-    multiplexer.selector(sequencer.getCurrentPosition());
+    multiplexer.selector(sequencer.getPosition());
   }
 }
 void updateSequence() 

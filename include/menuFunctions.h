@@ -29,20 +29,18 @@ void fn201() {
     stepButtonPanel.locked();
     stepButtonPanel.check();
 
-    uint8_t position = stepButtonPanel.keyPressed;
+    uint8_t position = stepButtonPanel.isKeyPressed 
+      ? stepButtonPanel.keyPressed 
+      : sequencer.getPosition();
 
-    serial(" position ", position);
-    Serial.println();
-
-    if(position) sequencer.setPosition(position);
-    else sequencer.setPositionVariation(encoder.getDirection());
+    sequencer.setPosition(position);
+    sequencer.setPositionVariation(encoder.getDirection());
 
     multiplexer.unmute();
-    multiplexer.selector(sequencer.getCurrentPosition());
-    
+    multiplexer.selector(sequencer.getPosition());
     
     stepButtonPanel.output(1 << position);
-    display.print(sequencer.getCurrentPosition() + 1, 0, 1);
+    display.print(sequencer.getPosition() + 1, 0, 1);
     
     if(menu.setFunction){
       stepButtonPanel.unlocked();
@@ -50,7 +48,7 @@ void fn201() {
     }
   } else {
     clock.play();
-    display.print(sequencer.getCurrentPosition() + 1);
+    display.print(sequencer.getPosition() + 1);
   }
 }
 // SEQUENCE

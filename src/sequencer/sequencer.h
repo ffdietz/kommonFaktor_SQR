@@ -12,7 +12,7 @@ class Sequencer {
     void setStepsState(byte position);
     void setPositionVariation(int8_t variation);
     void setPosition(uint8_t position);
-    uint8_t getCurrentPosition();
+    uint8_t getPosition();
     uint8_t getStepsAndPosition();
     uint8_t getStepsState();
     //Sequence progression

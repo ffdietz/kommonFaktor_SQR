@@ -39,11 +39,13 @@ byte ShiftRegister::check(){
 
     if(currentState == HIGH && prevState == LOW){
       if(millis() - lastChange >= debounceDelay ){
+        isKeyPressed = true;
         keyPressed = j;
         output ^= (1 << keyPressed);
-      }
+      } else isKeyPressed = false;
       lastChange = millis();
     }
+
     prevState = currentState;
     shifter <<= 1;
   }

@@ -13,6 +13,7 @@ class ShiftRegister
     bool locked();
     bool unlocked();
     bool lock = false;
+    bool isKeyPressed = false;
     uint8_t keyPressed = 0;
     
   private:
