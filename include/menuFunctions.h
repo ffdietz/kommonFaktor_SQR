@@ -1,4 +1,5 @@
 #include "global.h"
+#include "utils.h"
 
 //BPM
 void fn101() {
@@ -25,21 +26,29 @@ void fn101() {
 void fn201() {
   if(menu.selectFunction) {
     clock.pause();
-    // byte currentActiveSteps = stepButtonPanel.check();
-    // if(currentActiveSteps){
-    // sequencer.setManualStep(currentActiveSteps);
-    // } else 
-    sequencer.setManualStep(encoder.getDirection());
+    stepButtonPanel.locked();
+    stepButtonPanel.check();
+
+    uint8_t position = stepButtonPanel.isKeyPressed 
+      ? stepButtonPanel.keyPressed 
+      : sequencer.getPosition();
+
+    sequencer.setPosition(position);
+    sequencer.setPositionVariation(encoder.getDirection());
 
     multiplexer.unmute();
-    multiplexer.selector(sequencer.getCurrentPosition());
-
-    display.print(sequencer.getCurrentPosition() + 1, 0, 1);
+    multiplexer.selector(sequencer.getPosition());
     
-    if(menu.setFunction) menu.escape();
+    stepButtonPanel.output(1 << position);
+    display.print(sequencer.getPosition() + 1, 0, 1);
+    
+    if(menu.setFunction){
+      stepButtonPanel.unlocked();
+      menu.escape();
+    }
   } else {
     clock.play();
-    display.print(sequencer.getCurrentPosition() + 1);
+    display.print(sequencer.getPosition() + 1);
   }
 }
 // SEQUENCE
@@ -94,20 +103,3 @@ void fn501() {
     display.print(menu.SUBMENU[subMenu], 0, 1);
   }
 }
-
-
-void fn502() {
-  display.print(menu.SUBMENU[5], 0, 1);
-  display.print("502");
-}
-
-// void fn501() {
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-//   display.lcd->write(byte(1));
-// }

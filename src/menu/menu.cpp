@@ -1,6 +1,6 @@
 #include "menu.h"
 #include "global.h"
-#include "menu_function.h"
+#include "menuFunctions.h"
 
 Menu::Menu() 
 {

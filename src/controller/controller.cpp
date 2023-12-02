@@ -13,8 +13,8 @@ Controller::Controller(uint8_t pin)
   if(!isAnalogPin) pinMode(inputPin, INPUT_PULLUP);
   
   lastPressTime = 0;
-  isSinglePushed = false;
-  isDoublePushed = false;
+  isSinglePressed = false;
+  isDoublePressed = false;
   singlePressActive = false;
   doublePressActive = false;
 
@@ -39,17 +39,17 @@ void Controller::check()
     if(currentTime - lastPressTime <= doublePushInterval) 
     {
       doublePressActive = !doublePressActive;
-      isSinglePushed = false;
-      isDoublePushed = true;
+      isSinglePressed = false;
+      isDoublePressed = true;
     } else {
       singlePressActive = !singlePressActive;
-      isSinglePushed = true;
-      isDoublePushed = false;
+      isSinglePressed = true;
+      isDoublePressed = false;
       lastPressTime = currentTime;
     }
   } else {
-    isSinglePushed = false;
-    isDoublePushed = false;
+    isSinglePressed = false;
+    isDoublePressed = false;
   }
   lastState = currentState;
 }
