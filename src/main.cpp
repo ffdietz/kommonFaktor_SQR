@@ -1,10 +1,6 @@
 #include "global.h"
 #include "utils.h"
 
-// TASKS
-// custom sequence from steps panel
-// Encoder library with acceleration
-
 bool debug =  true;
 
 void debugger()
@@ -21,13 +17,14 @@ void print()
   menu.pause(pauseButton.singlePressActive);
   menu.print();
   menu.functionSelected();
+  clock.output();
 }
 
 void updateMultiplexer()
 {
   if(!menu.selectFunction) {
     byte state = sequencer.getStepsState();
-    int position = sequencer.getCurrentPosition();
+    int position = sequencer.getPosition();
 
     bool stepOn = bitRead(state, position);
 
@@ -36,7 +33,7 @@ void updateMultiplexer()
     else
       multiplexer.mute();
 
-    multiplexer.selector(sequencer.getCurrentPosition());
+    multiplexer.selector(sequencer.getPosition());
   }
 }
 void updateSequence() 
@@ -76,7 +73,7 @@ void checkEncoder()
 void checkSetEncoder() 
 {
   encoderSetButton.check();
-  if(encoderSetButton.isDoublePushed)
+  if(encoderSetButton.isDoublePressed)
   {
     menu.setFunction = true;
     menu.clear();
@@ -84,7 +81,7 @@ void checkSetEncoder()
     menu.functionSelected();
     menu.escape();
   } 
-  if(encoderSetButton.isSinglePushed)
+  if(encoderSetButton.isSinglePressed)
   {
     menu.selectFunction = true;
     menu.clear();
@@ -94,10 +91,11 @@ void checkSetEncoder()
 }
 void checkRegister()
 {
-  stepButtonPanel.keepOutput(sequencer.getStepsAndPosition());
-  byte activeSteps = stepButtonPanel.check();
-  sequencer.setStepsState(activeSteps);
-
+  stepButtonPanel.output(sequencer.getStepsAndPosition());
+  if(!stepButtonPanel.lock){
+    byte activeSteps = stepButtonPanel.check();
+    sequencer.setStepsState(activeSteps);
+  }
 }
 void checkClock()
 {

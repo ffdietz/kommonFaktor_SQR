@@ -9,7 +9,12 @@ class ShiftRegister
 
     void begin();
     byte check();
-    void keepOutput(byte value);
+    void output(byte value);
+    bool locked();
+    bool unlocked();
+    bool lock = false;
+    bool isKeyPressed = false;
+    uint8_t keyPressed = 0;
     
   private:
     int8_t outputState;

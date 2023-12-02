@@ -1,6 +1,6 @@
 #include "menu.h"
 #include "global.h"
-#include "menu_function.h"
+#include "menuFunctions.h"
 
 Menu::Menu() 
 {
@@ -9,7 +9,6 @@ Menu::Menu()
   menuFn[2] = fn301;
   menuFn[3] = fn401;
   menuFn[4] = fn501;
-  menuFn[5] = fn502;
 }
 
 void Menu::begin() 

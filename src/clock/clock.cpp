@@ -9,10 +9,11 @@ Clock::Clock(float _bpm)
   bpm = _bpm;
   internalClockMillis = bpmToMillis(bpm);
 }
-
 void Clock:: begin(){
+  pinMode(CLOCK_IN, INPUT);
+  pinMode(CLOCK_OUT, OUTPUT);
+  
   currentMillis = millis();
-  // check();
 }
 // speed methods
 void Clock::setSpeedInBpm(float variation){
@@ -56,10 +57,8 @@ void Clock::check() {
 
   if(externalClockFlag)
     clockMillis = externalClockMillis;
-    // setSpeedInMillis(externalClockMillis);
   else 
     clockMillis = internalClockMillis;
-    // setSpeedInMillis(internalClockMillis);
 }
 
 void  Clock::update(){
@@ -73,9 +72,9 @@ void Clock::external() {
   static uint32_t externalReadings[readings] = {0};
   static uint32_t lastChange = 0;
   static bool lastState = LOW;
+
   bool currentState = 
-    analogRead(CLOCK_IN) > READ_TRESHOLD 
-    ? HIGH : LOW;
+    analogRead(CLOCK_IN) > READ_TRESHOLD ? HIGH : LOW;
 
   if(lastState == LOW && currentState == HIGH){
     uint32_t reading = millis() - lastChange;
@@ -87,9 +86,6 @@ void Clock::external() {
       sum += externalReadings[i];
     }
     externalClockMillis = sum / readings;
-
-    serial(" externalClockMillis ", externalClockMillis);
-    Serial.println();
 
     lastChange = millis();
   }

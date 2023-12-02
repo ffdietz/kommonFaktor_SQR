@@ -13,8 +13,8 @@ class Controller
     void check();
     bool pinRead();
     bool isChanged();
-    bool isSinglePushed;
-    bool isDoublePushed;
+    bool isSinglePressed;
+    bool isDoublePressed;
     bool singlePressActive;
     bool doublePressActive;
     uint32_t doublePushInterval;
