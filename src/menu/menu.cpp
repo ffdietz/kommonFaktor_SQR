@@ -51,7 +51,7 @@ bool Menu::isSetMode()
 uint8_t Menu::setFnIndex(uint8_t menu, uint8_t submenu) 
 {
   uint8_t indexOutput = 0;
-  for (byte i = 0; i < menu - 1; i++) {
+  for(byte i = 0; i < menu - 1; i++) {
     indexOutput += MENU_LENGTH[i + 1];
   }
   indexOutput += submenu - 1;
@@ -87,7 +87,7 @@ void Menu::print()
     display.print(MENU[indexSelector.menu], 0, 1);
   } else {
     display.print(MENU[indexSelector.menu], 0, 0);
-  };
+  }
 }
 
 void Menu::escape()

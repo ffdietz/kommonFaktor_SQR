@@ -6,7 +6,7 @@ bool debug =  true;
 void debugger()
 {
   // serial(" externalMillis ", clock.externalClockMillis);
-  // serial(" externalFlag ", clock.externalClockFlag);
+  // serial(" externalFlag ", clock.isExternalClock);
   // serial(" single ", encoderSetButton.singlePressActive);
 
   // Serial.println();
@@ -111,11 +111,13 @@ void checkPause()
 }
 void check() 
 {
+  
   checkPause();
   checkSetEncoder();
   checkEncoder();
   checkClock();
   checkRegister();
+  
 }
 
 bool running() 
@@ -138,13 +140,14 @@ void setup()
   stepButtonPanel.begin();
   menu.begin();
 
-  check();
-  update();
-
   if(debug){
     Serial.begin(115200);
     Serial.println("serial connected");
   }
+  
+  check();
+  update();
+
 }
 
 void loop() 

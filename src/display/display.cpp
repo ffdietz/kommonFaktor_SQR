@@ -89,8 +89,10 @@ void Display::print(int data) {
 }
 
 void Display::print(float data) {
-  char result[4];                 // Buffer big enough for 000.0 lenght float
-  dtostrf(data, 3, 1, result);    // Leave room for too large numbers ['000' '.' '0']
+  // Buffer big enough for 000.0 lenght float
+  char result[4];
+  // Leave room for too large numbers ['000' '.' '0']
+  dtostrf(data, 3, 1, result);
   lcd->print(result);
 }
 
