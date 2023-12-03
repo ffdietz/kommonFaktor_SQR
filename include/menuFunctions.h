@@ -106,18 +106,29 @@ void fn501() {
 }
 //CUSTOM SEQUENCE
 void fn601() {
-  static byte step = 0;
+  static byte index = 0;
+  byte step = 0;
   if(menu.selectFunction){
-    step += encoder.getDirection();
-    // SUBMENU[] labels range
-    step = step % 8;
+    stepButtonPanel.locked();
+    stepButtonPanel.check();
+
+    index += encoder.getDirection();
+    index = index % 8;
+
+    if(stepButtonPanel.isKeyPressed){
+      step = stepButtonPanel.keyPressed;
+      sequencer.setStep(index, step);
+    }
 
     for(byte i = 0 ; i < 8 ; i++)
-    if(step == i)
+    if(index == i)
       display.blink(sequencer.getStep(i) + 1, i, 1);
     else 
       display.print(sequencer.getStep(i) + 1, i, 1);
     
-    if(menu.setFunction) menu.escape();
+    if(menu.setFunction){
+      stepButtonPanel.unlocked();
+      menu.escape();
+    }
   }
 }
