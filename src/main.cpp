@@ -63,7 +63,7 @@ void checkEncoder()
 {
   if(encoder.newDataAvailable()){
     if(!menu.selectFunction) 
-      menu.selectMenuIndex(encoder.getDirection());
+      menu.selectIndex(encoder.getDirection());
     else menu.functionSelected();
     
     menu.clear();

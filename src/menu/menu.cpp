@@ -9,6 +9,7 @@ Menu::Menu()
   menuFn[2] = fn301;
   menuFn[3] = fn401;
   menuFn[4] = fn501;
+  menuFn[5] = fn601;
 }
 
 void Menu::begin() 
@@ -59,7 +60,7 @@ uint8_t Menu::setFnIndex(uint8_t menu, uint8_t submenu)
   return indexOutput;
 }
 
-void Menu::selectMenuIndex(int variation)
+void Menu::selectIndex(int variation)
 {
   if(selectFunction){
     indexSelector.subMenu = constrain(

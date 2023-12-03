@@ -90,3 +90,11 @@ void Sequencer::resetSequence(bool reset){
   if(reset) stepStates = 255;
   if(!reset) stepStates = 0;
 }
+
+void Sequencer::setStep(uint8_t index, uint8_t value){
+  steps[index] = value;
+}
+
+uint8_t Sequencer::getStep(uint8_t index){
+  return steps[index];
+}

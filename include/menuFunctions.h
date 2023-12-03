@@ -104,3 +104,20 @@ void fn501() {
     display.print(menu.SUBMENU[subMenu], 0, 1);
   }
 }
+//CUSTOM SEQUENCE
+void fn601() {
+  static byte step = 0;
+  if(menu.selectFunction){
+    step += encoder.getDirection();
+    // SUBMENU[] labels range
+    step = step % 8;
+
+    for(byte i = 0 ; i < 8 ; i++)
+    if(step == i)
+      display.blink(sequencer.getStep(i) + 1, i, 1);
+    else 
+      display.print(sequencer.getStep(i) + 1, i, 1);
+    
+    if(menu.setFunction) menu.escape();
+  }
+}
