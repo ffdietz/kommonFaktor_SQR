@@ -40,7 +40,7 @@ void updateSequence()
 {
   clock.update();
   if(
-    clock.flag
+    clock.tick
     && !clock.paused
     && !pauseButton.singlePressActive 
   ) {

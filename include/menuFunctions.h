@@ -52,7 +52,7 @@ void fn201() {
 }
 // SEQUENCE
 void fn301() {
-  static int subMenu = 0;
+  static byte subMenu = 0;
   if(menu.selectFunction) {
     subMenu += encoder.getDirection();
     // SUBMENU[] labels range
@@ -70,9 +70,10 @@ void fn301() {
 }
 // CLOCK FACTOR
 void fn401() {
-  static int subMenu = 6;
+  static byte subMenu = 6;
   if(menu.selectFunction) {
     subMenu += encoder.getDirection();
+    // SUBMENU[] labels range
     subMenu = constrain(subMenu, 0, 12);
     
     if(menu.setFunction){
@@ -89,9 +90,10 @@ void fn401() {
 }
 //RESET STEPS
 void fn501() {
-  static int subMenu = 0;
+  static byte subMenu = 0;
   if(menu.selectFunction) {
     subMenu += encoder.getDirection();
+    // SUBMENU[] labels range
     subMenu = constrain(subMenu, 6, 8);
     if(menu.setFunction){
       if(subMenu == 6) sequencer.resetSequence(ALL_ON);

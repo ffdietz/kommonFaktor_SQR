@@ -25,7 +25,7 @@ class Clock {
     void pause();
     void play();
     //Clock methods
-    bool flag = false;
+    bool tick = false;
     void check();
     void update();
     void output();
