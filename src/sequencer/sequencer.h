@@ -16,7 +16,7 @@ class Sequencer {
     uint8_t getPosition();
     uint8_t getStepsAndPosition();
     uint8_t stepsLength;
-    uint8_t steps[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+    uint8_t steps[8] = {0, 1, 2, 3, 7, 6, 5, 4};
     void setStep(uint8_t index, uint8_t value);
     uint8_t getStep(uint8_t index);
     //Sequence progression

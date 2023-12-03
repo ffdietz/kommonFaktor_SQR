@@ -31,7 +31,9 @@ void Sequencer::changeStep(){
       break;
 
     case CUSTOM:
-      stepPosition = (stepPosition + 1) & stepsLength;
+      static byte index = 0;
+      stepPosition = getStep(index);
+      index = (index + 1) & stepsLength;
       break;
   }
 }
