@@ -12,18 +12,18 @@ Clock::Clock(float _bpm)
 void Clock:: begin(){
   pinMode(CLOCK_IN, INPUT);
   pinMode(CLOCK_OUT, OUTPUT);
-  
+
   currentMillis = millis();
 }
 // speed methods
-void Clock::setSpeedInBpm(float variation){
-  bpm += variation;
-  internalClockMillis = bpmToMillis(bpm);
-}
-
 void Clock::setSpeedInMillis(int millis){
   internalClockMillis = millis;
   bpm = millisToBpm(internalClockMillis);
+}
+
+void Clock::setSpeedInBpm(float variation){
+  bpm += variation;
+  internalClockMillis = bpmToMillis(bpm);
 }
 
 uint32_t Clock::bpmToMillis(float bpm){
@@ -55,7 +55,7 @@ void  Clock::pause(){
 void Clock::check() {
   external();
 
-  if(externalClockFlag)
+  if(isExternalClock)
     clockMillis = externalClockMillis;
   else 
     clockMillis = internalClockMillis;
@@ -67,22 +67,22 @@ void  Clock::update(){
 }
 
 void Clock::external() {
-  const int readings = 20;
-  static int index = 0;
-  static uint32_t externalReadings[readings] = {0};
-  static uint32_t lastChange = 0;
   static bool lastState = LOW;
+  static uint32_t lastChange = 0;
 
   bool currentState = 
     analogRead(CLOCK_IN) > READ_TRESHOLD ? HIGH : LOW;
 
   if(lastState == LOW && currentState == HIGH){
-    uint32_t reading = millis() - lastChange;
-    externalReadings[index] = reading;
+    const int readings = 4;
+    static uint32_t externalReadings[readings] = {0};
+    static int index = 0;
+
+    externalReadings[index] = millis() - lastChange;
     index = (index + 1) % readings;
     
     uint32_t sum = 0;
-    for (int i = 0; i < readings; i++) {
+    for(int i = 0; i < readings; i++){
       sum += externalReadings[i];
     }
     externalClockMillis = sum / readings;
@@ -90,11 +90,12 @@ void Clock::external() {
     lastChange = millis();
   }
 
-  if(millis() - lastChange > 3500){
-    externalClockFlag = false;
-  } else {
-    externalClockFlag = true;
-}
+  if(millis() - lastChange > 3000){
+    isExternalClock = false;
+  } else if(millis() > 3000){
+    isExternalClock = true;
+  }
+  
   lastState = currentState;
 }
 
@@ -102,7 +103,7 @@ void Clock::internal(){
   static uint32_t lastChange = 0;
   uint32_t millisPeriod = clockMillis * internalClockFactor;
 
-  if(!externalClockFlag){
+  if(!isExternalClock){
     if(currentMillis - lastChange >= millisPeriod * .2) {
       clockOut = LOW;
     } else {

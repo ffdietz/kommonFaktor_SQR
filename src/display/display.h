@@ -14,6 +14,7 @@ class Display
 {
 public:
   Display();
+
   LiquidCrystal *lcd;
   void begin();
   void clear();

@@ -3,8 +3,15 @@
 
 //BPM
 void fn101() {
-  if(!clock.externalClockFlag){
-    if(menu.selectFunction) {
+  if(clock.isExternalClock){
+    if(menu.selectFunction){
+      display.print("[EXT]", 0, 1);
+    } else {
+      display.print(clock.millisToBpm(clock.externalClockMillis));
+      display.print("[EXT]", 11, 1);
+    }
+  } else {
+    if(menu.selectFunction){
       clock.setSpeedInBpm(encoder.getDirection());
       display.print(clock.getSpeed(), 0, 1);
       
@@ -12,13 +19,6 @@ void fn101() {
     } else {
       display.print(clock.getSpeed());
       display.print("[INT]", 11, 1);
-    }
-  } else {
-    if(menu.selectFunction){
-      display.print("[EXT]", 0, 1);
-    } else {
-      display.print(clock.millisToBpm(clock.externalClockMillis));
-      display.print("[EXT]", 11, 1);
     }
   }
 }
@@ -29,9 +29,8 @@ void fn201() {
     stepButtonPanel.locked();
     stepButtonPanel.check();
 
-    uint8_t position = stepButtonPanel.isKeyPressed 
-      ? stepButtonPanel.keyPressed 
-      : sequencer.getPosition();
+    uint8_t position = stepButtonPanel.isKeyPressed ?
+      stepButtonPanel.keyPressed : sequencer.getPosition();
 
     sequencer.setPosition(position);
     sequencer.setPositionVariation(encoder.getDirection());
