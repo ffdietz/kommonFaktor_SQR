@@ -46,13 +46,13 @@ class Menu {
       "PROGRESSION ", 
       "CLOCK FACTOR", 
       "RESET STEPS ", 
-      "STEPS SEQUENCE"
+      "STEPS SEQUENCE",
     };
 
-    const char* SUBMENU[9] = { 
+    const char* SUBMENU[10] = { 
       "ASCEND", "DESCEND", "RANDOM", "CUSTOM", 
-      "IN", "OUT", 
       "ALL ON", "ALL OFF", "RETURN", 
+      "GENERATE", "SAVE", "LOAD",
     };
 
     const char* FACTOR[13] = { 

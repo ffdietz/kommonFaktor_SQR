@@ -94,7 +94,7 @@ void fn501() {
   if(menu.selectFunction) {
     subMenu += encoder.getDirection();
     // SUBMENU[] labels range
-    subMenu = constrain(subMenu, 6, 8);
+    subMenu = constrain(subMenu, 4, 6);
     if(menu.setFunction){
       if(subMenu == 6) sequencer.resetSequence(ALL_ON);
       if(subMenu == 7) sequencer.resetSequence(ALL_OFF);
@@ -122,13 +122,25 @@ void fn601() {
 
     for(byte i = 0 ; i < 8 ; i++)
     if(index == i)
-      display.blink(sequencer.getStep(i) + 1, i, 1);
+      display.blink(sequencer.getStep(i) + 1, i * 2, 1);
     else 
-      display.print(sequencer.getStep(i) + 1, i, 1);
+      display.print(sequencer.getStep(i) + 1, i * 2, 1);
     
     if(menu.setFunction){
       stepButtonPanel.unlocked();
       menu.escape();
     }
   }
+}
+
+void fn6011(){
+  display.print("GENERATE", 0, 1);
+}
+
+void fn6012(){
+  display.print("SAVE", 0, 1);
+}
+
+void fn6013(){
+  display.print("LOAD", 0, 1);
 }
