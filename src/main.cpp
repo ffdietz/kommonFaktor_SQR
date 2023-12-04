@@ -6,7 +6,7 @@ bool debug =  true;
 void debugger()
 {
   // serial(" externalMillis ", clock.externalClockMillis);
-  // serial(" externalFlag ", clock.externalClockFlag);
+  // serial(" externalFlag ", clock.isExternalClock);
   // serial(" single ", encoderSetButton.singlePressActive);
 
   // Serial.println();
@@ -40,7 +40,7 @@ void updateSequence()
 {
   clock.update();
   if(
-    clock.flag
+    clock.tick
     && !clock.paused
     && !pauseButton.singlePressActive 
   ) {
@@ -63,7 +63,7 @@ void checkEncoder()
 {
   if(encoder.newDataAvailable()){
     if(!menu.selectFunction) 
-      menu.selectMenuIndex(encoder.getDirection());
+      menu.selectIndex(encoder.getDirection());
     else menu.functionSelected();
     
     menu.clear();
@@ -111,11 +111,13 @@ void checkPause()
 }
 void check() 
 {
+  
   checkPause();
   checkSetEncoder();
   checkEncoder();
   checkClock();
   checkRegister();
+  
 }
 
 bool running() 
@@ -138,13 +140,14 @@ void setup()
   stepButtonPanel.begin();
   menu.begin();
 
-  check();
-  update();
-
   if(debug){
     Serial.begin(115200);
     Serial.println("serial connected");
   }
+  
+  check();
+  update();
+
 }
 
 void loop() 

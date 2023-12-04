@@ -7,7 +7,7 @@
 
 class Encoder
 {
-public:
+  public:
   Encoder(
     uint8_t aPin,
     uint8_t bPin,
@@ -21,11 +21,9 @@ public:
   bool newDataAvailable();
   uint8_t getPosition();
   int8_t getDirection();
-
   int16_t prevEncoderValue = 0;
 
-
-private:
+  private:
   // embedded NewEncoder object
   NewEncoder encoder;
   static void callBack(NewEncoder *encPtr, const volatile NewEncoder::EncoderState *state, void *uPtr);

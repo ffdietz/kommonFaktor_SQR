@@ -9,6 +9,28 @@
   #include <LiquidCrystal.h>
 #endif
 
+byte activedStep[] = {
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B11111
+};
+
+byte deactivedStep[] = {
+  B11111,
+  B10001,
+  B10001,
+  B10001,
+  B10001,
+  B10001,
+  B10001,
+  B11111
+};
+
 byte pauseSymbol[] = {
     B11011,
     B11011,
@@ -32,6 +54,9 @@ Display::Display()
 void Display::begin() 
 {
   lcd->begin(LCD_CHARS, LCD_LINES);
+
+  lcd->createChar(0, deactivedStep);
+  lcd->createChar(1, activedStep);
   lcd->createChar(2, pauseSymbol);
 
   lcd->clear();
@@ -64,8 +89,10 @@ void Display::print(int data) {
 }
 
 void Display::print(float data) {
-  char result[4];                 // Buffer big enough for 000.0 lenght float
-  dtostrf(data, 3, 1, result);    // Large numbers ['000' '.' '0']
+  // Buffer big enough for 000.0 lenght float
+  char result[4];
+  // Leave room for too large numbers ['000' '.' '0']
+  dtostrf(data, 3, 1, result);
   lcd->print(result);
 }
 
@@ -82,4 +109,17 @@ void Display::print(float data, uint8_t x, uint8_t y) {
 void Display::print(int data, uint8_t x, uint8_t y) {
   lcd->setCursor(x, y);
   print(data);
+}
+
+void Display::blink(uint8_t data, uint8_t x, uint8_t y){
+  static uint32_t blinkInterval = 600;
+  static uint32_t lastBlink = 0;
+  static bool blink = false;
+
+  if(millis() - lastBlink >= blinkInterval){
+    blink = !blink;
+    lastBlink = millis();
+  }
+  lcd->setCursor(x, y);
+  blink? lcd->print(" ") : lcd->print(data);
 }

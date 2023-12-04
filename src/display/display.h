@@ -14,6 +14,7 @@ class Display
 {
 public:
   Display();
+
   LiquidCrystal *lcd;
   void begin();
   void clear();
@@ -25,6 +26,7 @@ public:
   void print(float data, uint8_t x, uint8_t y);
   void print(int data);
   void print(int data, uint8_t x, uint8_t y);
+  void blink(uint8_t data, uint8_t x, uint8_t y);
 };
 
 #endif

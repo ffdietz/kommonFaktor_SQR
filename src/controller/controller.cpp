@@ -1,6 +1,5 @@
 #include "controller.h"
 #include "pinout.h"
-#include "utils.h"
 
 
 Controller::Controller(uint8_t pin)

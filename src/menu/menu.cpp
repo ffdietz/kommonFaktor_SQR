@@ -9,6 +9,7 @@ Menu::Menu()
   menuFn[2] = fn301;
   menuFn[3] = fn401;
   menuFn[4] = fn501;
+  menuFn[5] = fn601;
 }
 
 void Menu::begin() 
@@ -51,7 +52,7 @@ bool Menu::isSetMode()
 uint8_t Menu::setFnIndex(uint8_t menu, uint8_t submenu) 
 {
   uint8_t indexOutput = 0;
-  for (byte i = 0; i < menu - 1; i++) {
+  for(byte i = 0; i < menu - 1; i++) {
     indexOutput += MENU_LENGTH[i + 1];
   }
   indexOutput += submenu - 1;
@@ -59,7 +60,7 @@ uint8_t Menu::setFnIndex(uint8_t menu, uint8_t submenu)
   return indexOutput;
 }
 
-void Menu::selectMenuIndex(int variation)
+void Menu::selectIndex(int variation)
 {
   if(selectFunction){
     indexSelector.subMenu = constrain(
@@ -87,7 +88,7 @@ void Menu::print()
     display.print(MENU[indexSelector.menu], 0, 1);
   } else {
     display.print(MENU[indexSelector.menu], 0, 0);
-  };
+  }
 }
 
 void Menu::escape()

@@ -5,6 +5,7 @@
 class Clock {
   public:
     Clock(float speed);
+
     void begin();
     // Speed methods
     float bpm;
@@ -13,8 +14,8 @@ class Clock {
     uint32_t internalClockMillis = 0;
     uint32_t externalClockMillis = 0;
     uint32_t bpmToMillis(float bpm);
-    bool externalClockFlag = false;
     float millisToBpm(int millis);
+    bool isExternalClock = false;
     void setSpeedInBpm(float variation);
     void setSpeedInMillis(int speed);
     float getSpeed();
@@ -24,7 +25,7 @@ class Clock {
     void pause();
     void play();
     //Clock methods
-    bool flag = false;
+    bool tick = false;
     void check();
     void update();
     void output();
