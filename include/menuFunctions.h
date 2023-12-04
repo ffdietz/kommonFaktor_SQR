@@ -56,7 +56,7 @@ void fn301() {
   if(menu.selectFunction) {
     subMenu += encoder.getDirection();
     // SUBMENU[] labels range
-    subMenu = constrain(subMenu, 0, 2);
+    subMenu = constrain(subMenu, 0, 3);
 
     display.print(menu.SUBMENU[subMenu], 0, 1);
 
