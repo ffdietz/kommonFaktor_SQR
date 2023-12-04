@@ -81,9 +81,7 @@ void fn401() {
       menu.escape();
     }
     
-    display.print(menu.SUBMENU[4], 0, 1);
-    display.print(" ");
-    display.print(menu.FACTOR[subMenu]);
+    display.print(menu.FACTOR[subMenu], 0, 1);
   } else {
     display.print(menu.FACTOR[subMenu], 13, 1);
   }
@@ -96,9 +94,9 @@ void fn501() {
     // SUBMENU[] labels range
     subMenu = constrain(subMenu, 4, 6);
     if(menu.setFunction){
-      if(subMenu == 6) sequencer.resetSequence(ALL_ON);
-      if(subMenu == 7) sequencer.resetSequence(ALL_OFF);
-      if(subMenu == 8) menu.escape();
+      if(subMenu == 4) sequencer.resetSequence(ALL_ON);
+      if(subMenu == 5) sequencer.resetSequence(ALL_OFF);
+      if(subMenu == 6) menu.escape();
       menu.escape();
     }
     display.print(menu.SUBMENU[subMenu], 0, 1);
