@@ -52,7 +52,7 @@ void fn201() {
 }
 // SEQUENCE
 void fn301() {
-  static int subMenu = 0;
+  static byte subMenu = 0;
   if(menu.selectFunction) {
     subMenu += encoder.getDirection();
     // SUBMENU[] labels range
@@ -70,9 +70,10 @@ void fn301() {
 }
 // CLOCK FACTOR
 void fn401() {
-  static int subMenu = 6;
+  static byte subMenu = 6;
   if(menu.selectFunction) {
     subMenu += encoder.getDirection();
+    // SUBMENU[] labels range
     subMenu = constrain(subMenu, 0, 12);
     
     if(menu.setFunction){
@@ -89,9 +90,10 @@ void fn401() {
 }
 //RESET STEPS
 void fn501() {
-  static int subMenu = 0;
+  static byte subMenu = 0;
   if(menu.selectFunction) {
     subMenu += encoder.getDirection();
+    // SUBMENU[] labels range
     subMenu = constrain(subMenu, 6, 8);
     if(menu.setFunction){
       if(subMenu == 6) sequencer.resetSequence(ALL_ON);
@@ -100,5 +102,33 @@ void fn501() {
       menu.escape();
     }
     display.print(menu.SUBMENU[subMenu], 0, 1);
+  }
+}
+//CUSTOM SEQUENCE
+void fn601() {
+  static byte index = 0;
+  byte step = 0;
+  if(menu.selectFunction){
+    stepButtonPanel.locked();
+    stepButtonPanel.check();
+
+    index += encoder.getDirection();
+    index = index % 8;
+
+    if(stepButtonPanel.isKeyPressed){
+      step = stepButtonPanel.keyPressed;
+      sequencer.setStep(index, step);
+    }
+
+    for(byte i = 0 ; i < 8 ; i++)
+    if(index == i)
+      display.blink(sequencer.getStep(i) + 1, i, 1);
+    else 
+      display.print(sequencer.getStep(i) + 1, i, 1);
+    
+    if(menu.setFunction){
+      stepButtonPanel.unlocked();
+      menu.escape();
+    }
   }
 }

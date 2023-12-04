@@ -40,7 +40,7 @@ void updateSequence()
 {
   clock.update();
   if(
-    clock.flag
+    clock.tick
     && !clock.paused
     && !pauseButton.singlePressActive 
   ) {
@@ -63,7 +63,7 @@ void checkEncoder()
 {
   if(encoder.newDataAvailable()){
     if(!menu.selectFunction) 
-      menu.selectMenuIndex(encoder.getDirection());
+      menu.selectIndex(encoder.getDirection());
     else menu.functionSelected();
     
     menu.clear();

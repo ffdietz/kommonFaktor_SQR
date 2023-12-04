@@ -14,13 +14,13 @@ class Menu {
     bool isSetMode();
 
     uint8_t setFnIndex(uint8_t menu, uint8_t submenu);
-    void selectMenuIndex(int variation);
+    void selectIndex(int variation);
     bool selectFunction;
     bool setFunction;
 
     using funcPointer = void(*)();
     funcPointer functionSelected;
-    funcPointer menuFn[6];
+    funcPointer menuFn[7];
 
     struct menuIndexSelector {
       uint8_t menu;
@@ -29,22 +29,24 @@ class Menu {
 
     const char* PAUSE = "PAUSED";
 
-    const uint8_t MENU_LENGTH[6] = { 
-      5, //ROOT
+    const uint8_t MENU_LENGTH[7] = { 
+      6, //ROOT
       1, //BPM
       1, //CURRENT STEP
       1, //SEQUENCE
       1, //CLOCK
       1, //RESET
+      1, //CUSTOM SEQUENCE
     };
 
-    const char* MENU[6] = { 
+    const char* MENU[7] = { 
       "MUX_SQR", 
       "BPM ", 
       "CURRENT STEP ", 
-      "SEQUENCE ", 
+      "PROGRESSION ", 
       "CLOCK FACTOR", 
-      "RESET STEPS " 
+      "RESET STEPS ", 
+      "STEPS SEQUENCE"
     };
 
     const char* SUBMENU[9] = { 

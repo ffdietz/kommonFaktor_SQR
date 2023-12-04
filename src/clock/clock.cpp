@@ -103,24 +103,24 @@ void Clock::internal(){
   static uint32_t lastChange = 0;
   uint32_t millisPeriod = clockMillis * internalClockFactor;
 
+  if(currentMillis - lastChange >= millisPeriod){
+    tick = true;
+    lastChange = currentMillis;
+  } else {
+    tick = false;
+  }
+
   if(!isExternalClock){
     if(currentMillis - lastChange >= millisPeriod * .2) {
       clockOut = LOW;
     } else {
-      clockOut = HIGH; 
+      clockOut = HIGH;
     }
-  }
-
-  if (currentMillis - lastChange >= millisPeriod) {
-    flag = true;
-    lastChange = currentMillis;
-  } else {
-    flag = false;
   }
 
 }
 void  Clock::output(){
-  if(paused) clockOut = HIGH;
+  // if(paused) clockOut = HIGH;
   digitalWrite(CLOCK_OUT, clockOut);
 }
 
